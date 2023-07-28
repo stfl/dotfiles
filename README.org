@@ -1,0 +1,35 @@
+#+title: My nix home-manager config
+
+#+begin_src bash
+nix run . -- build -b backup --flake .
+#+end_src
+
+#+begin_src bash
+nix run . -- switch -b backup --flake .
+#+end_src
+
+* set nix installed zsh as default shell
+
+when trying to set a nix installed shell as default it will cause an error as follows:
+
+#+begin_quote bash
+chsh -s /home/stefan/.nix-profile/bin/zsh
+Password:
+chsh: /home/stefan/.nix-profile/bin/zsh is an invalid shell
+#+end_quote
+
+manually ad ~/home/stefan/.nix-profile/bin/zsh~ to [[file:/etc/passwd]]
+
+Alternatively, add the following to [[file:/etc/shells]] to mark nix installed shells as valid shells.
+
+#+begin_src txt
+/home/stefan/.nix-profile/bin/zsh
+/home/stefan/.nix-profile/bin/bash
+/home/stefan/.nix-profile/bin/fish
+#+end_src
+
+then run this to enabel this shell
+
+#+begin_src bash
+chsh -s /home/stefan/.nix-profile/bin/zsh
+#+end_src
