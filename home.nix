@@ -11,14 +11,17 @@ in {
 
   programs.home-manager.enable = true;
 
-  nixGLPrefix = "${nixGL.packages.x86_64-linux.nixGLIntel}/bin/nixGLIntel";
+  # set default nixGL prefix for this machine
+  nixGLPrefix = lib.getExe pkgs.nixgl.nixGLIntel;
+
+  fonts.fontconfig.enable = true;
 
   home.packages = with pkgs; [
     nixpkgs-fmt
 
     gitAndTools.gh
     gitAndTools.git-crypt
-    act  # Run your GitHub Actions locally
+    act
 
     nix-zsh-completions
     bat
@@ -31,15 +34,24 @@ in {
 
     exercism
 
+    poetry
+    nodejs_20
+    yarn
+
     brightnessctl
     xorg.xkill
     arandr
 
     libnotify
-    dex
-    xss-lock
-    libpulseaudio
+    dex  # https://wiki.archlinux.org/index.php/XDG_Autostart
+    xss-lock  # i3lock
+    libpulseaudio  # pulsectl
     xdotool
+    i3lock
+
+    (nixGL signal-desktop)
+
+    source-code-pro
   ];
 
   programs.direnv = {
@@ -48,24 +60,23 @@ in {
     # enableFishIntegration = true;
     nix-direnv.enable = true;
     stdlib = ''
-        layout_anaconda() {
-          local ACTIVATE="$HOME/.anaconda3/bin/activate"
+      layout_anaconda() {
+        local ACTIVATE="$HOME/.anaconda3/bin/activate"
 
-          if [ -n "$1" ]; then
-            # Explicit environment name from layout command.
-            local env_name="$1"
-            source $ACTIVATE $env_name
-          elif (grep -q name: environment.yml); then
-            # Detect environment name from `environment.yml` file in `.envrc` directory
-            source $ACTIVATE `grep name: environment.yml | sed -e 's/name: //' | cut -d "'" -f 2 | cut -d '"' -f 2`
-          else
-            (>&2 echo No environment specified);
-            exit 1;
-          fi;
-        }
-      '';
+        if [ -n "$1" ]; then
+          # Explicit environment name from layout command.
+          local env_name="$1"
+          source $ACTIVATE $env_name
+        elif (grep -q name: environment.yml); then
+          # Detect environment name from `environment.yml` file in `.envrc` directory
+          source $ACTIVATE `grep name: environment.yml | sed -e 's/name: //' | cut -d "'" -f 2 | cut -d '"' -f 2`
+        else
+          (>&2 echo No environment specified);
+          exit 1;
+        fi;
+      }
+    '';
   };
-
 
   programs.git = {
     enable = true;
@@ -200,16 +211,16 @@ in {
   programs.zsh = {
     enable = true;
     profileExtra = ''
-        # Need to disable features to support TRAMP
-        if [ "$TERM" = dumb ]; then
-            unsetopt zle prompt_cr prompt_subst
-            whence -w precmd >/dev/null && unfunction precmd
-            whence -w preexec >/dev/null && unfunction preexec
-            unset RPS1 RPROMPT
-            PS1='$ '
-            PROMPT='$ '
-        fi
-      '';
+      # Need to disable features to support TRAMP
+      if [ "$TERM" = dumb ]; then
+          unsetopt zle prompt_cr prompt_subst
+          whence -w precmd >/dev/null && unfunction precmd
+          whence -w preexec >/dev/null && unfunction preexec
+          unset RPS1 RPROMPT
+          PS1='$ '
+          PROMPT='$ '
+      fi
+    '';
     prezto = {
       enable = true;
       pmodules = [
@@ -225,7 +236,7 @@ in {
         "completion"
         "autosuggestions"
         "archive"
-        "fasd"  # TODO remove
+        # "fasd"
         "git"
         "rsync"
         # "prompt"  > starship instead
@@ -240,19 +251,10 @@ in {
 
     # TODO workaround when using prezto, which sets up $PATH in .zprofile which is sourced after .zshenv
     initExtra = ''
-        # need to setup $PATH properly again to prefer nix installed packages
-        . "${pkgs.nix}/etc/profile.d/nix.sh"
-        typeset -U path
-
-        # overwriting prezto's fasd alias j
-        unalias j
-        j() {
-          local dir
-          dir="$(fasd -Rdl "$1" | fzf-tmux -1 -0 --no-sort +m)" \
-            && cd "$dir" \
-            || return 1
-        }
-      '';
+      # need to setup $PATH properly again to prefer nix installed packages
+      . "${pkgs.nix}/etc/profile.d/nix.sh"
+      typeset -U path
+    '';
   };
 
   programs.fzf = {
@@ -279,6 +281,12 @@ in {
     enableAliases = true;
   };
 
+  programs.zoxide = {
+    enable = true;
+    enableZshIntegration = true;
+    enableFishIntegration = true;
+  };
+
   programs.rofi = {
     enable = true;
     cycle = true;
@@ -294,11 +302,11 @@ in {
 
   programs.alacritty = {
     enable = true;
-    pkg = (nixGL pkgs.alacritty);
+    package = (nixGL pkgs.alacritty);
     settings = {
       font = {
-        normal.family = "Source Code Pro for Powerline";
-        size = 9.0;
+        normal.family = "Source Code Pro";
+        size = 8.0;
       };
       colors = {  # Solarized Dark
         primary = {
@@ -345,6 +353,36 @@ in {
         xset -b
       '';
 
+    # initExtra = ''
+    #   # flatpak integration
+    #   if command -v flatpak > /dev/null; then
+    #       # set XDG_DATA_DIRS to include Flatpak installations
+
+    #       new_dirs=$(
+    #           (
+    #               unset G_MESSAGES_DEBUG
+    #               echo "$${XDG_DATA_HOME:-"$HOME/.local/share"}/flatpak"
+    #               GIO_USE_VFS=local flatpak --installations
+    #           ) | (
+    #               new_dirs=
+    #               while read -r install_path
+    #               do
+    #                   share_path=$install_path/exports/share
+    #                   case ":$XDG_DATA_DIRS:" in
+    #                       (*":$share_path:"*) :;;
+    #                       (*":$share_path/:"*) :;;
+    #                       (*) new_dirs=$${new_dirs:+$${new_dirs}:}$share_path;;
+    #                   esac
+    #               done
+    #               echo "$new_dirs"
+    #           )
+    #       )
+
+    #       export XDG_DATA_DIRS
+    #       XDG_DATA_DIRS="$${new_dirs:+$${new_dirs}:}$${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
+    #   fi
+    # '';
+
     windowManager = {
       # TODO command = lib.mkIf non-nixos.enable (lib.mkForce "${pkgs.nixgl.auto.nixGLDefault}/bin/nixGL ${config.xsession.windowManager.i3.package}/bin/i3");
       # command = "${config.xsession.windowManager.i3.package}/bin/i3";
@@ -367,6 +405,7 @@ in {
   # nix also tries to write the config
   # TODO migrate to onfiguration powered by nix
   xdg.configFile."i3/config".source = lib.mkForce ./config/i3/config;
+  home.sessionVariables.TERMINAL = "${config.programs.alacritty.package}/bin/alacritty";
 
   services.picom = {
     enable = true;
@@ -376,9 +415,6 @@ in {
 
   services.dunst.enable = true;
 
-  # TODO this needs to be in the base system
-  # programs.dconf.enable = true;
-
   services.polybar = {
     package = pkgs.polybarFull;
     enable = true;
@@ -386,4 +422,18 @@ in {
   };
 
   xdg.configFile."polybar" = { source = ./config/polybar; recursive = true; };
+
+  services.gpg-agent = {
+    enable = true;
+    enableExtraSocket = true;
+    enableZshIntegration = true;
+    enableFishIntegration = true;
+    enableSshSupport = true;
+    extraConfig = ''
+      allow-emacs-pinentry
+      # allow-loopback-pinentry
+    '';
+  };
+
+  systemd.user.startServices = "sd-switch";
 }

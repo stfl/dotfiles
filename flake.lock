@@ -35,7 +35,7 @@
         "type": "github"
       }
     },
-    "nixGL": {
+    "nixgl": {
       "inputs": {
         "flake-utils": "flake-utils",
         "nixpkgs": "nixpkgs"
@@ -88,7 +88,7 @@
     "root": {
       "inputs": {
         "home-manager": "home-manager",
-        "nixGL": "nixGL",
+        "nixgl": "nixgl",
         "nixpkgs": "nixpkgs_2"
       }
     }

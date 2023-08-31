@@ -1,3 +1,4 @@
+#+PROPERTY: header-args :results silent
 #+title: My nix home-manager config
 
 #+begin_src bash
@@ -7,6 +8,14 @@ nix run . -- build -b backup --flake .
 #+begin_src bash
 nix run . -- switch -b backup --flake .
 #+end_src
+
+* TODO Setup nix on Debian 12
+
+install package ~nix...??~
+
+Add user to ~nix-users~ group
+
+reboot // logout>login
 
 * set nix installed zsh as default shell
 
@@ -33,3 +42,62 @@ then run this to enabel this shell
 #+begin_src bash
 chsh -s /home/stefan/.nix-profile/bin/zsh
 #+end_src
+
+* Configure logind on Debian 12
+
+I am using i3wm, installed through nix home-manager. System-wide configuration
+like logind to configure PowerKey and so on cannot be managed through
+home-manager and need to be configured separately.
+
+=NOTE= Tangle a single src block with ~C-u~ prefix command or ~SPC u~ in doomemacs.
+- ~SPC u C-c C-v t~
+
+** with hibernate
+
+If hibernate is working use
+
+~/etc/systemd/logind.conf.d/90_config.conf~
+#+begin_src conf :mkdirp yes :tangle /sudo::/etc/systemd/logind.conf.d/90_config.conf
+[Login]
+HandlePowerKey=suspend-then-hibernate
+IdleAction=suspend-then-hibernate
+IdleActionSec=20m
+#+end_src
+
+~/etc/systemd/sleep.conf.d/90_config.conf~
+#+begin_src conf :mkdirp yes :tangle /sudo::/etc/systemd/sleep.conf.d/90_config.conf
+[Sleep]
+HibernateDelaySec=1h
+#+end_src
+
+** without hibernate
+
+~/etc/systemd/logind.conf.d/90_config.conf~
+#+begin_src conf :mkdirp yes :tangle /sudo::/etc/systemd/logind.conf.d/90_config.conf
+[Login]
+HandlePowerKey=suspend
+IdleAction=suspend
+IdleActionSec=20m
+#+end_src
+
+** reload systemd config
+
+#+begin_src bash :dir /sudo:: :results value
+systemctl daemon-reload
+#+end_src
+* Docker
+
+Installing Docker via home-manager dow not make any sense, does it?
+Install it directly via apt
+
+#+begin_src bash :dir /sudo::
+apt-get install docker docker-compose -y
+#+end_src
+
+Add unprivileged user ~stefan~ to the ~docker~ group to enable interacting with the docker daemon without sudo.
+
+#+begin_src bash :dir /sudo::
+usermod -a -G docker stefan
+#+end_src
+
+reboot
