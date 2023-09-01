@@ -6,7 +6,7 @@ in {
   home.stateVersion = "23.05";
 
   xdg.enable = true;
-  xdg.mime.enable=true;
+  xdg.mime.enable = true;
   targets.genericLinux.enable = true;
 
   programs.home-manager.enable = true;
@@ -18,6 +18,8 @@ in {
 
   home.packages = with pkgs; [
     nixpkgs-fmt
+
+    brave
 
     gitAndTools.gh
     gitAndTools.git-crypt
@@ -31,27 +33,38 @@ in {
     ripgrep
     tldr
     httpie
+    feh
 
-    exercism
+    # sway // wayland
+    # waybar
+    # wlogout
+
+    emacs29
+    cmake
+    xdotool  # TODO wayland?
+
+    # exercism
 
     poetry
     nodejs_20
     yarn
 
-    brightnessctl
-    xorg.xkill
-    arandr
+    brightnessctl # TODO wayland?
+    # xorg.xkill
+    # arandr
 
-    libnotify
-    dex  # https://wiki.archlinux.org/index.php/XDG_Autostart
-    xss-lock  # i3lock
-    libpulseaudio  # pulsectl
-    xdotool
-    i3lock
 
-    (nixGL signal-desktop)
+    # libnotify
+    # dex  # https://wiki.archlinux.org/index.php/XDG_Autostart
+    # xss-lock  # i3lock
+    # libpulseaudio  # pulsectl
+    # i3lock
+
+    # (nixGL signal-desktop)
+    brave
 
     source-code-pro
+    noto-fonts
   ];
 
   programs.direnv = {
@@ -287,18 +300,19 @@ in {
     enableFishIntegration = true;
   };
 
-  programs.rofi = {
-    enable = true;
-    cycle = true;
-    extraConfig = {
-      kb-accept-entry = "Return,Control+m,KP_Enter";
-      kb-row-down = "Down,Control+n,Control+j";
-      kb-row-up = "Up,Control+p,Control+k";
-      kb-remove-to-eol = "";
-      kb-primary-paste = "Control+V,Shift+Insert";
-      kb-secondary-paste = "Control+v,Insert";
-    };
-  };
+  # TODO wayland replacement
+  # programs.rofi = {
+  #   enable = true;
+  #   cycle = true;
+  #   extraConfig = {
+  #     kb-accept-entry = "Return,Control+m,KP_Enter";
+  #     kb-row-down = "Down,Control+n,Control+j";
+  #     kb-row-up = "Up,Control+p,Control+k";
+  #     kb-remove-to-eol = "";
+  #     kb-primary-paste = "Control+V,Shift+Insert";
+  #     kb-secondary-paste = "Control+v,Insert";
+  #   };
+  # };
 
   programs.alacritty = {
     enable = true;
@@ -337,103 +351,109 @@ in {
     };
   };
 
-  services.redshift = {
-    enable = true;
-    # Vienna/Austria
-    latitude = 48.210033;
-    longitude = 16.363449;
-    settings.redshift.brightness-night = "0.7";
-  };
+  # TODO wayland replacement
+  # services.redshift = {
+  #   enable = true;
+  #   # Vienna/Austria
+  #   latitude = 48.210033;
+  #   longitude = 16.363449;
+  #   settings.redshift.brightness-night = "0.7";
+  # };
 
-  xsession = {
-    enable = true;
+  # xsession = {
+  #   enable = true;
 
-    profileExtra = ''
-        # disable PC speaker beep
-        xset -b
-      '';
+  #   profileExtra = ''
+  #       # disable PC speaker beep
+  #       xset -b
+  #     '';
 
-    # initExtra = ''
-    #   # flatpak integration
-    #   if command -v flatpak > /dev/null; then
-    #       # set XDG_DATA_DIRS to include Flatpak installations
+  #   # initExtra = ''
+  #   #   # flatpak integration
+  #   #   if command -v flatpak > /dev/null; then
+  #   #       # set XDG_DATA_DIRS to include Flatpak installations
 
-    #       new_dirs=$(
-    #           (
-    #               unset G_MESSAGES_DEBUG
-    #               echo "$${XDG_DATA_HOME:-"$HOME/.local/share"}/flatpak"
-    #               GIO_USE_VFS=local flatpak --installations
-    #           ) | (
-    #               new_dirs=
-    #               while read -r install_path
-    #               do
-    #                   share_path=$install_path/exports/share
-    #                   case ":$XDG_DATA_DIRS:" in
-    #                       (*":$share_path:"*) :;;
-    #                       (*":$share_path/:"*) :;;
-    #                       (*) new_dirs=$${new_dirs:+$${new_dirs}:}$share_path;;
-    #                   esac
-    #               done
-    #               echo "$new_dirs"
-    #           )
-    #       )
+  #   #       new_dirs=$(
+  #   #           (
+  #   #               unset G_MESSAGES_DEBUG
+  #   #               echo "$${XDG_DATA_HOME:-"$HOME/.local/share"}/flatpak"
+  #   #               GIO_USE_VFS=local flatpak --installations
+  #   #           ) | (
+  #   #               new_dirs=
+  #   #               while read -r install_path
+  #   #               do
+  #   #                   share_path=$install_path/exports/share
+  #   #                   case ":$XDG_DATA_DIRS:" in
+  #   #                       (*":$share_path:"*) :;;
+  #   #                       (*":$share_path/:"*) :;;
+  #   #                       (*) new_dirs=$${new_dirs:+$${new_dirs}:}$share_path;;
+  #   #                   esac
+  #   #               done
+  #   #               echo "$new_dirs"
+  #   #           )
+  #   #       )
 
-    #       export XDG_DATA_DIRS
-    #       XDG_DATA_DIRS="$${new_dirs:+$${new_dirs}:}$${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
-    #   fi
-    # '';
+  #   #       export XDG_DATA_DIRS
+  #   #       XDG_DATA_DIRS="$${new_dirs:+$${new_dirs}:}$${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
+  #   #   fi
+  #   # '';
 
-    windowManager = {
-      # TODO command = lib.mkIf non-nixos.enable (lib.mkForce "${pkgs.nixgl.auto.nixGLDefault}/bin/nixGL ${config.xsession.windowManager.i3.package}/bin/i3");
-      # command = "${config.xsession.windowManager.i3.package}/bin/i3";
-      command = "${pkgs.i3}/bin/i3";
+  #   # windowManager = {
+  #   #   # TODO command = lib.mkIf non-nixos.enable (lib.mkForce "${pkgs.nixgl.auto.nixGLDefault}/bin/nixGL ${config.xsession.windowManager.i3.package}/bin/i3");
+  #   #   # command = "${config.xsession.windowManager.i3.package}/bin/i3";
+  #   #   command = "${pkgs.i3}/bin/i3";
 
-      i3.enable = true;
-      # i3.config = {
-      #   modifier = "Mod4";
-      #   terminal = "${pkgs.alacritty}/bin/alacritty";
-      #   # keybindings = let
-      #   #   modifier = config.xsession.windowManager.i3.config.modifier;
-      #   # in {
-      #   # };
-      # };
-    };
+  #   #   i3.enable = true;
+  #   #   # i3.config = {
+  #   #   #   modifier = "Mod4";
+  #   #   #   terminal = "${pkgs.alacritty}/bin/alacritty";
+  #   #   #   # keybindings = let
+  #   #   #   #   modifier = config.xsession.windowManager.i3.config.modifier;
+  #   #   #   # in {
+  #   #   #   # };
+  #   #   # };
+  #   # };
 
-  };
+  # };
 
   # we need to force overwrite the entire i3 config here
   # nix also tries to write the config
-  # TODO migrate to onfiguration powered by nix
-  xdg.configFile."i3/config".source = lib.mkForce ./config/i3/config;
+  # TODO migrate to sway and configuration powered by nix
+  # xdg.configFile."i3/config".source = lib.mkForce ./config/i3/config;
   home.sessionVariables.TERMINAL = "${config.programs.alacritty.package}/bin/alacritty";
 
-  services.picom = {
-    enable = true;
-    # backend = "xrender";
-    # experimentalBackends = true;
-  };
+  # services.picom = {
+  #   enable = true;
+  #   # backend = "xrender";
+  #   # experimentalBackends = true;
+  # };
 
-  services.dunst.enable = true;
+  # TODO wayland replacement
+  # services.dunst.enable = true;
 
-  services.polybar = {
-    package = pkgs.polybarFull;
-    enable = true;
-    script = "polybar main >$XDG_DATA_HOME/polybar.log 2>&1 &";
-  };
+  # TODO waybar
+  # services.polybar = {
+  #   package = pkgs.polybarFull;
+  #   enable = true;
+  #   script = "polybar main >$XDG_DATA_HOME/polybar.log 2>&1 &";
+  # };
 
-  xdg.configFile."polybar" = { source = ./config/polybar; recursive = true; };
+  # xdg.configFile."polybar" = { source = ./config/polybar; recursive = true; };
 
-  services.gpg-agent = {
-    enable = true;
-    enableExtraSocket = true;
-    enableZshIntegration = true;
-    enableFishIntegration = true;
-    enableSshSupport = true;
-    extraConfig = ''
-      allow-emacs-pinentry
-      # allow-loopback-pinentry
-    '';
-  };
+  # TODO
+  # services.gpg-agent = {
+  #   enable = true;
+  #   enableExtraSocket = true;
+  #   enableZshIntegration = true;
+  #   enableFishIntegration = true;
+  #   enableSshSupport = true;
+  #   extraConfig = ''
+  #     allow-emacs-pinentry
+  #     # allow-loopback-pinentry
+  #   '';
+  # };
+
+
 
   systemd.user.startServices = "sd-switch";
 }

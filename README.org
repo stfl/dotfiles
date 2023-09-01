@@ -54,9 +54,11 @@ Clone the repo
 git clone git@github.com:stfl/dotfiles.git ~/.config/dotfiles
 #+end_src
 
-* Setup Syncthing
-* set nix installed zsh as default shell
+#+begin_src bash :noeval
+nix run . -- switch -b backup --flake .
+#+end_src
 
+** set nix installed zsh as default shell
 when trying to set a nix installed shell as default it will cause an error as follows:
 
 #+begin_quote bash
@@ -81,6 +83,12 @@ then run this to enabel this shell
 chsh -s /home/stefan/.nix-profile/bin/zsh
 #+end_src
 
+On the Proxmox workstation setting ~~/.nix-profile/bin/zsh~ as the login shell does not work because it is set set via LDAP.
+As a workaround I install zsh via apt, set ~/bin/zsh~ as LDAP Login shell and still set ~programs.zsh.enable = true~ in nix.
+
+/Let's hope the versions and nix config will not diverge too much..../
+
+* Setup Syncthing
 * Configure logind on Debian 12
 
 I am using i3wm, installed through nix home-manager. System-wide configuration
