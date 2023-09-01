@@ -9,14 +9,52 @@ nix run . -- build -b backup --flake .
 nix run . -- switch -b backup --flake .
 #+end_src
 
-* TODO Setup nix on Debian 12
+* Setup nix on Debian 12
 
-install package ~nix...??~
+add user to sudoers (because it's much more convinient)
+
+#+begin_src bash
+/sbin/usermod -a -G sudo $USER
+#+end_src
+
+install package ~nix-setup-systemd~
+
+#+begin_src bash
+apt-get -y install nix nix-setup-systemd
+#+end_src
 
 Add user to ~nix-users~ group
 
+#+begin_src bash
+/sbin/usermod -a -G nix-users $USER
+#+end_src
+
 reboot // logout>login
 
+update global nix config config
+[[file:/sudo::/etc/nix/nix.conf]]
+
+#+begin_src conf :tangle no
+max-jobs = auto
+
+experimental-features = nix-command flakes
+#+end_src
+
+* Bootstrap the config
+
+Install git (which is not present on PVE base install)
+
+#+begin_src bash
+apt-get install -y git
+#+end_src
+
+Clone the repo
+
+#+begin_src bash
+git clone git@github.com:stfl/dotfiles.git ~/.config/dotfiles
+#+end_src
+
+* Setup Syncthing
 * set nix installed zsh as default shell
 
 when trying to set a nix installed shell as default it will cause an error as follows:
@@ -97,7 +135,7 @@ apt-get install docker docker-compose -y
 Add unprivileged user ~stefan~ to the ~docker~ group to enable interacting with the docker daemon without sudo.
 
 #+begin_src bash :dir /sudo::
-usermod -a -G docker stefan
+usermod -a -G docker $USER
 #+end_src
 
 reboot
