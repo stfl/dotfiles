@@ -16,6 +16,8 @@ in {
 
   fonts.fontconfig.enable = true;
 
+  systemd.user.startServices = "sd-switch";
+
   home.packages = with pkgs; [
     nixpkgs-fmt
 
@@ -30,7 +32,7 @@ in {
     # fasd
     fd
     jq
-    ripgrep
+    # ripgrep
     tldr
     httpie
     feh
@@ -39,7 +41,7 @@ in {
     # waybar
     # wlogout
 
-    emacs29
+    # emacs
     cmake
     xdotool  # TODO wayland?
 
@@ -57,8 +59,9 @@ in {
     # libnotify
     # dex  # https://wiki.archlinux.org/index.php/XDG_Autostart
     # xss-lock  # i3lock
-    # libpulseaudio  # pulsectl
+    libpulseaudio  # pulsectl
     # i3lock
+    # TODO pulseaudio?
 
     # (nixGL signal-desktop)
     brave
@@ -66,6 +69,10 @@ in {
     source-code-pro
     noto-fonts
   ];
+
+  programs.ripgrep = {
+    enable = true;
+  };
 
   programs.direnv = {
     enable = true;
@@ -351,6 +358,37 @@ in {
     };
   };
 
+  wayland.windowManager.sway = {
+    enable = true;
+    # config.terminal = "${pkgs.alacritty}/bin/alacritty";
+    systemd = {
+      enable = true;
+      xdgAutostart = true;
+    };
+    swaynag.enable = true;
+    extraSessionCommands = ''
+        # SDL:
+        export SDL_VIDEODRIVER=wayland
+        # QT (needs qt5.qtwayland in systemPackages), needed by VirtualBox GUI:
+        export QT_QPA_PLATFORM=wayland-egl
+        export QT_WAYLAND_DISABLE_WINDOWDECORATION="1"
+        export EDITOR=emacsclient
+      '';
+    extraOptions =
+      [
+        # "--verbose"
+        # "--debug"
+        # "--unsupported-gpu"
+      ];
+    wrapperFeatures = {
+      base = true;
+      gtk = true;
+    };
+    xwayland = true;
+  };
+
+  # TODO https://gitlab.com/azazel/ender-config/-/blob/master/azazel/wayland.nix
+
   # TODO wayland replacement
   # services.redshift = {
   #   enable = true;
@@ -441,19 +479,18 @@ in {
   # xdg.configFile."polybar" = { source = ./config/polybar; recursive = true; };
 
   # TODO
-  # services.gpg-agent = {
-  #   enable = true;
-  #   enableExtraSocket = true;
-  #   enableZshIntegration = true;
-  #   enableFishIntegration = true;
-  #   enableSshSupport = true;
-  #   extraConfig = ''
-  #     allow-emacs-pinentry
-  #     # allow-loopback-pinentry
-  #   '';
-  # };
+  # services.ssh-agent.enable = true;
 
+  services.gpg-agent = {
+    enable = true;
+    enableExtraSocket = true;
+    enableZshIntegration = true;
+    enableFishIntegration = true;
+    enableSshSupport = true;
+    extraConfig = ''
+      allow-emacs-pinentry
+      # allow-loopback-pinentry
+    '';
+  };
 
-
-  systemd.user.startServices = "sd-switch";
 }
