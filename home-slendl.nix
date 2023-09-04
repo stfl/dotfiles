@@ -21,7 +21,7 @@ in {
   home.packages = with pkgs; [
     nixpkgs-fmt
 
-    brave
+    (nixGL brave)
 
     gitAndTools.gh
     gitAndTools.git-crypt
@@ -41,8 +41,9 @@ in {
     # waybar
     # wlogout
 
-    # emacs
-    cmake
+    emacs29
+    # cmake  # NOTE installed via apt...
+    # gnumake
     xdotool  # TODO wayland?
 
     # exercism
@@ -64,7 +65,6 @@ in {
     # TODO pulseaudio?
 
     # (nixGL signal-desktop)
-    brave
 
     source-code-pro
     noto-fonts
@@ -493,4 +493,8 @@ in {
     '';
   };
 
+  services.syncthing = {
+    enable = true;
+    tray.enable = true;
+  };
 }

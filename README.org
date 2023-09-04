@@ -87,6 +87,12 @@ On the Proxmox workstation setting ~~/.nix-profile/bin/zsh~ as the login shell d
 As a workaround I install zsh via apt, set ~/bin/zsh~ as LDAP Login shell and still set ~programs.zsh.enable = true~ in nix.
 
 /Let's hope the versions and nix config will not diverge too much..../
+* Install in Debian System
+
+- build-essential
+- cmake
+- libtool
+- libtool-bin
 
 * Setup Syncthing
 * Configure logind on Debian 12
