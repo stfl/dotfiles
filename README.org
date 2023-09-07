@@ -62,7 +62,7 @@ nix run . -- switch -b backup --flake .
 
 https://github.com/stfl/doom.d#installation
 
-** swaylock
+** TODO swaylock
 [2023-09-07 Thu] - swaylock from nix does not work with home-manager on Debian with LDAP...
 
 install swaylock from Debian repo
@@ -82,6 +82,11 @@ cat /etc/pam.d/swaylock
 
 auth include login
 #+end_quote
+** TODO sway on Proxmox VE Workstation
+
+sway from nix does net seem to work on PVE.
+>>> ==install sway from Debian repo and start that...=
+>> ~individual packages will require nixGL wrapping instead of wrapping sway directly!!!!~
 
 ** set nix installed zsh as default shell
 

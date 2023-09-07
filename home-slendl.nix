@@ -1,5 +1,10 @@
-{ pkgs, lib, config, ... }:
-let nixGL = import ./nixGL.nix { inherit pkgs config; };
+{ pkgs, lib, config, options, ... }:
+
+with lib;
+
+let
+  nixGL = import ./nixGL.nix { inherit pkgs config; };
+  swaylock_bin = "/usr/bin/swaylock";
 in {
   home.username = "slendl";
   home.homeDirectory = "/home/slendl";
@@ -42,9 +47,9 @@ in {
     # wlogout
 
     emacs29
-    # cmake  # NOTE installed via apt...
+    # cmake
     # gnumake
-    xdotool  # TODO wayland?
+    # xdotool
 
     # exercism
 
@@ -52,17 +57,13 @@ in {
     nodejs_20
     yarn
 
-    brightnessctl # TODO wayland?
-    # xorg.xkill
+    brightnessctl
     # arandr
-
 
     # libnotify
     # dex  # https://wiki.archlinux.org/index.php/XDG_Autostart
     # xss-lock  # i3lock
     libpulseaudio  # pulsectl
-    # i3lock
-    # TODO pulseaudio?
 
     # (nixGL signal-desktop)
 
@@ -271,8 +272,8 @@ in {
       };
     };
 
-    # TODO workaround when using prezto, which sets up $PATH in .zprofile which is sourced after .zshenv
-    initExtra = ''
+    # workaround when using prezto, which sets up $PATH in .zprofile which is sourced after .zshenv
+    initExtra = mkIf config.programs.zsh.prezto.enable ''
       # need to setup $PATH properly again to prefer nix installed packages
       . "${pkgs.nix}/etc/profile.d/nix.sh"
       typeset -U path
@@ -362,26 +363,28 @@ in {
 
   wayland.windowManager.sway = {
     enable = true;
-    package = (nixGL pkgs.sway);
+
+    # we need to update the default package because it overrides with
+    # extraSessionCommands, extraOptions and wrapperFeatures
+    package = (nixGL options.wayland.windowManager.sway.package.default);
     systemd = {
       enable = true;
       xdgAutostart = true;
     };
     xwayland = true;
     extraSessionCommands = ''
-        # SDL:
-        export SDL_VIDEODRIVER=wayland
-        # QT (needs qt5.qtwayland in systemPackages), needed by VirtualBox GUI:
-        export QT_QPA_PLATFORM=wayland-egl
-        export QT_WAYLAND_DISABLE_WINDOWDECORATION="1"
-        export EDITOR=emacsclient
-      '';
-    # extraOptions =
-    #   [
-    #     "--verbose"
-    #     "--debug"
-    #     "--unsupported-gpu"
-    #   ];
+      # SDL:
+      export SDL_VIDEODRIVER=wayland
+      # QT (needs qt5.qtwayland in systemPackages), needed by VirtualBox GUI:
+      export QT_QPA_PLATFORM=wayland-egl
+      export QT_WAYLAND_DISABLE_WINDOWDECORATION="1"
+      export EDITOR=emacsclient
+    '';
+    extraOptions = [
+      "--verbose"
+      #     "--debug"
+      #     "--unsupported-gpu"
+    ];
     wrapperFeatures = {
       base = true;
       gtk = true;
@@ -389,12 +392,10 @@ in {
     swaynag.enable = true;
     config = {
       modifier = "Mod4";
-      terminal = "${pkgs.alacritty}/bin/alacritty";
+      terminal = "${config.programs.alacritty.package}/bin/alacritty";
       menu = "${pkgs.wofi}/bin/wofi";
-
       focus = {
         followMouse = "yes";
-
       };
       fonts = {
         names = [ "Source Code Pro" ];
@@ -422,12 +423,11 @@ in {
       keybindings = let
         cfg = config.wayland.windowManager.sway;
         modifier = cfg.config.modifier;
+        menu = cfg.config.menu;
       in lib.mkOptionDefault {
-        # "${modifier}+Return" = "exec ${pkgs.foot}/bin/foot";
         "${modifier}+Shift+q" = "kill";
-        # "${modifier}+d" = "exec ${pkgs.dmenu}/bin/dmenu_path | ${pkgs.dmenu}/bin/dmenu | ${pkgs.findutils}/bin/xargs swaymsg exec --";
-        "${modifier}+d" = "exec ${config.wayland.windowManager.sway.config.menu}";  # TODO not working?!
-        "${modifier}+space" = "exec ${pkgs.wofi}/bin/wofi";
+        # "${modifier}+d" = "exec ${menu}";
+        "${modifier}+space" = "exec ${menu}";
 
 # bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
 # bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
@@ -508,7 +508,7 @@ in {
 # bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
         # NOTE using swaylock installed from Debian!
-        "${modifier}+Mod1+l" = "exec /usr/bin/swaylock -f";
+        "${modifier}+Mod1+l" = "exec ${swaylock_bin} -f";
       };
       seat = {
         "*" = {
@@ -535,6 +535,9 @@ in {
       insensitive = true;
       no_actions = "true";
       prompt = "Search";
+
+      key_down = "Down,Control_L-n,Control_L-j";
+      key_up = "Up,Control_L-p,Control_L-k";
     };
   };
 
@@ -552,20 +555,14 @@ in {
 
   services.swayidle = {
     enable = true;
-    # FIXME >> configure for /usr/bin/swaylock
-    # events = [
-    #   { event = "before-sleep"; command = "${pkgs.swaylock}/bin/swaylock"; }
-    #   { event = "lock"; command = "lock"; }
-    # ];
-    # timeouts = [
-    #   { timeout = 60; command = "${pkgs.swaylock}/bin/swaylock -fF"; }
-    # ];
+    events = [
+      { event = "before-sleep"; command = "${swaylock_bin}"; }
+      { event = "lock"; command = "lock"; }
+    ];
+    timeouts = [
+      { timeout = 60; command = "${swaylock_bin} -fF"; }
+    ];
   };
-
-  # services.swayosd = {
-  #   enable = true;
-  # };
-  # TODO https://gitlab.com/azazel/ender-config/-/blob/master/azazel/wayland.nix
 
   # TODO wayland replacement
   # services.redshift = {
@@ -576,73 +573,11 @@ in {
   #   settings.redshift.brightness-night = "0.7";
   # };
 
-  # xsession = {
-  #   enable = true;
-
-  #   profileExtra = ''
-  #       # disable PC speaker beep
-  #       xset -b
-  #     '';
-
-  #   # initExtra = ''
-  #   #   # flatpak integration
-  #   #   if command -v flatpak > /dev/null; then
-  #   #       # set XDG_DATA_DIRS to include Flatpak installations
-
-  #   #       new_dirs=$(
-  #   #           (
-  #   #               unset G_MESSAGES_DEBUG
-  #   #               echo "$${XDG_DATA_HOME:-"$HOME/.local/share"}/flatpak"
-  #   #               GIO_USE_VFS=local flatpak --installations
-  #   #           ) | (
-  #   #               new_dirs=
-  #   #               while read -r install_path
-  #   #               do
-  #   #                   share_path=$install_path/exports/share
-  #   #                   case ":$XDG_DATA_DIRS:" in
-  #   #                       (*":$share_path:"*) :;;
-  #   #                       (*":$share_path/:"*) :;;
-  #   #                       (*) new_dirs=$${new_dirs:+$${new_dirs}:}$share_path;;
-  #   #                   esac
-  #   #               done
-  #   #               echo "$new_dirs"
-  #   #           )
-  #   #       )
-
-  #   #       export XDG_DATA_DIRS
-  #   #       XDG_DATA_DIRS="$${new_dirs:+$${new_dirs}:}$${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
-  #   #   fi
-  #   # '';
-
-  #   # windowManager = {
-  #   #   # TODO command = lib.mkIf non-nixos.enable (lib.mkForce "${pkgs.nixgl.auto.nixGLDefault}/bin/nixGL ${config.xsession.windowManager.i3.package}/bin/i3");
-  #   #   # command = "${config.xsession.windowManager.i3.package}/bin/i3";
-  #   #   command = "${pkgs.i3}/bin/i3";
-
-  #   #   i3.enable = true;
-  #   #   # i3.config = {
-  #   #   #   modifier = "Mod4";
-  #   #   #   terminal = "${pkgs.alacritty}/bin/alacritty";
-  #   #   #   # keybindings = let
-  #   #   #   #   modifier = config.xsession.windowManager.i3.config.modifier;
-  #   #   #   # in {
-  #   #   #   # };
-  #   #   # };
-  #   # };
-
-  # };
-
   # we need to force overwrite the entire i3 config here
   # nix also tries to write the config
   # TODO migrate to sway and configuration powered by nix
   # xdg.configFile."i3/config".source = lib.mkForce ./config/i3/config;
   home.sessionVariables.TERMINAL = "${config.programs.alacritty.package}/bin/alacritty";
-
-  # services.picom = {
-  #   enable = true;
-  #   # backend = "xrender";
-  #   # experimentalBackends = true;
-  # };
 
   # TODO wayland replacement
   # services.dunst.enable = true;
@@ -655,9 +590,6 @@ in {
   # };
 
   # xdg.configFile."polybar" = { source = ./config/polybar; recursive = true; };
-
-  # TODO
-  # services.ssh-agent.enable = true;
 
   services.gpg-agent = {
     enable = true;
