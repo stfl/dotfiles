@@ -58,10 +58,30 @@ git clone git@github.com:stfl/dotfiles.git ~/.config/dotfiles
 nix run . -- switch -b backup --flake .
 #+end_src
 
-Setup Emacs
+** Setup Emacs
 
 https://github.com/stfl/doom.d#installation
 
+** swaylock
+[2023-09-07 Thu] - swaylock from nix does not work with home-manager on Debian with LDAP...
+
+install swaylock from Debian repo
+
+#+begin_src bash
+apt install swaylock
+#+end_src
+
+TODO: swaylock requires some pam config..
+
+#+begin_quote
+cat /etc/pam.d/swaylock
+#
+# PAM configuration file for the swaylock screen locker. By default, it includes
+# the 'login' configuration file (see /etc/pam.d/login)
+#
+
+auth include login
+#+end_quote
 
 ** set nix installed zsh as default shell
 
