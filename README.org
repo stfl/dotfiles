@@ -13,7 +13,7 @@ nix run . -- switch -b backup --flake .
 
 add user to sudoers (because it's much more convinient)
 
-#+begin_src bash
+#+begin_src bash :noeval
 /sbin/usermod -a -G sudo $USER
 #+end_src
 
@@ -25,7 +25,7 @@ apt-get -y install nix nix-setup-systemd
 
 Add user to ~nix-users~ group
 
-#+begin_src bash
+#+begin_src bash :noeval
 /sbin/usermod -a -G nix-users $USER
 #+end_src
 
@@ -58,7 +58,16 @@ git clone git@github.com:stfl/dotfiles.git ~/.config/dotfiles
 nix run . -- switch -b backup --flake .
 #+end_src
 
+Setup Emacs
+
+https://github.com/stfl/doom.d#installation
+
+
 ** set nix installed zsh as default shell
+
+=NOTE= *this will not work on the Workstation at Proxmox with LDAP login because
+the login shell is configured via LDAP*
+
 when trying to set a nix installed shell as default it will cause an error as follows:
 
 #+begin_quote bash
