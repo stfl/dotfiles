@@ -67,6 +67,7 @@ in {
 
     # (nixGL signal-desktop)
 
+    jetbrains-mono
     source-code-pro
     noto-fonts
 
@@ -372,6 +373,7 @@ in {
       xdgAutostart = true;
     };
     xwayland = true;
+    # TODO
     extraSessionCommands = ''
       # SDL:
       export SDL_VIDEODRIVER=wayland
