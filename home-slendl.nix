@@ -47,6 +47,7 @@ in {
     # wlogout
 
     emacs29
+    libvterm
     # cmake
     # gnumake
     # xdotool
@@ -311,19 +312,12 @@ in {
     enableFishIntegration = true;
   };
 
-  # TODO wayland replacement
-  # programs.rofi = {
-  #   enable = true;
-  #   cycle = true;
-  #   extraConfig = {
-  #     kb-accept-entry = "Return,Control+m,KP_Enter";
-  #     kb-row-down = "Down,Control+n,Control+j";
-  #     kb-row-up = "Up,Control+p,Control+k";
-  #     kb-remove-to-eol = "";
-  #     kb-primary-paste = "Control+V,Shift+Insert";
-  #     kb-secondary-paste = "Control+v,Insert";
-  #   };
-  # };
+  programs.neovim = {
+    enable = true;
+    viAlias = true;
+    vimAlias = true;
+    vimdiffAlias = true;
+  };
 
   programs.alacritty = {
     enable = true;
@@ -331,12 +325,12 @@ in {
     settings = {
       font = {
         normal.family = "Source Code Pro";
-        size = 8.0;
+        size = 11.0;
       };
       colors = {  # Solarized Dark
         primary = {
           background = "0x002b36";
-          foreground = "0x839496";
+          foreground = "0x9aadaf";
         };
         normal = {
           black =   "0x073642";
@@ -562,27 +556,30 @@ in {
       { event = "lock"; command = "lock"; }
     ];
     timeouts = [
-      { timeout = 60; command = "${swaylock_bin} -fF"; }
+      { timeout = 600; command = "${swaylock_bin} -fF"; }
     ];
   };
 
-  # TODO wayland replacement
-  # services.redshift = {
-  #   enable = true;
-  #   # Vienna/Austria
-  #   latitude = 48.210033;
-  #   longitude = 16.363449;
-  #   settings.redshift.brightness-night = "0.7";
-  # };
+  services.gammastep = {
+    enable = true;
+    tray = true;
+    latitude = 48.210033;
+    longitude = 16.363449;
+    # temperate = {
+    #   day = TODO;
+    #   night = TODO;
+    # };
+  };
 
-  # we need to force overwrite the entire i3 config here
-  # nix also tries to write the config
-  # TODO migrate to sway and configuration powered by nix
-  # xdg.configFile."i3/config".source = lib.mkForce ./config/i3/config;
   home.sessionVariables.TERMINAL = "${config.programs.alacritty.package}/bin/alacritty";
 
-  # TODO wayland replacement
-  # services.dunst.enable = true;
+  services.mako = {
+    enable = true;
+    anchor = "top-center";
+    # defaultTimeout = 3000;
+    # ignoreTimeout = true;
+    font = "JetBrains Mono";
+  };
 
   # TODO waybar
   # services.polybar = {

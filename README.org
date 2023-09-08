@@ -127,6 +127,7 @@ As a workaround I install zsh via apt, set ~/bin/zsh~ as LDAP Login shell and st
 - cmake
 - libtool
 - libtool-bin
+- libnotify-bin
 
 starting sway from login shell
 
