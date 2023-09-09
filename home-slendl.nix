@@ -23,6 +23,18 @@ in {
 
   systemd.user.startServices = "sd-switch";
 
+  programs.mbsync.enable = true;
+  services.mbsync = {
+    enable = true;
+    frequency = "*:0/5";
+  };
+
+  # accounts.email.accounts = {
+  #   "gmail" = {
+  #     address = "ste.lendl@gmail.com";
+  #   };
+  # };
+
   home.packages = with pkgs; [
     nixpkgs-fmt
 
@@ -51,6 +63,7 @@ in {
     # cmake
     # gnumake
     # xdotool
+    libnotify
 
     # exercism
 
@@ -61,7 +74,6 @@ in {
     brightnessctl
     # arandr
 
-    # libnotify
     # dex  # https://wiki.archlinux.org/index.php/XDG_Autostart
     # xss-lock  # i3lock
     libpulseaudio  # pulsectl
@@ -75,8 +87,45 @@ in {
     nixgl.nixGLIntel
   ];
 
+  # editorconfig = {
+  #   enable = true;
+  #   settings = {
+  #     "*" = {
+  #       charset = "utf-8";
+  #       end_of_line = "lf";
+  #       trim_trailing_whitespace = true;
+  #       insert_final_newline = true;
+  #       max_line_width = 100;
+  #       indent_style = "space";
+  #       indent_size = 4;
+  #     };
+  #   };
+  # };
+
   programs.ripgrep = {
     enable = true;
+    arguments = [
+      # Don't let ripgrep vomit really long lines to my terminal, and show a preview.
+      "--max-columns=150"
+      "--max-columns-preview"
+
+      # Add my 'web' type.
+      "--type-add web:*.{html,css,js}*"
+
+      # Search hidden files / directories (e.g. dotfiles) by default
+      # --hidden
+
+      # or
+      "--glob"
+      "!.git/*"
+
+      # Set the colors.
+      # "--colors=line:none"
+      "--colors=line:style:bold"
+
+      # Because who cares about case!?
+      "--smart-case"
+    ];
   };
 
   programs.direnv = {
@@ -410,12 +459,7 @@ in {
       right = "l";
       # floating = {}; TODO
       # gaps = {}; TODO
-      bars = [
-        {
-          position = "top";
-          # TODO swaybar
-        }
-      ];
+      bars = [];  # disable default bars -> use waybar
       keybindings = let
         cfg = config.wayland.windowManager.sway;
         modifier = cfg.config.modifier;
@@ -511,9 +555,9 @@ in {
           hide_cursor = "when-typing enable";
         };
       };
-      # startup = [  TODO
-      #   { command = "systemctl --user restart waybar"; always = true; }
-      # ];
+      startup = [
+        { command = "systemctl --user restart waybar"; always = true; }  # TODO this does not automatically restart on hm switch
+      ];
     };
   };
 
@@ -523,15 +567,12 @@ in {
       mode = "drun";
       location = "center";
       allow_markup = true;
-      # width = 250;
-
       allow_images = "true";
       iamge_size = 8;
-      # term = "alacritty";
+      term = "${config.programs.alacritty.package}/bin/alacritty";
       insensitive = true;
       no_actions = "true";
       prompt = "Search";
-
       key_down = "Down,Control_L-n,Control_L-j";
       key_up = "Up,Control_L-p,Control_L-k";
     };
@@ -544,7 +585,6 @@ in {
       font-size = 24;
       indicator-idle-visible = false;
       indicator-radius = 100;
-      # line-color = "ffffff";
       show-failed-attempts = true;
     };
   };
@@ -557,6 +597,7 @@ in {
     ];
     timeouts = [
       { timeout = 600; command = "${swaylock_bin} -fF"; }
+      { timeout = 1800; command = "systemctl suspend"; }
     ];
   };
 
@@ -566,8 +607,8 @@ in {
     latitude = 48.210033;
     longitude = 16.363449;
     # temperate = {
-    #   day = TODO;
-    #   night = TODO;
+    #   day = ...;
+    #   night = ...;
     # };
   };
 
@@ -576,19 +617,75 @@ in {
   services.mako = {
     enable = true;
     anchor = "top-center";
-    # defaultTimeout = 3000;
+    backgroundColor = "#285577FF";
+    borderColor = "#4C7899FF";
+    defaultTimeout = 30000; # ms
     # ignoreTimeout = true;
-    font = "JetBrains Mono";
+    font = "JetBrains Mono 10";
+    borderRadius = 7;
+    padding = "8";
+    width = 400;
+    extraConfig = ''
+      outer-margin=40
+
+      [urgency=low]
+      border-size=0
+
+      [urgency=high]
+      background-color=#bf616a
+      border-color=#bf616a
+      default-timeout=0
+    '';
   };
 
-  # TODO waybar
-  # services.polybar = {
-  #   package = pkgs.polybarFull;
-  #   enable = true;
-  #   script = "polybar main >$XDG_DATA_HOME/polybar.log 2>&1 &";
-  # };
+  programs.waybar = {
+    enable = true;
+    systemd = {
+      enable = true;
+      target = "sway-session.target";
+    };
+    settings = {
+      mainBar = {
+        layer = "top";
+        position = "top";
+        height = 20;
+        # output = [
+        #   "eDP-1"
+        #   "HDMI-A-1"
+        # ];
+        modules-left = [ "sway/workspaces" "sway/scratchpad" "wlr/taskbar" "sway/window" ];
+        modules-center = [ "clock" "sway/mode" ];
+        modules-right = [ "tray" "temperature" "cpu" "memory" "disk" "battery" "pulseaudio" ];
 
-  # xdg.configFile."polybar" = { source = ./config/polybar; recursive = true; };
+        "sway/workspaces" = {
+          disable-scroll = true;
+          all-outputs = true;
+        };
+        # "custom/hello-from-waybar" = {
+        #   format = "hello {}";
+        #   max-length = 40;
+        #   interval = "once";
+        #   exec = pkgs.writeShellScript "hello-from-waybar" ''
+        #     echo "from within waybar"
+        #   '';
+        # };
+        "clock" = {
+            tooltip-format = "<big>{:%Y %B}</big>\n<tt>{calendar}</tt>";
+            format = "{:%F  %H:%M}";
+            format-alt = "{:%F   %T}";
+            interval = 2;
+        };
+      };
+    };
+    # style = ''
+    #   * {
+    #     font-family: JetBrains Mono;
+    #   }
+    #   # #tray {
+    #   #   # background: inherit;
+    #   # }
+    # '';
+  };
 
   services.gpg-agent = {
     enable = true;
