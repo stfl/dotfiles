@@ -49,7 +49,6 @@ in {
     # fasd
     fd
     jq
-    # ripgrep
     tldr
     httpie
     feh
@@ -110,17 +109,14 @@ in {
       "--max-columns-preview"
 
       # Add my 'web' type.
-      "--type-add web:*.{html,css,js}*"
+      # "--type-add 'web:*.{html,css,js}*'"
 
       # Search hidden files / directories (e.g. dotfiles) by default
       # --hidden
 
-      # or
-      "--glob"
-      "!.git/*"
+      "--glob=!.git/*"
 
       # Set the colors.
-      # "--colors=line:none"
       "--colors=line:style:bold"
 
       # Because who cares about case!?
