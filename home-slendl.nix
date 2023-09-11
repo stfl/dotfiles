@@ -35,6 +35,12 @@ in {
   #   };
   # };
 
+  home.sessionVariables.TERMINAL = "${config.programs.alacritty.package}/bin/alacritty";
+
+  home.sessionPath = [
+    "${home.homeDirectory}/.config/emacs/bin"
+  ];
+
   home.packages = with pkgs; [
     nixpkgs-fmt
 
@@ -100,6 +106,7 @@ in {
   #     };
   #   };
   # };
+
 
   programs.ripgrep = {
     enable = true;
@@ -607,8 +614,6 @@ in {
     #   night = ...;
     # };
   };
-
-  home.sessionVariables.TERMINAL = "${config.programs.alacritty.package}/bin/alacritty";
 
   services.mako = {
     enable = true;
