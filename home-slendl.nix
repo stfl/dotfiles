@@ -35,13 +35,24 @@ in {
   #   };
   # };
 
-  home.sessionVariables.TERMINAL = "${config.programs.alacritty.package}/bin/alacritty";
+  home.sessionVariables = {
+    TERMINAL = "${config.programs.alacritty.package}/bin/alacritty";
+    EDITOR = "emacsclient";
+    # TODO GIT_EDITOR???
+  };
 
   home.sessionPath = [
-    "${home.homeDirectory}/.config/emacs/bin"
+    "\${xdg.configHome}/emacs/bin"
   ];
 
+  home.keyboard = {
+    options = [
+    ];
+  };
+
   home.packages = with pkgs; [
+    nixgl.nixGLIntel
+
     nixpkgs-fmt
 
     (nixGL brave)
@@ -63,8 +74,8 @@ in {
     # waybar
     # wlogout
 
-    emacs29
-    libvterm
+    # emacs29
+    # libvterm
     # cmake
     # gnumake
     # xdotool
@@ -88,8 +99,7 @@ in {
     jetbrains-mono
     source-code-pro
     noto-fonts
-
-    nixgl.nixGLIntel
+    noto-fonts-emoji
   ];
 
   # editorconfig = {
@@ -159,9 +169,10 @@ in {
     enable = true;
     lfs.enable = true;
     difftastic.enable = true;
+    # delta.enable = true;
     userName = "Stefan Lendl";
     userEmail = "ste.lendl@gmail.com";
-    ignores = [ "*~" "*.swp" ];
+    ignores = [ "*~" "*.swp" "my-patches" ];
     aliases = {
       a     = "add";
       br    = "branch";
@@ -186,6 +197,48 @@ in {
       rb    = "rebase";
       # cp    = "cherry-pick";
     };
+    includes = [
+      { # apply updated git configuration for every repo inside ~/work/proxmox/<repo>
+        condition = "gitdir:${home.homeDirectory}/work/proxmox/";
+        contents = {
+          user = {
+            email = "s.lendl@proxmox.com";
+            name = "Stefan Lendl";
+          };
+          # commit.signOff = true;
+          format = {
+            signOff = true;  # works?
+            # subjectPrefix = "PATCH {<<current-dir>>}";  # TODO this should be f.e. PATCH pve-common
+            outputDirectory = "my-patches";
+            # coverLetter = true;
+            to = "pve-devel@lists.proxmox.com";
+          };
+          sendEmail = {
+            smtpencryption = "tls";
+            smtpServer = "webmail.proxmox.com";
+            smtpServerPort = 587;
+            smtpUser = "s.lendl@proxmox.com";
+            # smtpsslcertpath=;
+            confirm = "always";
+            to = "pve-devel@lists.proxmox.com";
+          };
+        };
+      }
+      {
+        condition = "gitdir:${home.homeDirectory}/work/proxmox/pmg-*/";
+        contents = {
+          format.to = "pmg-devel@lists.proxmox.com";
+          sendEmail.to = "pmg-devel@lists.proxmox.com";
+        };
+      }
+      {
+        condition = "gitdir:${home.homeDirectory}/work/proxmox/proxmox-backup*/";
+        contents = {
+          format.to = "pbs-devel@lists.proxmox.com";
+          sendEmail.to = "pbs-devel@lists.proxmox.com";
+        };
+      }
+    ];
   };
 
   programs.ssh = {
@@ -200,6 +253,11 @@ in {
     source = ./config/ssh;
   };
 
+  programs.emacs = {
+    enable = true;
+    package = pkgs.emacs29;
+    extraPackages = epkgs: with epkgs; [ vterm ];
+  };
 
   programs.tmux = {
     enable = true;
@@ -281,9 +339,10 @@ in {
     '';
   };
 
-  programs.fish = {
-    enable = true;
-  };
+  # TODO does not work with sessionVariables?!?!...
+  # programs.fish = {
+  #   enable = true;
+  # };
 
   programs.zsh = {
     enable = true;
@@ -426,7 +485,6 @@ in {
       # QT (needs qt5.qtwayland in systemPackages), needed by VirtualBox GUI:
       export QT_QPA_PLATFORM=wayland-egl
       export QT_WAYLAND_DISABLE_WINDOWDECORATION="1"
-      export EDITOR=emacsclient
     '';
     extraOptions = [
       "--verbose"
