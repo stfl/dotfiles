@@ -37,12 +37,12 @@ in {
 
   home.sessionVariables = {
     TERMINAL = "${config.programs.alacritty.package}/bin/alacritty";
-    EDITOR = "emacsclient";
+    EDITOR = "${config.programs.emacs.package}/bin/emacsclient";
     # TODO GIT_EDITOR???
   };
 
   home.sessionPath = [
-    "\${xdg.configHome}/emacs/bin"
+    "${config.xdg.configHome}/emacs/bin"
   ];
 
   home.keyboard = {
@@ -100,6 +100,10 @@ in {
     source-code-pro
     noto-fonts
     noto-fonts-emoji
+    julia-mono
+    symbola
+    dejavu_fonts
+    # quivira # TODO https://github.com/NixOS/nixpkgs/pull/167228
   ];
 
   # editorconfig = {
@@ -199,7 +203,7 @@ in {
     };
     includes = [
       { # apply updated git configuration for every repo inside ~/work/proxmox/<repo>
-        condition = "gitdir:${home.homeDirectory}/work/proxmox/";
+        condition = "gitdir:${config.home.homeDirectory}/work/proxmox/";
         contents = {
           user = {
             email = "s.lendl@proxmox.com";
@@ -225,14 +229,14 @@ in {
         };
       }
       {
-        condition = "gitdir:${home.homeDirectory}/work/proxmox/pmg-*/";
+        condition = "gitdir:${config.home.homeDirectory}/work/proxmox/pmg-*/";
         contents = {
           format.to = "pmg-devel@lists.proxmox.com";
           sendEmail.to = "pmg-devel@lists.proxmox.com";
         };
       }
       {
-        condition = "gitdir:${home.homeDirectory}/work/proxmox/proxmox-backup*/";
+        condition = "gitdir:${config.home.homeDirectory}/work/proxmox/proxmox-backup*/";
         contents = {
           format.to = "pbs-devel@lists.proxmox.com";
           sendEmail.to = "pbs-devel@lists.proxmox.com";
@@ -246,6 +250,7 @@ in {
     forwardAgent = false;
     controlMaster = "auto";
     controlPersist = "10m";
+    # includes = [ "${config.xdg.configHome}/ssh/config.d/*" ];
     includes = [ "~/.ssh/config.d/*" ];
   };
   home.file.".ssh/config.d/" = {

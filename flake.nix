@@ -20,6 +20,7 @@
                 pkgs = import nixpkgs {
                     system = "x86_64-linux";
                     overlays = [ nixgl.overlay ];
+                    config.allowUnfree = true;
                 };
 
                 modules = [
@@ -32,6 +33,7 @@
                 pkgs = import nixpkgs {
                     system = "x86_64-linux";
                     overlays = [ nixgl.overlay ];
+                    config.allowUnfree = true;
                 };
 
                 modules = [
