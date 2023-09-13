@@ -56,6 +56,7 @@ in {
     nixpkgs-fmt
 
     (nixGL brave)
+    (nixGL firefox)
 
     gitAndTools.gh
     gitAndTools.git-crypt
@@ -69,6 +70,8 @@ in {
     tldr
     httpie
     feh
+
+    qalculate-gtk
 
     # sway // wayland
     # waybar
@@ -86,6 +89,7 @@ in {
     poetry
     nodejs_20
     yarn
+    rustup
 
     brightnessctl
     # arandr
