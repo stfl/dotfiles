@@ -348,11 +348,6 @@ in {
     '';
   };
 
-  # TODO does not work with sessionVariables?!?!...
-  # programs.fish = {
-  #   enable = true;
-  # };
-
   programs.zsh = {
     enable = true;
     profileExtra = ''
@@ -406,7 +401,6 @@ in {
     enable = true;
     enableBashIntegration = true;
     enableZshIntegration = true;
-    enableFishIntegration = true;
     changeDirWidgetCommand = "fd --type d";  # ALT-C
     changeDirWidgetOptions = [ "--preview 'tree -C {} | head -200'" ];
     defaultCommand = "fd --type f";
@@ -418,7 +412,6 @@ in {
   programs.starship = {
     enable = true;
     enableZshIntegration = true;
-    enableFishIntegration = true;
   };
 
   programs.lsd = {
@@ -429,7 +422,6 @@ in {
   programs.zoxide = {
     enable = true;
     enableZshIntegration = true;
-    enableFishIntegration = true;
   };
 
   programs.neovim = {
@@ -759,7 +751,6 @@ in {
     enable = true;
     enableExtraSocket = true;
     enableZshIntegration = true;
-    enableFishIntegration = true;
     enableSshSupport = true;
     extraConfig = ''
       allow-emacs-pinentry
