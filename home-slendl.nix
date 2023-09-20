@@ -73,6 +73,7 @@ in {
 
     qalculate-gtk
 
+    qt5.qtwayland
     # sway // wayland
     # waybar
     # wlogout
@@ -89,7 +90,8 @@ in {
     poetry
     nodejs_20
     yarn
-    rustup
+    # rustup
+    rust-analyzer
 
     brightnessctl
     # arandr
@@ -107,7 +109,9 @@ in {
     julia-mono
     symbola
     dejavu_fonts
-    # quivira # TODO https://github.com/NixOS/nixpkgs/pull/167228
+    hicolor-icon-theme
+    # quivira       # TODO https://github.com/NixOS/nixpkgs/pull/167228
+    nerdfonts
   ];
 
   # editorconfig = {
@@ -468,12 +472,21 @@ in {
     };
   };
 
+  gtk = {
+    enable = true;
+  # font = TODO;
+  };
+  qt = {
+    enable = true;
+    platformTheme = "gtk";
+  };
+
   wayland.windowManager.sway = {
     enable = true;
 
     # we need to update the default package because it overrides with
     # extraSessionCommands, extraOptions and wrapperFeatures
-    package = (nixGL options.wayland.windowManager.sway.package.default);
+    # package = (nixGL options.wayland.windowManager.sway.package.default);
     systemd = {
       enable = true;
       xdgAutostart = true;
@@ -484,13 +497,14 @@ in {
       # SDL:
       export SDL_VIDEODRIVER=wayland
       # QT (needs qt5.qtwayland in systemPackages), needed by VirtualBox GUI:
-      export QT_QPA_PLATFORM=wayland-egl
+      export QT_QPA_PLATFORM=wayland
       export QT_WAYLAND_DISABLE_WINDOWDECORATION="1"
+      export GDK_BACKEND=wayland
     '';
     extraOptions = [
       "--verbose"
-      #     "--debug"
-      #     "--unsupported-gpu"
+      # "--debug"
+      # "--unsupported-gpu"
     ];
     wrapperFeatures = {
       base = true;
@@ -606,6 +620,7 @@ in {
         # "${modifier}+Shift+c" = "reload";  # NOTE default
 # # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 # bindsym $mod+Shift+r restart
+        "${modifier}+Shift+r" = "restart";
 # # exit i3 (logs you out of your X session)
 # bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
@@ -708,7 +723,7 @@ in {
       mainBar = {
         layer = "top";
         position = "top";
-        height = 20;
+        height = 32;
         # output = [
         #   "eDP-1"
         #   "HDMI-A-1"
