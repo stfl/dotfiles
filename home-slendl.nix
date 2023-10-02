@@ -27,18 +27,19 @@ in {
   services.mbsync = {
     enable = true;
     frequency = "*:0/5";
+    verbose = true;
+    postExec = ''
+      ${pkgs.notmuch}/bin/notmuch new --verbose
+      ${pkgs.afew}/bin/afew -a -t --verbose
+    '';
   };
-
-  # accounts.email.accounts = {
-  #   "gmail" = {
-  #     address = "ste.lendl@gmail.com";
-  #   };
-  # };
 
   home.sessionVariables = {
     TERMINAL = "${config.programs.alacritty.package}/bin/alacritty";
-    EDITOR = "${config.programs.emacs.package}/bin/emacsclient";
-    # TODO GIT_EDITOR???
+    # EDITOR = "${config.programs.emacs.finalPackage}/bin/emacsclient";
+    # GIT_EDITOR = "${config.programs.git.extraConfig.core.editor}";
+    BROWSER = "${(nixGL pkgs.brave)}/bin/brave";
+    PAGER = "less -FR --mouse";
   };
 
   home.sessionPath = [
@@ -63,8 +64,6 @@ in {
     act
 
     nix-zsh-completions
-    bat
-    # fasd
     fd
     jq
     tldr
@@ -74,16 +73,11 @@ in {
     qalculate-gtk
 
     qt5.qtwayland
-    # sway // wayland
-    # waybar
-    # wlogout
 
-    # emacs29
-    # libvterm
-    # cmake
-    # gnumake
-    # xdotool
     libnotify
+
+    gpg-tui
+    gnome.seahorse
 
     # exercism
 
@@ -91,7 +85,10 @@ in {
     nodejs_20
     yarn
     # rustup
+
     rust-analyzer
+    rustfmt
+    clippy
 
     brightnessctl
     # arandr
@@ -99,8 +96,11 @@ in {
     # dex  # https://wiki.archlinux.org/index.php/XDG_Autostart
     # xss-lock  # i3lock
     libpulseaudio  # pulsectl
+    pavucontrol
 
     # (nixGL signal-desktop)
+
+    sway-contrib.grimshot
 
     jetbrains-mono
     source-code-pro
@@ -183,7 +183,8 @@ in {
     difftastic.enable = true;
     # delta.enable = true;
     userName = "Stefan Lendl";
-    userEmail = "ste.lendl@gmail.com";
+    userEmail = "s.lendl@proxmox.com";
+    # userEmail = "ste.lendl@gmail.com";
     ignores = [ "*~" "*.swp" "my-patches" ];
     aliases = {
       a     = "add";
@@ -209,6 +210,10 @@ in {
       rb    = "rebase";
       # cp    = "cherry-pick";
     };
+    extraConfig = {
+      core.editor = "${config.programs.emacs.finalPackage}/bin/emacsclient --no-wait";
+      core.pager = "less -FR --mouse";
+    };
     includes = [
       { # apply updated git configuration for every repo inside ~/work/proxmox/<repo>
         condition = "gitdir:${config.home.homeDirectory}/work/proxmox/";
@@ -219,11 +224,11 @@ in {
           };
           # commit.signOff = true;
           format = {
-            signOff = true;  # works?
+            signOff = true;
             # subjectPrefix = "PATCH {<<current-dir>>}";  # TODO this should be f.e. PATCH pve-common
             outputDirectory = "my-patches";
             # coverLetter = true;
-            to = "pve-devel@lists.proxmox.com";
+            # to = "pve-devel@lists.proxmox.com";
           };
           sendEmail = {
             smtpencryption = "tls";
@@ -232,17 +237,18 @@ in {
             smtpUser = "s.lendl@proxmox.com";
             # smtpsslcertpath=;
             confirm = "always";
-            to = "pve-devel@lists.proxmox.com";
+            # to = "pve-devel@lists.proxmox.com";
+            smtpPass = "`${config.programs.rbw.package}/bin/rbw get webmail.proxmox.com`";
           };
         };
       }
-      {
-        condition = "gitdir:${config.home.homeDirectory}/work/proxmox/pmg-*/";
-        contents = {
-          format.to = "pmg-devel@lists.proxmox.com";
-          sendEmail.to = "pmg-devel@lists.proxmox.com";
-        };
-      }
+      # {
+      #   condition = "gitdir:${config.home.homeDirectory}/work/proxmox/pmg-*/";
+      #   contents = {
+      #     format.to = "pmg-devel@lists.proxmox.com";
+      #     sendEmail.to = "pmg-devel@lists.proxmox.com";
+      #   };
+      # }
       {
         condition = "gitdir:${config.home.homeDirectory}/work/proxmox/proxmox-backup*/";
         contents = {
@@ -255,6 +261,7 @@ in {
 
   programs.ssh = {
     enable = true;
+    package = pkgs.openssh;  # default is null -> use openssh from system
     forwardAgent = false;
     controlMaster = "auto";
     controlPersist = "10m";
@@ -266,10 +273,30 @@ in {
     source = ./config/ssh;
   };
 
+  # TODO on next reboot -> is ssh-agent still working with gpg-agent?
+  # maybe use ^- pkgs.openssh
+  services.ssh-agent.enable = true;
+
+  programs.rbw = {
+    enable = true;
+    settings = {
+      email = "ste.lendl@gmail.com";
+      # lock_timeout = 300;
+      # pinentry = "gtk2";  # default
+    };
+  };
+
   programs.emacs = {
     enable = true;
     package = pkgs.emacs29;
     extraPackages = epkgs: with epkgs; [ vterm ];
+  };
+
+  services.emacs = {
+    enable = true;
+    socketActivation.enable = true;
+    defaultEditor = true;
+    client.enable = true;
   };
 
   programs.tmux = {
@@ -393,6 +420,18 @@ in {
       };
     };
 
+    shellAliases = {
+      x = "exit";
+      ipp = "ip -br addr";
+      ipa = "ip -br addr";
+      ipl = "ip -br link";
+    };
+    # shellGlobalAliases = {
+    #   DATE = "$(date +%F | tr -d \\n)";
+    #   UUID = "$(uuidgen | tr -d \\n)";
+    #   G = "| grep";
+    # };
+
     # workaround when using prezto, which sets up $PATH in .zprofile which is sourced after .zshenv
     initExtra = mkIf config.programs.zsh.prezto.enable ''
       # need to setup $PATH properly again to prefer nix installed packages
@@ -472,6 +511,19 @@ in {
     };
   };
 
+  programs.bat = {
+    enable = true;
+    config = {
+      map-syntax = [
+        "*.jenkinsfile:Groovy"
+        "*.props:Java Properties"
+      ];
+      # pager = "less -FR";  # TODO use $PAGER?
+    };
+    # extraPackages = [];
+# https://github.com/nix-community/home-manager/blob/master/modules/programs/bat.nix
+  };
+
   gtk = {
     enable = true;
   # font = TODO;
@@ -492,7 +544,6 @@ in {
       xdgAutostart = true;
     };
     xwayland = true;
-    # TODO
     extraSessionCommands = ''
       # SDL:
       export SDL_VIDEODRIVER=wayland
@@ -524,7 +575,6 @@ in {
         size = 11.0;
       };
       window = {
-        # rest TODO
         hideEdgeBorders = "smart";
       };
 
@@ -679,7 +729,7 @@ in {
   };
 
   services.gammastep = {
-    enable = true;
+    enable = false;
     tray = true;
     latitude = 48.210033;
     longitude = 16.363449;
@@ -762,6 +812,11 @@ in {
     # '';
   };
 
+  programs.gpg = {
+    enable = true;
+    homedir = "${config.xdg.dataHome}/gnupg";
+  };
+
   services.gpg-agent = {
     enable = true;
     enableExtraSocket = true;
@@ -771,10 +826,118 @@ in {
       allow-emacs-pinentry
       # allow-loopback-pinentry
     '';
+    pinentryFlavor = "gtk2";
   };
 
   services.syncthing = {
     enable = true;
-    tray.enable = true;
+    # tray.enable = true;
   };
+
+  # feh alternative for wayland
+  programs.imv = {
+    enable = true;
+    # settings = {
+    #   # alias.x = "close";    # Configuration options for imv. See imv(5).
+    # };
+  };
+
+  accounts.email = {
+    maildirBasePath = "Mail";
+    accounts = {
+      # "gmail" = {
+      #   address = "ste.lendl@gmail.com";
+      #   flavor = "gmail.com"
+      # };
+      # lieer.enable -> gmail sync?!
+      # "stfl" = {
+      #   address = "s@stfl.dev";
+      #   aliases = [
+      #   .*@stfl.dev
+      #   .*@stfl.dev
+      #   ];
+      #   flavor = "gmail.com"
+      # };
+      "proxmox" = {
+        address = "s.lendl@proxmox.com";
+        primary = true;
+        realName = "Stefan Lendl";
+        userName = "s.lendl";
+        passwordCommand = "cat $HOME/.config/dotfiles/pass";  # FIXME!!
+        # signature = {TODO};
+        folders = {
+          drafts = "Entw&APw-rfe";
+          inbox = "Inbox";
+          sent = "Gesendete Objekte";
+        };
+        imap = {
+          host = "webmail.proxmox.com";
+          # port = 993;
+          tls.enable = true;
+          # imapnotify = {
+          #   enable = true;
+          #   boxes = [
+          #     "Inbox";
+          #   ];
+          # };
+        };
+        smtp = {
+          host = "mail.proxmox.com";
+          port = 25;
+          tls.enable = false;
+          # port =
+        };
+        msmtp = {
+          enable = true;
+          extraConfig = {
+            auth = "off";
+          };
+        };
+        mbsync = {
+          enable = true;
+          create = "both";  # TODO "maildir" // imap" // "both" ??
+          # remove = "both";
+        };
+        # mu.enable = true;
+        notmuch.enable = true;
+        # thunderbird.enable = true;
+      };
+    };
+  };
+
+  programs.notmuch = {
+    enable = true;
+    new.tags = [ "new" ];
+    # hooks.postInsert = "${config.programs.afew.package}/bin/afew -a -t --verbose"
+  };
+
+  # programs.mu = {
+  #   enable = true;
+  # };
+
+  programs.msmtp = {
+    enable = true;
+  };
+
+  programs.afew.enable = true;
+  xdg.configFile."afew/config".source = lib.mkForce ./config/afew/config;
+  # TODO write afew service with --watch
+
+  # programs.thunderbird = {
+  #   enable = true;
+  #   profiles."proxmox" = {
+  #     isDefault = true;
+  #   };
+  # };
+
+  # TODO does not work -> QT?
+  # services.flameshot = {
+  #   enable = true;
+  #   settings = {
+  #     General = {
+  #       # disabledTrayIcon = true;
+  #       showStartupLaunchMessage = false;
+  #     };
+  #   };
+  # };
 }

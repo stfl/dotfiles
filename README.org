@@ -62,7 +62,7 @@ nix run . -- switch -b backup --flake .
 
 https://github.com/stfl/doom.d#installation
 
-** TODO swaylock
+** swaylock
 [2023-09-07 Thu] - swaylock from nix does not work with home-manager on Debian with LDAP...
 
 install swaylock from Debian repo
@@ -71,6 +71,7 @@ install swaylock from Debian repo
 apt install swaylock
 #+end_src
 
+~UPDATE~ not using LDAP anymore..
 TODO: swaylock requires some pam config..
 
 #+begin_quote
@@ -82,13 +83,7 @@ cat /etc/pam.d/swaylock
 
 auth include login
 #+end_quote
-** TODO sway on Proxmox VE Workstation
-
-sway from nix does net seem to work on PVE.
->>> ==install sway from Debian repo and start that...=
->> ~individual packages will require nixGL wrapping instead of wrapping sway directly!!!!~
-
-** set nix installed zsh as default shell
+** TODO set nix installed zsh as default shell
 
 =NOTE= *this will not work on the Workstation at Proxmox with LDAP login because
 the login shell is configured via LDAP*
@@ -121,7 +116,30 @@ On the Proxmox workstation setting ~~/.nix-profile/bin/zsh~ as the login shell d
 As a workaround I install zsh via apt, set ~/bin/zsh~ as LDAP Login shell and still set ~programs.zsh.enable = true~ in nix.
 
 /Let's hope the versions and nix config will not diverge too much..../
+** Access user journal
+
+Per default, I cannot access the user's own journal ~journalctl --user~. I am fine with granting access to the system's journal.
+
+#+begin_src bash :dir /sudo::
+/sbin/usermod -a -G systemd-journal slendl
+#+end_src
+** Set default boot target to multi-user
+
+#+begin_src bash :dir /sudo::
+systemctl set-default multi-user.target
+#+end_src
+
 * Install in Debian System
+:PROPERTIES:
+:ID:       ef6f0b51-2c53-4029-839b-8e46b6c96ada
+:END:
+
+some packages need to be installed in the Debian System itself for various reasons.
+The following list is very likely outdated!!
+
+for building some things in emacs (vterm, sqlite) I need built tools. I don't
+want to polute my dev environment - which requires Debian build tooling - I need
+to install these from the system.
 
 - build-essential
 - cmake
@@ -132,12 +150,16 @@ As a workaround I install zsh via apt, set ~/bin/zsh~ as LDAP Login shell and st
 starting sway from login shell
 
 #+begin_src bash
-/usr/bin/sway --debug | tee $> /tmp/sway.log
+echo "---- RESTART ----" >>| ~/.cache/sway.log && \
+    nixGLIntel sway &>> ~/.cache/sway.log
 #+end_src
 
-- sway
+Even though I patched the ~wayland.windowManager.sway.package~ with nixGL it does
+not start up properly, so I need to start it with the nixGL wrapper
+
+swaylock does not work (still true?) from nix.. so use swaylock from the system
+
 - swaylock
-- xwayland
 
 * Setup Syncthing
 * Configure logind on Debian 12
@@ -198,3 +220,16 @@ usermod -a -G docker $USER
 #+end_src
 
 reboot
+* E-Mail setup
+
+after first installation, sync the mailbox
+
+#+begin_src bash
+mbsync -a
+#+end_src
+
+and init notmuch
+
+#+begin_src bash
+notmuch new
+#+end_src
