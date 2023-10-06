@@ -69,6 +69,7 @@ in {
     tldr
     httpie
     feh
+    # mtr  >> does not work as unprivilgeded user
 
     qalculate-gtk
 
@@ -238,7 +239,7 @@ in {
             # smtpsslcertpath=;
             confirm = "always";
             # to = "pve-devel@lists.proxmox.com";
-            smtpPass = "`${config.programs.rbw.package}/bin/rbw get webmail.proxmox.com`";
+            # smtpPass = "`${config.programs.rbw.package}/bin/rbw get webmail.proxmox.com`";
           };
         };
       }
@@ -293,7 +294,7 @@ in {
   };
 
   services.emacs = {
-    enable = true;
+    enable = false;
     socketActivation.enable = true;
     defaultEditor = true;
     client.enable = true;
@@ -422,6 +423,7 @@ in {
 
     shellAliases = {
       x = "exit";
+      ip = "ip --color=auto";
       ipp = "ip -br addr";
       ipa = "ip -br addr";
       ipl = "ip -br link";
@@ -863,7 +865,7 @@ in {
         primary = true;
         realName = "Stefan Lendl";
         userName = "s.lendl";
-        passwordCommand = "cat $HOME/.config/dotfiles/pass";  # FIXME!!
+        passwordCommand = "${config.programs.rbw.package}/bin/rbw get webmail.proxmox.com";
         # signature = {TODO};
         folders = {
           drafts = "Entw&APw-rfe";

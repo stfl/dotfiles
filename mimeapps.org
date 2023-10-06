@@ -1,0 +1,21 @@
+#+title: Mimeapps
+
+Install virt-viewer from Debian
+
+#+begin_src xml :tangle ~/.local/share/mime/packages/application-x-virt-viewer.xml :mkdirp t
+<?xml version="1.0" encoding="UTF-8"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="application/x-virt-viewer">
+    <comment>foo file</comment>
+    <icon name="application-x-virt-viewer"/>
+    <glob-deleteall/>
+    <glob pattern="*.vv"/>
+  </mime-type>
+</mime-info>
+#+end_src
+
+~/.config/mimeapps.list
+#+begin_src conf :tangle no
+[Default Application]
+application/x-virt-viewer=remote-viewer.desktop
+#+end_src

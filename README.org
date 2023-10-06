@@ -159,7 +159,9 @@ not start up properly, so I need to start it with the nixGL wrapper
 
 swaylock does not work (still true?) from nix.. so use swaylock from the system
 
-- swaylock
+- swaylock :: [2023-10-03 Tue] swaylock from nix is broken
+- mtr-tiny :: mtr requires root and we cannot install into the system path from home-manager
+- nmap ::
 
 * Setup Syncthing
 * Configure logind on Debian 12
@@ -232,4 +234,14 @@ and init notmuch
 
 #+begin_src bash
 notmuch new
+#+end_src
+* Bashrc for root
+
+I am using the system frequently as root, so I want to have a decently
+configured bashrc as root which I want to version as well.
+
+Symlink root's .bashrc to the config file in this repo.
+
+#+begin_src bash :dir /sudo:: :results value
+ln /home/slendl/.config/dotfiles/config/bash/.bashrc.root /root/.bashrc -sf
 #+end_src

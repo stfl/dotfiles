@@ -7,6 +7,8 @@
 
 [ListMailsFilter]
 
+[MeFilter]
+
 [HeaderMatchingFilter.1]
 message = Fixing up Ceph List-IDs
 header = List-Id
@@ -19,14 +21,40 @@ header = List-Id
 pattern = <(.*open-zfs.*)>
 tags = -lists/developer;+lists/zfs-openzfs-developer
 
-[KillThreadsFilter]
-
 [Filter.1]
+message = Tag pve-devel mails not caught by ListMailsFilter
+query = to:pve-devel@lists.proxmox.com and not tag:lists
+tags = +lists;+lists/pve-devel
+
+[Filter.2]
+message = Tag pbs-devel mails not caught by ListMailsFilter
+query = to:pbs-devel@lists.proxmox.com and not tag:lists
+tags = +lists;+lists/pbs-devel
+
+[Filter.3]
+message = Tag pmg-devel mails not caught by ListMailsFilter
+query = to:pmg-devel@lists.proxmox.com and not tag:lists
+tags = +lists;+lists/pmg-devel
+
+[Filter.4]
 message = Tag new pbs/pmg/pve-devel mails for review
 query = tag:lists/pve-devel or tag:lists/pmg-devel or tag:lists/pbs-devel
 tags = +review
 
-[Filter.2]
+[Filter.5]
+message = Tag mailing list threads I have participated
+query = tag:review and from:s.lendl@proxmox.com or to:s.lendl@proxmox.com)
+tags = +watch
+# TODO
+# query = tag:review and from:s.lendl@proxmox.com # or to:s.lendl@proxmox.com)
+# tags = +watch;-new  # don't need to see just sent patches in the inbox
+
+[Filter.6]
+message = Threads I am not watching not in the inbox
+query = tag:review and not tag:watch
+tags = -new
+
+[Filter.8]
 message = Tagging forum notifications
 query = from:forum@proxmox.com
 tags = +forum
@@ -49,18 +77,27 @@ tags = +bugs
 
 # Garbage Collect Datastore  $ TODO
 
-[MeFilter]
-
-[Filter.3]
+[Filter.13]
 message = Tagging support notifications
-query = from:support@proxmox.com subject:'/(new)/'
-tags = +support;-new;
+query = from:support@proxmox.com
+tags = +support
 
-[Filter.4]
-message = Archive Support notifications that are not new
-query = from:support@proxmox.com tag:new
-tags = +support;-new;+archive
+[Filter.14]
+message = Remove not-new and not-my tickets from inbox
+query = tag:support and not 'subject:"/(new)/"'  # TODO exclude my tickets
+tags = -new
 
+[Filter.80]
+message = Archive sucessful PBS Jobs
+query = subject:"/Datastore '.+' successful/"
+tags = -new;+archive
+
+[Filter.81]
+message = Archive package updates on Team mailing list
+query = from:repoman@noreply.maurer-it.com and subject:"package updates for"
+tags = -new;+archive
+
+[KillThreadsFilter]
 
 [ArchiveSentMailsFilter]
 sent_tag = sent
@@ -72,8 +109,13 @@ sent_tag = sent
 # query = (tag:lists/qemu-devel or tag:lists/kvm or tag:/lists\/zfs*/ or tag:/lists\/ceph*/ or tag:lkml) and (proxmox or pve)
 # tags = +proxmox
 
+[Filter.99]
+message = propagate archive tag
+query = tag:archive
+tags = -new;-inbox
+
 [PropagateTagsInThreadFilter]
 # propagate_tags = review;interesting;todo;proxmox
-propagate_tags = review
+propagate_tags = review;watch
 
 [InboxFilter]
