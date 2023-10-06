@@ -262,12 +262,14 @@ in {
 
   programs.ssh = {
     enable = true;
-    package = pkgs.openssh;  # default is null -> use openssh from system
+    # package = pkgs.openssh;  # default is null -> which uses openssh from system
     forwardAgent = false;
     controlMaster = "auto";
     controlPersist = "10m";
-    # includes = [ "${config.xdg.configHome}/ssh/config.d/*" ];
     includes = [ "~/.ssh/config.d/*" ];
+    extraConfig = ''
+      AddKeysToAgent yes
+    '';
   };
   home.file.".ssh/config.d/" = {
     recursive = true;
