@@ -43,7 +43,7 @@ tags = +review
 
 [Filter.5]
 message = Tag mailing list threads I have participated
-query = tag:review and from:s.lendl@proxmox.com or to:s.lendl@proxmox.com)
+query = tag:lists and (from:s.lendl@proxmox.com or tag:to-me)
 tags = +watch
 # TODO
 # query = tag:review and from:s.lendl@proxmox.com # or to:s.lendl@proxmox.com)
@@ -51,7 +51,7 @@ tags = +watch
 
 [Filter.6]
 message = Threads I am not watching not in the inbox
-query = tag:review and not tag:watch
+query = tag:lists and not tag:watch
 tags = -new
 
 [Filter.8]
@@ -84,8 +84,13 @@ tags = +support
 
 [Filter.14]
 message = Remove not-new and not-my tickets from inbox
-query = tag:support and not 'subject:"/(new)/"'  # TODO exclude my tickets
+query = tag:support not subject:"/(new)/"  # TODO exclude my tickets
 tags = -new
+
+[Filter.15]
+message = Archive Daily Spam Report
+query = tag:support and subject:"(internal) Daily Spam Report for"
+tags = -new;+archive
 
 [Filter.80]
 message = Archive sucessful PBS Jobs

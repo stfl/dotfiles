@@ -236,6 +236,7 @@ in {
             smtpServer = "webmail.proxmox.com";
             smtpServerPort = 587;
             smtpUser = "s.lendl@proxmox.com";
+            suppresscc = "self";
             # smtpsslcertpath=;
             confirm = "always";
             # to = "pve-devel@lists.proxmox.com";
@@ -255,6 +256,14 @@ in {
         contents = {
           format.to = "pbs-devel@lists.proxmox.com";
           sendEmail.to = "pbs-devel@lists.proxmox.com";
+        };
+      }
+      {
+        # condition = "gitdir:${config.home.homeDirectory}/work/proxmox/{pve-docs,pve-manager,pve-network,pve-commpon}/";
+        condition = "gitdir:${config.home.homeDirectory}/work/proxmox/pve-manager/";
+        contents = {
+          format.to = "pve-devel@lists.proxmox.com";
+          sendEmail.to = "pve-devel@lists.proxmox.com";
         };
       }
     ];
