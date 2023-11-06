@@ -91,6 +91,11 @@ in {
     rustfmt
     clippy
 
+    languagetool
+    ltex-ls
+    enchant
+    (aspellWithDicts (dicts: with dicts; [ en en-computers en-science de ]))
+
     brightnessctl
     # arandr
 
@@ -99,7 +104,7 @@ in {
     libpulseaudio  # pulsectl
     pavucontrol
 
-    # (nixGL signal-desktop)
+    (nixGL signal-desktop)
 
     sway-contrib.grimshot
 
@@ -275,6 +280,7 @@ in {
     forwardAgent = false;
     controlMaster = "auto";
     controlPersist = "10m";
+    serverAliveInterval = 10; # seconds
     includes = [ "~/.ssh/config.d/*" ];
     extraConfig = ''
       AddKeysToAgent yes

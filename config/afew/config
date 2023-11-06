@@ -83,11 +83,16 @@ query = from:support@proxmox.com
 tags = +support
 
 [Filter.14]
-message = Remove not-new and not-my tickets from inbox
-query = tag:support not subject:"/(new)/"  # TODO exclude my tickets
-tags = -new
+message = Show (new) support tickets in the inbox
+query = tag:new and tag:support and (subject:"/\(new\)/" or subject:"A new ticket with a key: premium/standard and state: critical has been opened")
+tags = -new;+inbox
 
 [Filter.15]
+message = Rest of support will not go to the inbox
+query = tag:support
+tags = -new
+
+[Filter.16]
 message = Archive Daily Spam Report
 query = tag:support and subject:"(internal) Daily Spam Report for"
 tags = -new;+archive

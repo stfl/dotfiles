@@ -21,3 +21,5 @@ alias ip="ip --color=auto"
 alias ipp="ip -c -br a"
 alias ipa="ip -c -br a"
 alias ipl="ip -c -br l"
+
+alias bridge="bridge --color=auto --compressvlans"
