@@ -701,6 +701,20 @@ in {
           hide_cursor = "when-typing enable";
         };
       };
+      input = {
+        "type:keyboard" = {
+          xkb_layout = "us";
+          xkb_variant = "intl";
+          # xkb_options = "grp:alt_shift_toggle";
+          xkb_options = "eurosign:5";
+        };
+        "type:touchpad" = {
+          dwt = "enabled";
+          tap = "enabled";
+          natural_scroll = "enabled";
+          middle_emulation = "disabled";
+        };
+      };
       startup = [
         { command = "systemctl --user restart waybar"; always = true; }  # TODO this does not automatically restart on hm switch
       ];
