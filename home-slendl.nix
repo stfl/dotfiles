@@ -704,8 +704,7 @@ in {
       input = {
         "type:keyboard" = {
           xkb_layout = "us";
-          xkb_variant = "intl";
-          # xkb_options = "grp:alt_shift_toggle";
+          xkb_variant = "altgr-intl";
           xkb_options = "eurosign:5";
         };
         "type:touchpad" = {
