@@ -601,8 +601,15 @@ in {
       down = "j";
       up = "k";
       right = "l";
-      # floating = {}; TODO
       # gaps = {}; TODO
+      floating.criteria = [
+        { title = "Steam - Update News"; }
+        { class = "Pavucontrol"; }
+        { title = "Volume Control"; }
+        { title = "VM .+ \('.+'\).*"; }  # TODO not working
+        { title = ".*noVNC.*"; }
+        { title = ".*Proxmox Console.*"; }
+      ];
       bars = [];  # disable default bars -> use waybar
       keybindings = let
         cfg = config.wayland.windowManager.sway;
