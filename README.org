@@ -9,6 +9,16 @@ nix run . -- build -b backup --flake .
 nix run . -- switch -b backup --flake .
 #+end_src
 
+* Update
+
+#+begin_src bash
+nix flake update
+#+end_src
+
+#+begin_src bash
+nix run . -- switch -b backup --flake .
+#+end_src
+
 * Setup nix on Debian 12
 
 add user to sudoers (because it's much more convinient)
