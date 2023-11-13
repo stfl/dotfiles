@@ -44,6 +44,7 @@ in {
 
   home.sessionPath = [
     "${config.xdg.configHome}/emacs/bin"
+    "${config.home.homeDirectory}/.cargo/bin"
   ];
 
   home.keyboard = {
@@ -108,6 +109,7 @@ in {
 
     sway-contrib.grimshot
 
+    symbola
     jetbrains-mono
     source-code-pro
     noto-fonts
@@ -670,6 +672,10 @@ in {
 
         # toggle tiling / floating
         # "${modifier}+Shift+space floating toggle";  NOTE default
+        # "${modifier}+button2" = "floating toggle";
+        # "${modifier}+button2" = "exec program && i3-msg \"[id=$(xdotool getactivewindow)] floating enable\"";
+        # bindsym --whole-window $mod+Shift+button2 kill
+
 
         # change focus between tiling / floating windows
         "${modifier}+Mod1+space" = "focus mode_toggle";

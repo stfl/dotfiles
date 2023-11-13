@@ -44,7 +44,7 @@ tags = +review
 [Filter.5]
 message = Tag mailing list threads I have participated
 query = tag:lists and (from:s.lendl@proxmox.com or tag:to-me)
-tags = +watch
+tags = +my-pr;+watch
 # TODO
 # query = tag:review and from:s.lendl@proxmox.com # or to:s.lendl@proxmox.com)
 # tags = +watch;-new  # don't need to see just sent patches in the inbox
@@ -126,6 +126,6 @@ tags = -new;-inbox
 
 [PropagateTagsInThreadFilter]
 # propagate_tags = review;interesting;todo;proxmox
-propagate_tags = review;watch
+propagate_tags = review;watch;my-pr
 
 [InboxFilter]
