@@ -57,58 +57,66 @@ in {
 
     nixpkgs-fmt
 
+    # -- browsers
     (nixGL brave)
     (nixGL firefox)
 
+    # -- communication
+    (nixGL signal-desktop)
+
+    # -- git and github runner
     gitAndTools.gh
     gitAndTools.git-crypt
     act
 
+    # -- terminal tools
     nix-zsh-completions
     fd
     jq
     tldr
     httpie
     feh
+
+    nvtop-intel
+    atop
     # mtr  >> does not work as unprivilgeded user
 
-    qalculate-gtk
-
     qt5.qtwayland
-
     libnotify
 
+    # -- keyring
     gpg-tui
     gnome.seahorse
 
-    # exercism
-
+    # -- python
     poetry
+
+    # -- js / ts
     nodejs_20
     yarn
-    # rustup
 
+    # -- rust
+    # rustup
     rust-analyzer
     rustfmt
     clippy
 
+    # -- spelling
     languagetool
     ltex-ls
     enchant
     (aspellWithDicts (dicts: with dicts; [ en en-computers en-science de ]))
 
+    # -- control Montior and Audio
     brightnessctl
-    # arandr
-
-    # dex  # https://wiki.archlinux.org/index.php/XDG_Autostart
-    # xss-lock  # i3lock
     libpulseaudio  # pulsectl
     pavucontrol
 
-    (nixGL signal-desktop)
+    # -- sway and GUI applications
+    sway-contrib.grimshot  # screenshot tool
+    qalculate-gtk
 
-    sway-contrib.grimshot
-
+    # -- fonts
     symbola
     jetbrains-mono
     source-code-pro
