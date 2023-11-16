@@ -25,7 +25,7 @@
 
                 modules = [
                     ./options.nix
-                    ./home.nix
+                    ./home-slendl.nix
                 ];
             };
             "slendl" = home-manager.lib.homeManagerConfiguration {
