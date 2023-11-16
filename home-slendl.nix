@@ -64,6 +64,8 @@ in {
     # -- communication
     (nixGL signal-desktop)
 
+    (nixGL calibre)
+
     # -- git and github runner
     gitAndTools.gh
     gitAndTools.git-crypt
