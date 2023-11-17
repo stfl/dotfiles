@@ -70,6 +70,7 @@ in {
     gitAndTools.gh
     gitAndTools.git-crypt
     act
+    git-absorb
 
     # -- terminal tools
     nix-zsh-completions
@@ -230,6 +231,8 @@ in {
     extraConfig = {
       core.editor = "${config.programs.emacs.finalPackage}/bin/emacsclient --no-wait";
       core.pager = "less -FR --mouse";
+      branch.autoSetupMerge = "always";
+      branch.autoSetupRebase = "always";
     };
     includes = [
       { # apply updated git configuration for every repo inside ~/work/proxmox/<repo>
