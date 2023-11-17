@@ -91,6 +91,9 @@ in {
     gpg-tui
     gnome.seahorse
 
+    tree-sitter
+    tree-sitter-grammars.tree-sitter-json
+
     # -- python
     poetry
 
