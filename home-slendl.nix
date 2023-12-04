@@ -4,10 +4,10 @@ with lib;
 
 let
   nixGL = import ./nixGL.nix { inherit pkgs config; };
-  swaylock_bin = "/usr/bin/swaylock";
+  swaylock_bin = "/usr/bin/swaylock";   # don't use nix' swaylock bin, because it does not work
 in {
   home.username = "slendl";
-  home.homeDirectory = "/home/slendl";
+  home.homeDirectory = "/home/${config.home.username}";
   home.stateVersion = "23.05";
 
   xdg.enable = true;
@@ -181,7 +181,7 @@ in {
     nix-direnv.enable = true;
     stdlib = ''
       layout_anaconda() {
-        local ACTIVATE="$HOME/.anaconda3/bin/activate"
+        local ACTIVATE="${config.home.homeDirectory}/.anaconda3/bin/activate"
 
         if [ -n "$1" ]; then
           # Explicit environment name from layout command.
@@ -289,6 +289,27 @@ in {
         };
       }
     ];
+  };
+
+  services.git-sync = {
+    enable = true;
+    repositories = {
+      doomemacs = {
+        interval = 1800;  # 30min (in case inotify does not trigger)
+        path = "${config.xdg.configHome}/doom";
+        uri = "git@github.com:stfl/doom.d.git";
+      };
+      org = {
+        interval = 600;  # 10min
+        path = "${config.home.homeDirectory}/.org";
+        uri = "git@github.com:stfl/org.git";
+      };
+      dotfiles = {
+        interval = 1800;  # 30min
+        path = "${config.xdg.configHome}/dotfiles";
+        uri = "git@github.com:stfl/dotfiles.git";
+      };
+    };
   };
 
   programs.ssh = {
@@ -559,6 +580,9 @@ in {
     # extraPackages = [];
 # https://github.com/nix-community/home-manager/blob/master/modules/programs/bat.nix
   };
+
+  # programs.less = {
+  # };
 
   gtk = {
     enable = true;

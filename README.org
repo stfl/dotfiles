@@ -11,12 +11,22 @@ nix run . -- switch -b backup --flake .
 
 * Update
 
+Update the flake
+
 #+begin_src bash
 nix flake update
 #+end_src
 
+Switch to the new version
+
 #+begin_src bash
 nix run . -- switch -b backup --flake .
+#+end_src
+
+Read the news
+
+#+begin_src bash
+nix run . -- news --flake .
 #+end_src
 
 * Setup nix on Debian 12
