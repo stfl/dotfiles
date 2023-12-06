@@ -862,14 +862,76 @@ in {
         #   "eDP-1"
         #   "HDMI-A-1"
         # ];
-        modules-left = [ "sway/workspaces" "sway/scratchpad" "wlr/taskbar" "sway/window" ];
-        modules-center = [ "clock" "sway/mode" ];
-        modules-right = [ "tray" "temperature" "cpu" "memory" "disk" "battery" "pulseaudio" ];
+        modules-left = [ "sway/workspaces" "sway/scratchpad" "sway/mode" # "wlr/taskbar"
+                         "sway/window" ];
+        modules-center = [ "clock" ];
+        modules-right = [ "tray" "idle_inhibitor" "backlight" "temperature" "cpu" "memory" "disk" "network" "battery" "pulseaudio" ];
 
         "sway/workspaces" = {
-          disable-scroll = true;
+          disable-scroll = false;
           all-outputs = true;
         };
+        # "sway/window" = {
+        #   max-length = 50;
+        # };
+        idle_inhibitor = {
+          format = "{icon}";
+          format-icons = {
+            activated = "";
+            deactivated = "";
+          };
+        };
+        "tray" = {
+          "icon-size" = 14;
+          "spacing" = 5;
+        };
+        "memory" = {
+          "format" = " {: >3}%";
+          "on-click" = "alacritty -e htop";
+        };
+        "temperature" = {
+          # // "thermal-zone" = 2;
+          # // "hwmon-path" = "/sys/class/hwmon/hwmon2/temp1_input";
+          "critical-threshold" = 80;
+          # // "format-critical" = "{temperatureC}°C ";
+          "format" = " {temperatureC}°C";
+        };
+        "backlight" = {
+          # // "device" = "acpi_video1";
+          "format" = "{icon} {percent: >3}%";
+          "format-icons" = ["" ""];
+          "on-scroll-down" = "brightnessctl -c backlight set 5%-";
+          "on-scroll-up" = "brightnessctl -c backlight set +5%";
+        };
+        "network" = {
+          # "interface" = "wlp2s0"; // (Optional) To force the use of this interface;
+          "format" = "⚠ Disabled";
+          "format-wifi" = " {essid}";
+          "format-ethernet" = " {ifname}: {ipaddr}/{cidr}";
+          "format-disconnected" = "⚠ Disconnected";
+          "on-click" = "foot -e nmtui";
+        };
+        "pulseaudio" = {
+          "scroll-step" = 5;
+          "format" = "{icon} {volume: >3}%";
+          "format-bluetooth" = "{icon} {volume: >3}%";
+          "format-muted" =" muted";
+          "format-icons" = {
+            "headphones" = "";
+            "handsfree" = "";
+            "headset" = "";
+            "phone" = "";
+            "portable" = "";
+            "car" = "";
+            "default" = ["" ""];
+          };
+          "on-click" = "pavucontrol";
+        };
+        battery = {
+          format = "{capacity}% {icon}";
+          format-icons = ["" "" "" "" ""];
+        };
+        # ""
         # "custom/hello-from-waybar" = {
         #   format = "hello {}";
         #   max-length = 40;
@@ -878,22 +940,236 @@ in {
         #     echo "from within waybar"
         #   '';
         # };
+        disk = {
+          interval = 30;
+          format = "🖪 {percentage_used}%";
+          path = "/";
+        };
+        cpu = {
+          interval = 1;
+          "on-click" = "alacritty -e htop";
+          format = "🖥 {usage}% {icon}";
+          # format = "{icon0}{icon1}{icon2}{icon3}{icon4}{icon5}{icon6}{icon7}";
+          format-icons = [
+            "<span color='#69ff94'>▁</span>"  # green
+            "<span color='#2aa9ff'>▂</span>"  # blue
+            "<span color='#f8f8f2'>▃</span>"  # white
+            "<span color='#f8f8f2'>▄</span>"  # white
+            "<span color='#ffffa5'>▅</span>"  # yellow
+            "<span color='#ffffa5'>▆</span>"  # yellow
+            "<span color='#ff9977'>▇</span>"  # orange
+            "<span color='#dd532e'>█</span>"   # red
+          ];
+        };
         "clock" = {
-            tooltip-format = "<big>{:%Y %B}</big>\n<tt>{calendar}</tt>";
-            format = "{:%F  %H:%M}";
-            format-alt = "{:%F   %T}";
-            interval = 2;
+          tooltip-format = "<big>{:%Y %B}</big>\n<tt>{calendar}</tt>";
+          format = "{:%F  %H:%M}";
+          format-alt = "{:%F   %T}";
+          interval = 1;
         };
       };
     };
-    # style = ''
-    #   * {
-    #     font-family: JetBrains Mono;
-    #   }
-    #   # #tray {
-    #   #   # background: inherit;
-    #   # }
-    # '';
+    style = ''
+      /* -----------------------------------------------------------------------------
+      * Base styles
+      * -------------------------------------------------------------------------- */
+
+      /* Reset all styles */
+
+      * {
+          color: #eceff4;
+          border: 0;
+          border-radius: 0;
+          padding: 0 0;
+          font-family:MesloLGS NF;
+          /* font-size: 15px; */
+          margin-right: 5px;
+          margin-left: 5px;
+          /* padding-top:3px; */
+          /* padding-bottom:3px; */
+      }
+
+      window#waybar {
+          background:#2e3440;
+      }
+
+      #workspaces button {
+          color: #d8dee9;
+          /* border: 2px;
+          // border-color: #4c566a;
+          // border-style: solid;
+          // border-radius:25px;
+          // padding-left: 5px;
+          // padding-right: 5px;
+*/
+    }
+
+      #workspaces button.focused {
+          border-color: #81a1c1;
+          border: 2px;
+        }
+
+      #workspaces button:nth-child(1).visible{
+        border-color: #a3be8c;
+      }
+
+      #workspaces button.visible:nth-child(1) label{
+        color: #a3be8c;
+      }
+
+      #workspaces button:nth-child(2).visible{
+        border-color: #ebcb8b;
+      }
+
+      #workspaces button.visible:nth-child(2) label{
+        color: #ebcb8b;
+      }
+
+      #workspaces button:nth-child(3).visible{
+        border-color: #8fbcbb;
+      }
+
+      #workspaces button.visible:nth-child(3) label{
+        color: #8fbcbb;
+      }
+
+      #workspaces button:nth-child(4).visible{
+        border-color: #b48ead;
+      }
+
+      #workspaces button.visible:nth-child(4) label{
+        color: #b48ead;
+      }
+
+      #workspaces button:nth-child(5).visible{
+        border-color: #bf616a;
+      }
+
+      #workspaces button.visible:nth-child(5) label{
+        color: #bf616a;
+      }
+
+
+      #mode {
+          color: #a3be8c;
+      }
+
+      #battery, #cpu, #memory,#idle_inhibitor, #temperature,#custom-keyboard-layout, #backlight, #network, #pulseaudio, #mode, #tray, #window,#custom-launcher,#custom-power,#custom-pacman, #custom-network_traffic {
+          padding: 0 3px;
+          border-style: solid;
+      }
+
+/* TODO does not work */
+      .critical {
+          border: 2px;
+      }
+
+      /* -----------------------------------------------------------------------------
+      * Module styles
+      * -------------------------------------------------------------------------- */
+
+      #clock {
+          color:#a3be8c;
+      }
+
+      #backlight {
+          color: #ebcb8b;
+      }
+
+      #battery {
+          color: #d8dee9;
+      }
+
+      #battery.charging {
+          color: #81a1c1;
+      }
+
+      @keyframes blink {
+          to {
+              color: #4c566a;
+              background-color: #eceff4;
+          }
+      }
+
+      #battery.critical:not(.charging) {
+          background: #bf616a;
+          color: #eceff4;
+          animation-name: blink;
+          animation-duration: 0.5s;
+          animation-timing-function: linear;
+          animation-iteration-count: infinite;
+          animation-direction: alternate;
+      }
+
+      #cpu {
+          color:#a3be8c ;
+      }
+
+      #memory {
+          color: #8B8000;
+      }
+
+      #network.disabled {
+          color:#bf616a;
+      }
+
+      #network{
+          color:#ebcb8b;
+      }
+
+      #network.disconnected {
+          color: #bf616a;
+      }
+
+      #pulseaudio {
+          color: #b48ead;
+      }
+
+      #pulseaudio.muted {
+          color: #3b4252;
+      }
+
+      #temperature {
+          color: #8fbcbb;
+      }
+
+      #temperature.critical {
+          color: #bf616a;
+      }
+
+      #idle_inhibitor {
+        color: #8fbcbb;
+      }
+
+      #idle_inhibitor.activated {
+        color: #bf616a;
+      }
+
+      #tray {
+          color: #a3be8c;
+      }
+
+      #custom-power{
+        color: #994C00;
+      }
+
+
+      #custom-launcher{
+        color:#b48ead;
+      }
+
+      #window{
+          border-style: hidden;
+          margin-top:1px;
+      }
+      #mode{
+          margin-bottom:3px;
+      }
+
+      #custom-keyboard-layout{
+        color:#d08770;
+      }
+    '';
   };
 
   programs.gpg = {
