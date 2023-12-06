@@ -304,11 +304,11 @@ in {
         path = "${config.home.homeDirectory}/.org";
         uri = "git@github.com:stfl/org.git";
       };
-      dotfiles = {
-        interval = 1800;  # 30min
-        path = "${config.xdg.configHome}/dotfiles";
-        uri = "git@github.com:stfl/dotfiles.git";
-      };
+      # dotfiles = {
+      #   interval = 1800;  # 30min
+      #   path = "${config.xdg.configHome}/dotfiles";
+      #   uri = "git@github.com:stfl/dotfiles.git";
+      # };
     };
   };
 
