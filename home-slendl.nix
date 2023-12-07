@@ -862,18 +862,23 @@ in {
         #   "eDP-1"
         #   "HDMI-A-1"
         # ];
-        modules-left = [ "sway/workspaces" "sway/scratchpad" "sway/mode" # "wlr/taskbar"
-                         "sway/window" ];
+        modules-left = [ "sway/workspaces" "sway/scratchpad" "sway/mode" "sway/window" ];
         modules-center = [ "clock" ];
-        modules-right = [ "tray" "idle_inhibitor" "backlight" "temperature" "cpu" "memory" "disk" "network" "battery" "pulseaudio" ];
+        modules-right = [ "tray" "idle_inhibitor" "backlight" "temperature" "cpu" "memory" "disk" "network" "battery" "pulseaudio/slider" ];
 
         "sway/workspaces" = {
           disable-scroll = false;
           all-outputs = true;
         };
-        # "sway/window" = {
-        #   max-length = 50;
-        # };
+        "sway/window" = {
+          max-length = 50;
+          format = "<span>{shell} > </span>{title}";
+        };
+        "pulseaudio/slider" = {
+          min = 0;
+          max = 100;
+          orientation = "horizontal";
+        };
         idle_inhibitor = {
           format = "{icon}";
           format-icons = {
@@ -882,12 +887,13 @@ in {
           };
         };
         "tray" = {
-          "icon-size" = 14;
-          "spacing" = 5;
+          # "icon-size" = 14;
+          # "spacing" = 5;
         };
         "memory" = {
-          "format" = " {: >3}%";
-          "on-click" = "alacritty -e htop";
+          format = "{icon} {: >3}%";
+          format-icons = ["○" "◔" "◑" "◕" "●"];
+          on-click = "${config.programs.alacritty.package}/bin/alacritty -e htop";
         };
         "temperature" = {
           # // "thermal-zone" = 2;
@@ -947,7 +953,7 @@ in {
         };
         cpu = {
           interval = 1;
-          "on-click" = "alacritty -e htop";
+          on-click = "${config.programs.alacritty.package}/bin/alacritty -e htop";
           format = "🖥 {usage}% {icon}";
           # format = "{icon0}{icon1}{icon2}{icon3}{icon4}{icon5}{icon6}{icon7}";
           format-icons = [
@@ -1003,6 +1009,10 @@ in {
           // padding-right: 5px;
 */
     }
+
+      .window-shell {
+              font-size: 80%;
+      }
 
       #workspaces button.focused {
           border-color: #81a1c1;
