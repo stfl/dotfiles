@@ -6,7 +6,7 @@ let
   nixGL = import ./nixGL.nix { inherit pkgs config; };
   swaylock_bin = "/usr/bin/swaylock";   # don't use nix' swaylock bin, because it does not work
 in {
-  home.username = "slendl";
+  home.username = "stefan";
   home.homeDirectory = "/home/${config.home.username}";
   home.stateVersion = "23.05";
 
