@@ -236,6 +236,12 @@ in {
       core.pager = "less -FR --mouse";
       branch.autoSetupMerge = "always";
       branch.autoSetupRebase = "always";
+      sendEmail = {
+        annotate = true;
+        confirm = "always";
+        suppresscc = "all";
+      };
+      format.signOff = true;
     };
     includes = [
       { # apply updated git configuration for every repo inside ~/work/proxmox/<repo>
@@ -247,7 +253,6 @@ in {
           };
           # commit.signOff = true;
           format = {
-            signOff = true;
             # subjectPrefix = "PATCH {<<current-dir>>}";  # TODO this should be f.e. PATCH pve-common
             outputDirectory = "my-patches";
             # coverLetter = true;
@@ -258,9 +263,7 @@ in {
             smtpServer = "webmail.proxmox.com";
             smtpServerPort = 587;
             smtpUser = "s.lendl@proxmox.com";
-            suppresscc = "self";
             # smtpsslcertpath=;
-            confirm = "always";
             # to = "pve-devel@lists.proxmox.com";
             # smtpPass = "`${config.programs.rbw.package}/bin/rbw get webmail.proxmox.com`";
           };
