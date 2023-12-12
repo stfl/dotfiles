@@ -614,6 +614,7 @@ in {
       export QT_QPA_PLATFORM=wayland
       export QT_WAYLAND_DISABLE_WINDOWDECORATION="1"
       export GDK_BACKEND=wayland
+      export SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/ssh-agent
     '';
     extraOptions = [
       "--verbose"
