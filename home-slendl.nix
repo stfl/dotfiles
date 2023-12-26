@@ -80,6 +80,8 @@ in {
     httpie
     feh
 
+    yazi # file browser
+
     nvtop-intel
     atop
     # mtr  >> does not work as unprivilgeded user
