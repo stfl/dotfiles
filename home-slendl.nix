@@ -100,12 +100,6 @@ in {
     nodejs_20
     yarn
 
-    # -- rust
-    # rustup
-    rust-analyzer
-    rustfmt
-    clippy
-
     # -- spelling
     languagetool
     ltex-ls

@@ -26,6 +26,7 @@
                 modules = [
                     ./options.nix
                     ./home-slendl.nix
+                    ./rustup.nix
                 ];
             };
             "slendl" = home-manager.lib.homeManagerConfiguration {
