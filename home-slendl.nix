@@ -91,7 +91,8 @@ in {
 
     # -- keyring
     gpg-tui
-    gnome.seahorse
+    xplr # tui file explorer used in gpg-tui
+    # gnome.seahorse
 
     tree-sitter
     tree-sitter-grammars.tree-sitter-json
