@@ -88,6 +88,7 @@ in {
 
     qt5.qtwayland
     libnotify
+    xwaylandvideobridge
 
     # -- keyring
     gpg-tui
