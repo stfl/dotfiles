@@ -94,6 +94,12 @@ in {
     gpg-tui
     xplr # tui file explorer used in gpg-tui
     # gnome.seahorse
+    pass-wayland
+    # wofi-pass # TODO need to update flake!
+    pass-git-helper
+    git-crypt
+    # pass-secret-service
+    passExtensions.pass-otp
 
     tree-sitter
     tree-sitter-grammars.tree-sitter-json
