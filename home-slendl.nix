@@ -23,17 +23,6 @@ in {
 
   systemd.user.startServices = "sd-switch";
 
-  programs.mbsync.enable = true;
-  services.mbsync = {
-    enable = true;
-    frequency = "*:0/5";
-    verbose = true;
-    postExec = ''
-      ${pkgs.notmuch}/bin/notmuch new --verbose
-      ${pkgs.afew}/bin/afew -a -t --verbose
-    '';
-  };
-
   home.sessionVariables = {
     TERMINAL = "${config.programs.alacritty.package}/bin/alacritty";
     EDITOR = "${config.programs.emacs.finalPackage}/bin/emacsclient";
@@ -1300,15 +1289,19 @@ in {
     };
   };
 
+  programs.mbsync.enable = true;
+  services.mbsync = {
+    enable = true;
+    frequency = "*:0/5";
+    verbose = true;
+    postExec = "${pkgs.notmuch}/bin/notmuch new --verbose";
+  };
+
   programs.notmuch = {
     enable = true;
     new.tags = [ "new" ];
-    # hooks.postInsert = "${config.programs.afew.package}/bin/afew -a -t --verbose"
+    hooks.postInsert = "${pkgs.afew}/bin/afew -t";
   };
-
-  # programs.mu = {
-  #   enable = true;
-  # };
 
   programs.msmtp = {
     enable = true;
@@ -1316,7 +1309,6 @@ in {
 
   programs.afew.enable = true;
   xdg.configFile."afew/config".source = lib.mkForce ./config/afew/config;
-  # TODO write afew service with --watch
 
   # programs.thunderbird = {
   #   enable = true;
