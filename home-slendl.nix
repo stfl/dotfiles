@@ -340,7 +340,7 @@ in {
 
   programs.ssh = {
     enable = true;
-    # package = pkgs.openssh;  # default is null -> which uses openssh from system
+    package = pkgs.openssh;
     forwardAgent = false;
     controlMaster = "auto";
     controlPersist = "10m";
@@ -355,8 +355,6 @@ in {
     source = ./config/ssh;
   };
 
-  # TODO on next reboot -> is ssh-agent still working with gpg-agent?
-  # maybe use ^- pkgs.openssh
   services.ssh-agent.enable = true;
 
   programs.rbw = {
