@@ -228,7 +228,9 @@ systemctl daemon-reload
 #+end_src
 * Docker
 
-Installing Docker via home-manager dow not make any sense, does it?
+Installing Docker via home-manager does not make any sense because it's a system
+component which must be managed by the underlying distro.
+
 Install it directly via apt
 
 #+begin_src bash :dir /sudo::
@@ -255,6 +257,7 @@ and init notmuch
 #+begin_src bash
 notmuch new
 #+end_src
+
 * Bashrc for root
 
 I am using the system frequently as root, so I want to have a decently
