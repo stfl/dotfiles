@@ -635,7 +635,6 @@ in {
       export QT_QPA_PLATFORM=wayland
       export QT_WAYLAND_DISABLE_WINDOWDECORATION="1"
       export GDK_BACKEND=wayland
-      export SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/ssh-agent
     '';
     extraOptions = [
       "--verbose"
@@ -793,6 +792,7 @@ in {
       };
       startup = [
         { command = "systemctl --user restart waybar"; always = true; }  # TODO this does not automatically restart on hm switch
+        { command = "${pkgs.dbus}/bin/dbus-update-activation-environment --systemd SSH_AUTH_SOCK"; }
       ];
     };
   };
