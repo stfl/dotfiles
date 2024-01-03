@@ -245,6 +245,7 @@ in {
         suppresscc = "all";
       };
       format.signOff = true;
+      lfs."https://github.com".locksverify = false;    # github does not support lfs locksverify and git-sync complains about it
     };
     includes = [
       { # apply updated git configuration for every repo inside ~/work/proxmox/<repo>
@@ -317,6 +318,18 @@ in {
       # };
     };
   };
+  # add git-lfs to the PATH of the git-sync service
+  # https://github.com/nix-community/home-manager/blob/master/modules/services/git-sync.nix#L16
+  # FIXME this does not work :(
+  # https://github.com/nix-community/home-manager/pull/4849
+  # systemd.user.services.git-sync-org.Service.Environment = [
+  #   "PATH=${lib.makeBinPath (with pkgs; [ openssh git git-lfs])}"
+  # ];
+
+# ''
+# [Service]
+# Environment=PATH=/nix/store/qb8k4lxq07dv04wihcngcww8nmq4mv29-openssh-9.5p1/bin:/nix/store/whwwhd6ns271bj0ff86ap37i9r9kzi9c-git-2.42.0/bin:/nix/store/salrriyjb6byl2bnx9sb5djfidgxdpm1-git-lfs-3.4.0/bin
+# ''
 
   programs.ssh = {
     enable = true;
