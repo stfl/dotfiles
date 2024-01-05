@@ -314,18 +314,18 @@ in {
       # };
     };
   };
-  # add git-lfs to the PATH of the git-sync service
-  # https://github.com/nix-community/home-manager/blob/master/modules/services/git-sync.nix#L16
-  # FIXME this does not work :(
-  # https://github.com/nix-community/home-manager/pull/4849
-  # systemd.user.services.git-sync-org.Service.Environment = [
-  #   "PATH=${lib.makeBinPath (with pkgs; [ openssh git git-lfs])}"
-  # ];
 
-# ''
-# [Service]
-# Environment=PATH=/nix/store/qb8k4lxq07dv04wihcngcww8nmq4mv29-openssh-9.5p1/bin:/nix/store/whwwhd6ns271bj0ff86ap37i9r9kzi9c-git-2.42.0/bin:/nix/store/salrriyjb6byl2bnx9sb5djfidgxdpm1-git-lfs-3.4.0/bin
-# ''
+  systemd.user.services.git-sync-org.Unit.After = [ "ssh-agent.service" ];
+  systemd.user.services.git-sync-org.Service.Environment = [ "SSH_AUTH_SOCK=%t/ssh-agent" ];
+
+  # TODO until this has been merged: https://github.com/nix-community/home-manager/pull/4849
+  xdg.configFile."systemd/user/git-sync-org.service.d/override.conf".text = ''
+    [Service]
+    Environment=PATH=${lib.makeBinPath (with pkgs; [ openssh git git-lfs ])}
+  '';
+
+  systemd.user.services.git-sync-doomemacs.Unit.After = [ "ssh-agent.service" ];
+  systemd.user.services.git-sync-doomemacs.Service.Environment = [ "SSH_AUTH_SOCK=%t/ssh-agent" ];
 
   programs.ssh = {
     enable = true;
@@ -781,7 +781,6 @@ in {
       };
       startup = [
         { command = "systemctl --user restart waybar"; always = true; }  # TODO this does not automatically restart on hm switch
-        { command = "${pkgs.dbus}/bin/dbus-update-activation-environment --systemd SSH_AUTH_SOCK"; }
       ];
     };
   };

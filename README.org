@@ -316,19 +316,3 @@ Symlink root's .bashrc to the config file in this repo.
 #+begin_src bash :dir /sudo:: :results value
 ln /home/slendl/.config/dotfiles/config/bash/.bashrc.root /root/.bashrc -sf
 #+end_src
-* git-sync
-
-git-sync is enabled for ~.org~ and ~.config/doom~
-for .org, git-lfs is required, which is not part of the PATH
-https://github.com/nix-community/home-manager/pull/4849 might fix this..
-
-Until then:
-
-#+begin_src bash :noeval
-systemctl --user edit git-sync-org.service
-#+end_src
-
-#+begin_src conf
-[Service]
-Environment=PATH=/nix/store/qb8k4lxq07dv04wihcngcww8nmq4mv29-openssh-9.5p1/bin:/nix/store/whwwhd6ns271bj0ff86ap37i9r9kzi9c-git-2.42.0/bin:/nix/store/salrriyjb6byl2bnx9sb5djfidgxdpm1-git-lfs-3.4.0/bin
-#+end_src
