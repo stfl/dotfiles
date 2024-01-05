@@ -8,7 +8,7 @@ let
 in {
   home.username = "slendl";
   home.homeDirectory = "/home/${config.home.username}";
-  home.stateVersion = "23.05";
+  home.stateVersion = "23.11";
 
   xdg.enable = true;
   xdg.mime.enable = true;
@@ -351,7 +351,7 @@ in {
     settings = {
       email = "ste.lendl@gmail.com";
       # lock_timeout = 300;
-      # pinentry = "gtk2";  # default
+      pinentry = "qt";
     };
   };
 
@@ -1210,7 +1210,7 @@ in {
       allow-emacs-pinentry
       # allow-loopback-pinentry
     '';
-    pinentryFlavor = "gtk2";
+    pinentryFlavor = "qt";
   };
 
   services.syncthing = {
