@@ -1299,7 +1299,7 @@ in {
   programs.notmuch = {
     enable = true;
     new.tags = [ "new" ];
-    hooks.postInsert = "${pkgs.afew}/bin/afew -t -n -v";
+    hooks.postNew = "${pkgs.afew}/bin/afew -t -n -v";
   };
 
   programs.msmtp = {
