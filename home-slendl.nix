@@ -78,6 +78,7 @@ in {
     qt5.qtwayland
     libnotify
     xwaylandvideobridge
+    wdisplays
 
     # -- keyring
     gpg-tui
