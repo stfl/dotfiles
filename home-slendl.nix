@@ -26,7 +26,6 @@ in {
   home.sessionVariables = {
     TERMINAL = "${config.programs.alacritty.package}/bin/alacritty";
     EDITOR = "${config.programs.emacs.finalPackage}/bin/emacsclient";
-    # GIT_EDITOR = "${config.programs.git.extraConfig.core.editor}";
     BROWSER = "${(nixGL pkgs.brave)}/bin/brave";
     PAGER = "less -FR --mouse";
     LSP_USE_PLISTS = "true";  # for emacs lsp-mode
