@@ -318,6 +318,7 @@ in {
 
   systemd.user.services.git-sync-org.Unit.After = [ "ssh-agent.service" ];
   systemd.user.services.git-sync-org.Service.Environment = [ "SSH_AUTH_SOCK=%t/ssh-agent" ];
+  systemd.user.services.git-sync-org.Service.Restart = mkForce "on-failure";
 
   # TODO until this has been merged: https://github.com/nix-community/home-manager/pull/4849
   xdg.configFile."systemd/user/git-sync-org.service.d/override.conf".text = ''
@@ -327,6 +328,7 @@ in {
 
   systemd.user.services.git-sync-doomemacs.Unit.After = [ "ssh-agent.service" ];
   systemd.user.services.git-sync-doomemacs.Service.Environment = [ "SSH_AUTH_SOCK=%t/ssh-agent" ];
+  systemd.user.services.git-sync-doomemacs.Service.Restart = mkForce "on-failure";
 
   programs.ssh = {
     enable = true;
