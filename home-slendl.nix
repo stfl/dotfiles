@@ -103,12 +103,14 @@ in {
     # -- js / ts
     nodejs_20
     yarn
+    typescript
 
     # -- rust
     # rustup
     rust-analyzer
     rustfmt
     clippy
+    emacs-lsp-booster
 
     # -- spelling
     languagetool
