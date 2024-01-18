@@ -80,6 +80,8 @@ in {
     xwaylandvideobridge
     wdisplays
 
+    remmina
+
     # -- keyring
     gpg-tui
     xplr # tui file explorer used in gpg-tui
