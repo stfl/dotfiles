@@ -201,8 +201,6 @@ in {
   programs.git = {
     enable = true;
     lfs.enable = true;
-    difftastic.enable = true;
-    # delta.enable = true;
     userName = "Stefan Lendl";
     userEmail = "s.lendl@proxmox.com";
     # userEmail = "ste.lendl@gmail.com";
