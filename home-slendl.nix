@@ -135,6 +135,10 @@ in {
     sway-contrib.grimshot  # screenshot tool
     qalculate-gtk
 
+    mixxx
+    spotdl
+    youtube-dl
+
     # -- fonts
     symbola
     jetbrains-mono
