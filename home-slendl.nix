@@ -73,6 +73,7 @@ in {
 
     nvtop-intel
     atop
+    htop
     # mtr  >> does not work as unprivilgeded user
 
     qt5.qtwayland
