@@ -81,12 +81,13 @@ in {
     xwaylandvideobridge
     wdisplays
 
+    # --- remote desktop viewing
     remmina
     rustdesk
 
-    # -- keyring
+    # --- keyring
     gpg-tui
-    xplr # tui file explorer used in gpg-tui
+    xplr       # tui file explorer used in gpg-tui
     # gnome.seahorse
     pass-wayland
     # wofi-pass # TODO need to update flake!
