@@ -81,6 +81,7 @@ in {
     wdisplays
 
     remmina
+    rustdesk
 
     # -- keyring
     gpg-tui
