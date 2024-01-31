@@ -5,6 +5,14 @@ with lib;
 let
   nixGL = import ./nixGL.nix { inherit pkgs config; };
   swaylock-bin = "/usr/bin/swaylock";   # don't use nix' swaylock bin, because it does not work
+
+  org-protocol = pkgs.makeDesktopItem {
+    name = "org-protocol";
+    desktopName = "Org Protocol";
+    exec = "emacsclient -- %u";
+    terminal = false;
+    mimeTypes = ["x-scheme-handler/org-protocol"];
+  };
 in {
   home.username = "slendl";
   home.homeDirectory = "/home/${config.home.username}";
@@ -98,6 +106,8 @@ in {
 
     tree-sitter
     tree-sitter-grammars.tree-sitter-json
+
+    org-protocol
 
     # -- python
     poetry
