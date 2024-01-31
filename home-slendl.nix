@@ -4,7 +4,7 @@ with lib;
 
 let
   nixGL = import ./nixGL.nix { inherit pkgs config; };
-  swaylock_bin = "/usr/bin/swaylock";   # don't use nix' swaylock bin, because it does not work
+  swaylock-bin = "/usr/bin/swaylock";   # don't use nix' swaylock bin, because it does not work
 in {
   home.username = "slendl";
   home.homeDirectory = "/home/${config.home.username}";
@@ -90,7 +90,7 @@ in {
     xplr       # tui file explorer used in gpg-tui
     # gnome.seahorse
     pass-wayland
-    # wofi-pass # TODO need to update flake!
+    wofi-pass  # TODO add key mapping to sway!!
     pass-git-helper
     git-crypt
     # pass-secret-service
@@ -767,7 +767,7 @@ in {
 # bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
         # NOTE using swaylock installed from Debian!
-        "${modifier}+Mod1+l" = "exec ${swaylock_bin} -f";
+        "${modifier}+Mod1+l" = "exec ${swaylock-bin} -f";
       };
       seat = {
         "*" = {
@@ -824,11 +824,11 @@ in {
   services.swayidle = {
     enable = true;
     events = [
-      { event = "before-sleep"; command = "${swaylock_bin}"; }
+      { event = "before-sleep"; command = "${swaylock-bin}"; }
       { event = "lock"; command = "lock"; }
     ];
     timeouts = [
-      { timeout = 600; command = "${swaylock_bin} -fF"; }
+      { timeout = 600; command = "${swaylock-bin} -fF"; }
       { timeout = 1800; command = "systemctl suspend"; }
     ];
   };
