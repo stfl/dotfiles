@@ -181,39 +181,13 @@ in {
         # "${modifier}+d" = "exec ${menu}";
         "${modifier}+space" = "exec ${menu}";
 
-# bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-# bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
-# bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-# bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+        "XF86AudioLowerVolume" = "exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10%";
+        "XF86AudioRaiseVolume" = "exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10%";
+        "XF86AudioMute" = "exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle";
+        "XF86AudioMicMute" = "exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle";
 
-# bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl s "10%-"
-# bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl s "10%+"
-
-# bindsym $mod+Return exec i3-sensible-terminal
-
-# set $movemouse "sh -c 'eval `xdotool getactivewindow getwindowgeometry --shell`; xdotool mousemove $((X+WIDTH/2)) $((Y+HEIGHT/2))'"
-# bindsym $mod+h focus left; exec $movemouse
-# bindsym $mod+j focus down; exec $movemouse
-# bindsym $mod+k focus up; exec $movemouse
-# bindsym $mod+l focus right; exec $movemouse
-
-# # alternatively, you can use the cursor keys:
-# bindsym $mod+Left focus left; exec $movemouse
-# bindsym $mod+Down focus down; exec $movemouse
-# bindsym $mod+Up focus up; exec $movemouse
-# bindsym $mod+Right focus right; exec $movemouse
-
-# # move focused window
-# bindsym $mod+Shift+j move down; exec $movemouse
-# bindsym $mod+Shift+k move up; exec $movemouse
-# bindsym $mod+Shift+l move right; exec $movemouse
-# bindsym $mod+Shift+h move left; exec $movemouse
-
-# # alternatively, you can use the cursor keys:
-# bindsym $mod+Shift+Left move left; exec $movemouse
-# bindsym $mod+Shift+Down move down; exec $movemouse
-# bindsym $mod+Shift+Up move up; exec $movemouse
-# bindsym $mod+Shift+Right move right; exec $movemouse
+        "XF86MonBrightnessDown" = "exec --no-startup-id brightnessctl s 10%-";
+        "XF86MonBrightnessUp" = "exec --no-startup-id brightnessctl s 10%+";
 
         # split in horizontal orientation
         "${modifier}+Shift+s" = "split horizontal";
@@ -229,13 +203,6 @@ in {
         "${modifier}+t" = "layout tabbed";
         "${modifier}+e" = "layout toggle all";
 
-        # toggle tiling / floating
-        # "${modifier}+Shift+space floating toggle";  NOTE default
-        # "${modifier}+button2" = "floating toggle";
-        # "${modifier}+button2" = "exec program && i3-msg \"[id=$(xdotool getactivewindow)] floating enable\"";
-        # bindsym --whole-window $mod+Shift+button2 kill
-
-
         # change focus between tiling / floating windows
         "${modifier}+Mod1+space" = "focus mode_toggle";
 
@@ -245,9 +212,6 @@ in {
         # focus the child container
         "${modifier}+i" = "focus child";
 
-        # move the currently focused window to the scratchpad
-        # "${modifier}+Shift+minus" = "move scratchpad";  # NOTE default
-
         # Show the next scratchpad window or hide the focused scratchpad window.
         # If there are multiple scratchpad windows, this command cycles through them.
         # NOTE remove from scratchpad by with toggle floting ($mod+Shift+space)
@@ -256,13 +220,8 @@ in {
         "${modifier}+n" = "workspace next";
         "${modifier}+p" = "workspace prev";
 
-        # # reload the configuration file
         # "${modifier}+Shift+c" = "reload";  # NOTE default
-# # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-# bindsym $mod+Shift+r restart
         "${modifier}+Shift+r" = "restart";
-# # exit i3 (logs you out of your X session)
-# bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
         # NOTE using swaylock installed from Debian!
         "${modifier}+Mod1+l" = "exec ${swaylock-bin} -f";
