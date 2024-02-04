@@ -55,7 +55,7 @@
             homeConfigurations =
               {
                 "stefan@amsel" = mkHomeConfig "stefan" ./machine/amsel.nix "x86_64-linux";
-                # "slendl@leah" = mkHomeConfig "slendl" ./machine/leah.nix "x86_64-linux";
+                "slendl@leah" = mkHomeConfig "slendl" ./machine/leah.nix "x86_64-linux";
             };
         };
 }
