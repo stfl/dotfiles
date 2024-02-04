@@ -36,11 +36,6 @@ in {
     "${config.home.homeDirectory}/.cargo/bin"
   ];
 
-  home.keyboard = {
-    options = [
-    ];
-  };
-
   home.packages = with pkgs; [
     nixpkgs-fmt
 
@@ -145,22 +140,6 @@ in {
     # quivira       # TODO https://github.com/NixOS/nixpkgs/pull/167228
     nerdfonts
   ];
-
-  # editorconfig = {
-  #   enable = true;
-  #   settings = {
-  #     "*" = {
-  #       charset = "utf-8";
-  #       end_of_line = "lf";
-  #       trim_trailing_whitespace = true;
-  #       insert_final_newline = true;
-  #       max_line_width = 100;
-  #       indent_style = "space";
-  #       indent_size = 4;
-  #     };
-  #   };
-  # };
-
 
   programs.ripgrep = {
     enable = true;
@@ -278,13 +257,6 @@ in {
           };
         };
       }
-      # {
-      #   condition = "gitdir:${config.home.homeDirectory}/work/proxmox/pmg-*/";
-      #   contents = {
-      #     format.to = "pmg-devel@lists.proxmox.com";
-      #     sendEmail.to = "pmg-devel@lists.proxmox.com";
-      #   };
-      # }
       {
         condition = "gitdir:${config.home.homeDirectory}/work/proxmox/proxmox-backup*/";
         contents = {
@@ -316,11 +288,6 @@ in {
         path = "${config.home.homeDirectory}/.org";
         uri = "git@github.com:stfl/org.git";
       };
-      # dotfiles = {
-      #   interval = 1800;  # 30min
-      #   path = "${config.xdg.configHome}/dotfiles";
-      #   uri = "git@github.com:stfl/dotfiles.git";
-      # };
     };
   };
 
@@ -507,12 +474,6 @@ in {
       ipa = "ip -br addr";
       ipl = "ip -br link";
     };
-    # shellGlobalAliases = {
-    #   DATE = "$(date +%F | tr -d \\n)";
-    #   UUID = "$(uuidgen | tr -d \\n)";
-    #   G = "| grep";
-    # };
-
     # workaround when using prezto, which sets up $PATH in .zprofile which is sourced after .zshenv
     initExtra = mkIf config.programs.zsh.prezto.enable ''
       # need to setup $PATH properly again to prefer nix installed packages
@@ -1239,19 +1200,6 @@ in {
   accounts.email = {
     maildirBasePath = "Mail";
     accounts = {
-      # "gmail" = {
-      #   address = "ste.lendl@gmail.com";
-      #   flavor = "gmail.com"
-      # };
-      # lieer.enable -> gmail sync?!
-      # "stfl" = {
-      #   address = "s@stfl.dev";
-      #   aliases = [
-      #   .*@stfl.dev
-      #   .*@stfl.dev
-      #   ];
-      #   flavor = "gmail.com"
-      # };
       "proxmox" = {
         address = "s.lendl@proxmox.com";
         primary = true;
@@ -1319,22 +1267,4 @@ in {
 
   programs.afew.enable = true;
   xdg.configFile."afew/config".source = lib.mkForce ./config/afew/config;
-
-  # programs.thunderbird = {
-  #   enable = true;
-  #   profiles."proxmox" = {
-  #     isDefault = true;
-  #   };
-  # };
-
-  # TODO does not work -> QT?
-  # services.flameshot = {
-  #   enable = true;
-  #   settings = {
-  #     General = {
-  #       # disabledTrayIcon = true;
-  #       showStartupLaunchMessage = false;
-  #     };
-  #   };
-  # };
 }
