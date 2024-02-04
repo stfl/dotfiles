@@ -342,8 +342,19 @@ in {
         # ];
         modules-left = [ "sway/workspaces" "sway/scratchpad" "sway/mode" "sway/window" ];
         modules-center = [ "clock" ];
-        modules-right = [ "tray" "idle_inhibitor" "backlight" "pulseaudio" "temperature" "cpu" "memory" "disk" "network" "battery" ];
-
+        modules-right = [
+          "tray"
+          "idle_inhibitor"
+          # "cava"
+          "pulseaudio"
+          "backlight"
+          "cpu"
+          "memory"
+          "disk"
+          "temperature"
+          "network"
+          "battery"
+        ];
         "sway/workspaces" = {
           disable-scroll = false;
           all-outputs = true;
@@ -365,8 +376,12 @@ in {
         };
         memory = {
           format = "{icon} {: >2}%";
+          critical-threshold = 10; # FIXME
           format-icons = ["○" "◔" "◑" "◕" "●"];
           on-click = "${TERMINAL} -e htop";
+          states = {
+            critical = 90;
+          };
         };
         temperature = {
           # // "thermal-zone" = 2;
@@ -376,10 +391,12 @@ in {
         };
         backlight = {
           # // "device" = "acpi_video1";
+          # FIXME minimum backlight 5%
           format = "{icon} {percent: >3}%";
           format-icons = ["" ""];
           on-scroll-down = "brightnessctl -c backlight set 5%-";
           on-scroll-up = "brightnessctl -c backlight set +5%";
+          # reverse-scrolling = "true";  # TODO broken
         };
         network = {
           # "interface" = "wlp2s0"; // (Optional) To force the use of this interface;
@@ -392,7 +409,7 @@ in {
           scroll-step = 5;
           format = "{icon} {volume: >3}%";
           format-bluetooth = "{icon} {volume: >3}%";
-          format-muted =" muted";
+          format-muted ="󰝟 "; # emoji: 🔇
           format-icons = {
             headphones = "";
             handsfree = "";
@@ -403,30 +420,30 @@ in {
             default = ["" ""];
           };
           on-click = "${getExe pkgs.pavucontrol}";
+          on-click-right = "pactl set-sink-mute @DEFAULT_SINK@ toggle";
         };
         battery = {
+          interval = 60;
           format = "{capacity}% {icon}";
           format-icons = ["" "" "" "" ""];
         };
         disk = {
-          interval = 30;
-          format = "🖪 {percentage_used}%";
+          interval = 60;
+          states = {
+            critical = 90;
+          };
+          format = " {percentage_used}%"; # 🖴   󰒋
           path = "/";
         };
         cpu = {
-          interval = 1;
+          interval = 2;
           on-click = "${TERMINAL} -e htop";
-          format = "🖥 {usage}% {icon}";
-          format-icons = [
-            "<span color='#69ff94'>▁</span>"  # green
-            "<span color='#2aa9ff'>▂</span>"  # blue
-            "<span color='#f8f8f2'>▃</span>"  # white
-            "<span color='#f8f8f2'>▄</span>"  # white
-            "<span color='#ffffa5'>▅</span>"  # yellow
-            "<span color='#ffffa5'>▆</span>"  # yellow
-            "<span color='#ff9977'>▇</span>"  # orange
-            "<span color='#dd532e'>█</span>"   # red
-          ];
+          states = {
+            normal-load = 60;
+            high-load = 80;
+            critical = 95;
+          };
+          format = " {usage: >4}%"; # ䷑  󰘚 
         };
         clock = {
           tooltip-format = "<big>{:%Y %B}</big>\n<tt>{calendar}</tt>";
@@ -437,5 +454,18 @@ in {
       };
     };
     style = ../config/waybar.css;
+  };
+
+  programs.cava = {
+    enable = true;
+    settings = {
+      general.framerate = 60;
+      input.method = "alsa";
+      smoothing.noise_reduction = 88;
+      color = {
+        background = "'#000000'";
+        foreground = "'#FFFFFF'";
+      };
+    };
   };
 }

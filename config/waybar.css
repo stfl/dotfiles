@@ -7,6 +7,7 @@
 * {
     color: #eceff4;
     border: 0;
+    border-color: #2e3440;
     border-radius: 0;
     padding: 0 0;
     font-family:MesloLGS NF;
@@ -23,13 +24,8 @@ window#waybar {
 
 #workspaces button {
     color: #d8dee9;
-    /* border: 2px;
-          // border-color: #4c566a;
-          // border-style: solid;
-          // border-radius:25px;
-          // padding-left: 5px;
-          // padding-right: 5px;
-   */
+    padding-left: 4px;
+    padding-right: 4px;
 }
 
 .window-shell {
@@ -37,50 +33,12 @@ window#waybar {
 }
 
 #workspaces button.focused {
-    border-color: #81a1c1;
-    border: 2px;
+    color: #d8dee9;
+    border-style: solid;
+    padding-left: 4px;
+    padding-right: 4px;
+    background-color: #4c566a;
 }
-
-#workspaces button:nth-child(1).visible{
-    border-color: #a3be8c;
-}
-
-#workspaces button.visible:nth-child(1) label{
-    color: #a3be8c;
-}
-
-#workspaces button:nth-child(2).visible{
-    border-color: #ebcb8b;
-}
-
-#workspaces button.visible:nth-child(2) label{
-    color: #ebcb8b;
-}
-
-#workspaces button:nth-child(3).visible{
-    border-color: #8fbcbb;
-}
-
-#workspaces button.visible:nth-child(3) label{
-    color: #8fbcbb;
-}
-
-#workspaces button:nth-child(4).visible{
-    border-color: #b48ead;
-}
-
-#workspaces button.visible:nth-child(4) label{
-    color: #b48ead;
-}
-
-#workspaces button:nth-child(5).visible{
-    border-color: #bf616a;
-}
-
-#workspaces button.visible:nth-child(5) label{
-    color: #bf616a;
-}
-
 
 #mode {
     color: #a3be8c;
@@ -91,9 +49,9 @@ window#waybar {
     border-style: solid;
 }
 
-/* TODO does not work */
 .critical {
     border: 2px;
+    border-color: #bf616a;
 }
 
 /* -----------------------------------------------------------------------------
@@ -127,18 +85,34 @@ window#waybar {
     background: #bf616a;
     color: #eceff4;
     animation-name: blink;
-    animation-duration: 0.5s;
+    animation-duration: 5s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
     animation-direction: alternate;
 }
 
+#disk {
+    color: #b48ead;
+}
+
 #cpu {
-    color:#a3be8c ;
+    color:#a3be8c;
+}
+
+#cpu.normal-load {
+    color: #ffffa5;
+}
+
+#cpu.high-load {
+    color:#bf616a;
+}
+
+#cpu.critical {
+    color:#bf616a;
 }
 
 #memory {
-    color: #8B8000;
+    color: #b3a400;
 }
 
 #network.disabled {
@@ -157,16 +131,12 @@ window#waybar {
     color: #b48ead;
 }
 
-#pulseaudio.muted {
-    color: #3b4252;
-}
+/* #pulseaudio.muted { */
+/*     color: #800020;   /\* TODO *\/ */
+/* } */
 
 #temperature {
     color: #8fbcbb;
-}
-
-#temperature.critical {
-    color: #bf616a;
 }
 
 #idle_inhibitor {
@@ -181,23 +151,10 @@ window#waybar {
     color: #a3be8c;
 }
 
-#custom-power{
-    color: #994C00;
-}
-
-
-#custom-launcher{
-    color:#b48ead;
-}
-
 #window{
     border-style: hidden;
     margin-top:1px;
 }
 #mode{
     margin-bottom:3px;
-}
-
-#custom-keyboard-layout{
-    color:#d08770;
 }
