@@ -47,7 +47,6 @@
                         ./options.nix
                         ./home-slendl.nix
                         my-overlays
-                        emacs-lsp-booster
                     ];
                 };
                 "slendl" = home-manager.lib.homeManagerConfiguration {
@@ -56,7 +55,6 @@
                         ./options.nix
                         ./home-slendl.nix
                         my-overlays
-                        # emacs-lsp-booster
                     ];
                 };
             };
