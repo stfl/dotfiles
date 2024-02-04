@@ -5,6 +5,7 @@ with lib;
 {
   imports = [
     ../modules/desktop.nix
+    ../modules/emacs.nix
   ];
 
   targets.genericLinux.enable = true;

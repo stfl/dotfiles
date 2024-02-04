@@ -2,21 +2,7 @@
 
 with lib;
 
-let
-  swaylock-bin = "/usr/bin/swaylock";   # don't use nix' swaylock bin, because it does not work
-
-  org-protocol = pkgs.makeDesktopItem {
-    name = "org-protocol";
-    desktopName = "Org Protocol";
-    exec = "emacsclient -- %u";
-    terminal = false;
-    mimeTypes = ["x-scheme-handler/org-protocol"];
-  };
-in {
-  imports = [
-    ./nixgl-option.nix
-  ];
-
+{
   xdg.enable = true;
   xdg.mime.enable = true;
 
@@ -27,13 +13,10 @@ in {
   systemd.user.startServices = "sd-switch";
 
   home.sessionVariables = {
-    EDITOR = "${config.programs.emacs.finalPackage}/bin/emacsclient";
     PAGER = "less -FR --mouse";
-    LSP_USE_PLISTS = "true";  # for emacs lsp-mode
   };
 
   home.sessionPath = [
-    "${config.xdg.configHome}/emacs/bin"
     "${config.home.homeDirectory}/.cargo/bin"
   ];
 
@@ -56,7 +39,6 @@ in {
 
     yazi # file browser
 
-    nvtop-intel
     atop
     htop
     # mtr  >> does not work as unprivilgeded user
@@ -76,8 +58,6 @@ in {
     tree-sitter
     tree-sitter-grammars.tree-sitter-json
 
-    org-protocol
-
     # -- python
     poetry
 
@@ -86,7 +66,6 @@ in {
     yarn
     typescript
 
-    emacs-lsp-booster
 
     # -- spelling
     languagetool
@@ -176,7 +155,6 @@ in {
       # cp    = "cherry-pick";
     };
     extraConfig = {
-      core.editor = "${config.programs.emacs.finalPackage}/bin/emacsclient --no-wait";
       core.pager = "less -FR --mouse";
       branch.autoSetupMerge = "always";
       branch.autoSetupRebase = "always";
@@ -189,36 +167,6 @@ in {
       lfs."https://github.com".locksverify = false;    # github does not support lfs locksverify and git-sync complains about it
     };
   };
-
-  services.git-sync = {
-    enable = true;
-    repositories = {
-      doomemacs = {
-        interval = 1800;  # 30min (in case inotify does not trigger)
-        path = "${config.xdg.configHome}/doom";
-        uri = "git@github.com:stfl/doom.d.git";
-      };
-      org = {
-        interval = 600;  # 10min
-        path = "${config.home.homeDirectory}/.org";
-        uri = "git@github.com:stfl/org.git";
-      };
-    };
-  };
-
-  systemd.user.services.git-sync-org.Unit.After = [ "ssh-agent.service" ];
-  systemd.user.services.git-sync-org.Service.Environment = [ "SSH_AUTH_SOCK=%t/ssh-agent" ];
-  systemd.user.services.git-sync-org.Service.Restart = mkForce "on-failure";
-
-  # TODO until this has been merged: https://github.com/nix-community/home-manager/pull/4849
-  xdg.configFile."systemd/user/git-sync-org.service.d/override.conf".text = ''
-    [Service]
-    Environment=PATH=${lib.makeBinPath (with pkgs; [ openssh git git-lfs ])}
-  '';
-
-  systemd.user.services.git-sync-doomemacs.Unit.After = [ "ssh-agent.service" ];
-  systemd.user.services.git-sync-doomemacs.Service.Environment = [ "SSH_AUTH_SOCK=%t/ssh-agent" ];
-  systemd.user.services.git-sync-doomemacs.Service.Restart = mkForce "on-failure";
 
   programs.ssh = {
     enable = true;
@@ -246,19 +194,6 @@ in {
       # lock_timeout = 300;
       pinentry = "qt";
     };
-  };
-
-  programs.emacs = {
-    enable = true;
-    package = pkgs.emacs29;
-    extraPackages = epkgs: with epkgs; [ vterm ];
-  };
-
-  services.emacs = {
-    enable = false;
-    socketActivation.enable = true;
-    defaultEditor = true;
-    client.enable = true;
   };
 
   programs.tmux = {
