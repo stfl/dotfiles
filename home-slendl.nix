@@ -16,12 +16,8 @@ let
 in {
   xdg.enable = true;
   xdg.mime.enable = true;
-  targets.genericLinux.enable = true;
 
   programs.home-manager.enable = true;
-
-  # set default nixGL prefix for this machine
-  nixGLPrefix = lib.getExe pkgs.nixgl.nixGLIntel;
 
   fonts.fontconfig.enable = true;
 
@@ -46,8 +42,6 @@ in {
   };
 
   home.packages = with pkgs; [
-    nixgl.nixGLIntel
-
     nixpkgs-fmt
 
     # -- browsers
