@@ -43,10 +43,6 @@ with lib;
     htop
     # mtr  >> does not work as unprivilgeded user
 
-    # --- remote desktop viewing
-    remmina
-    rustdesk
-
     # --- keyring
     gpg-tui
     xplr       # tui file explorer used in gpg-tui
@@ -55,27 +51,11 @@ with lib;
     # pass-secret-service
     passExtensions.pass-otp
 
-    tree-sitter
-    tree-sitter-grammars.tree-sitter-json
-
     # -- python
     poetry
 
-    # -- js / ts
-    nodejs_20
-    yarn
-    typescript
-
-
-    # -- spelling
-    languagetool
-    ltex-ls
-    enchant
-    (aspellWithDicts (dicts: with dicts; [ en en-computers en-science de ]))
-
     spotdl
     youtube-dl
-
   ];
 
   programs.ripgrep = {
@@ -389,10 +369,6 @@ with lib;
     enableExtraSocket = true;
     enableZshIntegration = true;
     enableSshSupport = true;
-    extraConfig = ''
-      allow-emacs-pinentry
-      # allow-loopback-pinentry
-    '';
     pinentryFlavor = "qt";
   };
 

@@ -24,6 +24,12 @@ in {
   home.packages = with pkgs; [
     org-protocol
     emacs-lsp-booster
+
+    # -- spelling
+    # languagetool
+    # ltex-ls
+    # enchant
+    (aspellWithDicts (dicts: with dicts; [ en en-computers en-science de ]))
   ];
 
   programs.emacs = {
@@ -39,9 +45,7 @@ in {
     client.enable = true;
   };
 
-
   programs.git.extraConfig.core.editor = "${config.programs.emacs.finalPackage}/bin/emacsclient --no-wait";
-
 
   services.gpg-agent.extraConfig = ''
       allow-emacs-pinentry
