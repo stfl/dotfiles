@@ -24,39 +24,38 @@
         };
     };
 
-    outputs = { nixpkgs, home-manager, nixgl, emacs-lsp-booster, ... }:
-        # For `nix run .`
-        let my-overlays = {
-                nixpkgs.overlays = [
-                    nixgl.overlay
-                    emacs-lsp-booster.overlays.default
+    outputs = { nixpkgs, home-manager, nixgl, emacs-lsp-booster, ... } @ inputs:
+        let
+            mkHomeConfig = username: machineModule: system: home-manager.lib.homeManagerConfiguration {
+                pkgs = import nixpkgs {
+                    system = "${system}";
+                    config.allowUnfree = true;
+                };
+                modules = [
+                    {
+                        home = {
+                            inherit username;
+                            homeDirectory = "/home/${username}";
+                            stateVersion = "23.11";
+                        };
+                    }
+                    ./home-slendl.nix
+                    ./options.nix
+                    machineModule
+                    {
+                        nixpkgs.overlays = [
+                            nixgl.overlay
+                            emacs-lsp-booster.overlays.default
+                        ];
+                    }
                 ];
-            };
-            my-pkgs = import nixpkgs {
-                system = "x86_64-linux";
-                config.allowUnfree = true;
             };
         in {
             defaultPackage.x86_64-linux = home-manager.defaultPackage.x86_64-linux;
-
-            homeConfigurations = {
-                "stefan" = home-manager.lib.homeManagerConfiguration {
-                    # Note: I am sure this could be done better with flake-utils or something
-                    pkgs = my-pkgs;
-                    modules = [
-                        ./options.nix
-                        ./home-slendl.nix
-                        my-overlays
-                    ];
-                };
-                "slendl" = home-manager.lib.homeManagerConfiguration {
-                    pkgs = my-pkgs;
-                    modules = [
-                        ./options.nix
-                        ./home-slendl.nix
-                        my-overlays
-                    ];
-                };
+            homeConfigurations =
+              {
+                "stefan@amsel" = mkHomeConfig "stefan" ./machine/amsel.nix "x86_64-linux";
+                # "slendl@leah" = mkHomeConfig "slendl" ./machine/leah.nix "x86_64-linux";
             };
         };
 }

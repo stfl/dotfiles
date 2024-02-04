@@ -14,10 +14,6 @@ let
     mimeTypes = ["x-scheme-handler/org-protocol"];
   };
 in {
-  home.username = "slendl";
-  home.homeDirectory = "/home/${config.home.username}";
-  home.stateVersion = "23.11";
-
   xdg.enable = true;
   xdg.mime.enable = true;
   targets.genericLinux.enable = true;
