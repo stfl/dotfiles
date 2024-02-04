@@ -135,7 +135,6 @@ in {
     sway-contrib.grimshot  # screenshot tool
     qalculate-gtk
 
-    mixxx
     spotdl
     youtube-dl
 
