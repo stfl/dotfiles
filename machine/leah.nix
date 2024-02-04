@@ -3,6 +3,16 @@
 with lib;
 
 {
+  targets.genericLinux.enable = true;
+
+  nixGLPrefix = lib.getExe pkgs.nixgl.nixGLIntel;
+
+  home.packages = with pkgs; [
+    nixgl.nixGLIntel
+
+    nvtop-intel
+  ];
+
   programs.git = {
     userEmail = "s.lendl@proxmox.com";
     includes = [
@@ -48,6 +58,4 @@ with lib;
       }
     ];
   };
-
-
 }
