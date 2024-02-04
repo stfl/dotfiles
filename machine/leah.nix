@@ -3,6 +3,10 @@
 with lib;
 
 {
+  imports = [
+    ../modules/desktop.nix
+  ];
+
   targets.genericLinux.enable = true;
 
   nixGLPrefix = lib.getExe pkgs.nixgl.nixGLIntel;
