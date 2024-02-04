@@ -14,6 +14,10 @@ let
     mimeTypes = ["x-scheme-handler/org-protocol"];
   };
 in {
+  imports = [
+    ./nixgl-option.nix
+  ];
+
   xdg.enable = true;
   xdg.mime.enable = true;
 
@@ -271,7 +275,7 @@ in {
   };
   home.file.".ssh/config.d/" = {
     recursive = true;
-    source = ./config/ssh;
+    source = ../config/ssh;
   };
 
   services.ssh-agent.enable = true;
@@ -1218,5 +1222,5 @@ in {
   };
 
   programs.afew.enable = true;
-  xdg.configFile."afew/config".source = lib.mkForce ./config/afew/config;
+  xdg.configFile."afew/config".source = lib.mkForce ../config/afew/config;
 }

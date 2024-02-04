@@ -39,15 +39,14 @@
                             stateVersion = "23.11";
                         };
                     }
-                    ./home-slendl.nix
-                    ./options.nix
-                    machineModule
                     {
                         nixpkgs.overlays = [
                             nixgl.overlay
                             emacs-lsp-booster.overlays.default
                         ];
                     }
+                    ./modules/common.nix
+                    machineModule
                 ];
             };
         in {
