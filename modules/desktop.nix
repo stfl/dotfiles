@@ -5,14 +5,15 @@ with lib;
 let
   nixGL = import ./nixGL.nix { inherit pkgs config; };
   swaylock-bin = "/usr/bin/swaylock";   # don't use nix' swaylock bin, because it does not work
+  TERMINAL = "${getExe config.programs.alacritty.package}";
 in {
   imports = [
     ./nixgl-option.nix
   ];
 
   home.sessionVariables = {
-    TERMINAL = "${config.programs.alacritty.package}/bin/alacritty";
-    BROWSER = "${(nixGL pkgs.brave)}/bin/brave";
+    TERMINAL = TERMINAL;
+    BROWSER = "${getExe (nixGL pkgs.brave)}";
   };
 
   home.packages = with pkgs; [
@@ -54,6 +55,8 @@ in {
     # quivira       # TODO https://github.com/NixOS/nixpkgs/pull/167228
     nerdfonts
   ];
+
+  fonts.fontconfig.enable = true;
 
   programs.alacritty = {
     enable = true;
@@ -140,8 +143,8 @@ in {
     swaynag.enable = true;
     config = {
       modifier = "Mod4";
-      terminal = "${config.programs.alacritty.package}/bin/alacritty";
-      menu = "${pkgs.wofi}/bin/wofi";
+      terminal = "${TERMINAL}";
+      menu = "${getExe pkgs.wofi}";
       focus = {
         followMouse = "yes";
       };
@@ -296,7 +299,7 @@ in {
       allow_markup = true;
       allow_images = "true";
       iamge_size = 8;
-      term = "${config.programs.alacritty.package}/bin/alacritty";
+      term = TERMINAL;
       insensitive = true;
       no_actions = "true";
       prompt = "Search";
@@ -402,15 +405,14 @@ in {
           # "spacing" = 5;
         };
         memory = {
-          format = "{icon} {: >3}%";
+          format = "{icon} {: >2}%";
           format-icons = ["○" "◔" "◑" "◕" "●"];
-          on-click = "${config.programs.alacritty.package}/bin/alacritty -e htop";
+          on-click = "${TERMINAL} -e htop";
         };
         temperature = {
           # // "thermal-zone" = 2;
           # // "hwmon-path" = "/sys/class/hwmon/hwmon2/temp1_input";
           critical-threshold = 80;
-          # // "format-critical" = "{temperatureC}°C ";
           format = " {temperatureC}°C";
         };
         backlight = {
@@ -426,7 +428,6 @@ in {
           format-wifi = "  {essid}";
           format-ethernet = " {ifname}: {ipaddr}/{cidr}";
           format-disconnected = "⚠ Disconnected";
-          on-click = "foot -e nmtui";
         };
         pulseaudio = {
           scroll-step = 5;
@@ -442,7 +443,7 @@ in {
             car = "";
             default = ["" ""];
           };
-          on-click = "pavucontrol";
+          on-click = "${getExe pkgs.pavucontrol}";
         };
         battery = {
           format = "{capacity}% {icon}";
@@ -455,7 +456,7 @@ in {
         };
         cpu = {
           interval = 1;
-          on-click = "${config.programs.alacritty.package}/bin/alacritty -e htop";
+          on-click = "${TERMINAL} -e htop";
           format = "🖥 {usage}% {icon}";
           format-icons = [
             "<span color='#69ff94'>▁</span>"  # green

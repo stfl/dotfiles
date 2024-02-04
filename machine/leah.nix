@@ -10,7 +10,7 @@ with lib;
 
   targets.genericLinux.enable = true;
 
-  nixGLPrefix = lib.getExe pkgs.nixgl.nixGLIntel;
+  nixGLPrefix = getExe pkgs.nixgl.nixGLIntel;
 
   home.packages = with pkgs; [
     nixgl.nixGLIntel

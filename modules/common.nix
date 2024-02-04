@@ -8,8 +8,6 @@ with lib;
 
   programs.home-manager.enable = true;
 
-  fonts.fontconfig.enable = true;
-
   systemd.user.startServices = "sd-switch";
 
   home.sessionVariables = {

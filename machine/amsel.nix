@@ -12,7 +12,7 @@ in {
 
   targets.genericLinux.enable = true;
 
-  nixGLPrefix = lib.getExe pkgs.nixgl.nixGLIntel;
+  nixGLPrefix = getExe pkgs.nixgl.nixGLIntel;
 
   home.packages = with pkgs; [
     nixgl.nixGLIntel
@@ -29,4 +29,8 @@ in {
     spotdl
     youtube-dl
   ];
+
+  programs.waybar.settings.mainBar = {
+    network.on-click = "nm-connection-editor";
+  };
 }
