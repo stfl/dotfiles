@@ -102,11 +102,6 @@ in {
     yarn
     typescript
 
-    # -- rust
-    # rustup
-    rust-analyzer
-    rustfmt
-    clippy
     emacs-lsp-booster
 
     # -- spelling

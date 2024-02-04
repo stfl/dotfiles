@@ -11,6 +11,11 @@ with lib;
     nixgl.nixGLIntel
 
     nvtop-intel
+
+    # -- rust
+    rust-analyzer
+    rustfmt
+    clippy
   ];
 
   programs.git = {

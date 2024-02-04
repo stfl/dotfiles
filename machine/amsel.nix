@@ -13,5 +13,8 @@ with lib;
     nvtop-intel
 
     mixxx
+
+    # -- rust
+    rustup
   ];
 }
