@@ -24,5 +24,9 @@ in {
 
     # -- rust
     rustup
+
+    # downloader
+    spotdl
+    youtube-dl
   ];
 }

@@ -53,9 +53,6 @@ with lib;
 
     # -- python
     poetry
-
-    spotdl
-    youtube-dl
   ];
 
   programs.ripgrep = {

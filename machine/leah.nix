@@ -14,7 +14,6 @@ with lib;
 
   home.packages = with pkgs; [
     nixgl.nixGLIntel
-
     nvtop-intel
 
     # -- rust
