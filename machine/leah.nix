@@ -23,7 +23,7 @@ with lib;
   ];
 
   programs.git = {
-    userEmail = "s.lendl@proxmox.com";
+    # userEmail = "s.lendl@proxmox.com";
     includes = [
       { # apply updated git configuration for every repo inside ~/work/proxmox/<repo>
         condition = "gitdir:${config.home.homeDirectory}/work/proxmox/";
