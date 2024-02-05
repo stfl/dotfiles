@@ -178,6 +178,8 @@ in {
         menu = cfg.config.menu;
       in lib.mkOptionDefault {
         "${modifier}+Shift+q" = "kill";
+        "button2" = "kill";
+
         # "${modifier}+d" = "exec ${menu}";
         "${modifier}+space" = "exec ${menu}";
 
