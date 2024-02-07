@@ -18,8 +18,8 @@ with lib;
 
     # -- rust
     rust-analyzer
-    rustfmt
-    clippy
+    # rustfmt    # deb: install rustfmt
+    # clippy     # deb: install rust-clippy
   ];
 
   programs.git = {

@@ -170,8 +170,6 @@ to install these from the system.
 starting sway from login shell
 
 #+begin_src bash
-echo "---- RESTART ----" >>| ~/.cache/sway.log && \
-    nixGLIntel sway &>> ~/.cache/sway.log
 #+end_src
 
 Even though I patched the ~wayland.windowManager.sway.package~ with nixGL it does
@@ -181,7 +179,7 @@ swaylock does not work (still true?) from nix.. so use swaylock from the system
 
 - swaylock :: [2023-10-03 Tue] swaylock from nix is broken
 - mtr-tiny :: mtr requires root and we cannot install into the system path from home-manager
-- nmap ::
+
 * Setup ZSA udev rules for ErgoDox EZ
 :PROPERTIES:
 :header-args:bash: :dir /sudo:: :results raw silent
@@ -295,6 +293,7 @@ reboot
 * E-Mail setup
 
 after first installation, sync the mailbox
+=TODO= This should automatically be done by systemd services by now..
 
 #+begin_src bash
 mbsync -a
@@ -315,4 +314,20 @@ Symlink root's .bashrc to the config file in this repo.
 
 #+begin_src bash :dir /sudo:: :results value
 ln /home/slendl/.config/dotfiles/config/bash/.bashrc.root /root/.bashrc -sf
+#+end_src
+* Rust Development on Leah
+
+For Rust development at Proxmox, I need the Debian-based toolchain installed.
+I cannot use rustup from nixpkgs.
+
+For dev projects I can run the following to install dev dependencies
+
+#+begin_src bash :noeval
+sudo mk-build-deps -ir
+#+end_src
+
+Installing some global dependencies for my dev environment.
+
+#+begin_src bash :noeval
+sudo apt install rust-clippy rustfmt
 #+end_src
