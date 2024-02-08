@@ -45,9 +45,6 @@ tags = +review
 message = Tag mailing list threads I have participated
 query = tag:lists and (from:s.lendl@proxmox.com or tag:to-me)
 tags = +my-pr;+watch
-# TODO
-# query = tag:review and from:s.lendl@proxmox.com # or to:s.lendl@proxmox.com)
-# tags = +watch;-new  # don't need to see just sent patches in the inbox
 
 [Filter.6]
 message = Threads I am not watching not in the inbox
@@ -85,7 +82,7 @@ tags = +support
 [Filter.14]
 message = Show (new) support tickets in the inbox
 query = tag:new and tag:support and (subject:"/\(new\)/" or subject:"A new ticket with a key: premium/standard and state: critical has been opened")
-tags = -new;+inbox
+tags = -new;+support-new
 
 [Filter.15]
 message = Rest of support will not go to the inbox
@@ -97,14 +94,14 @@ message = Archive Daily Spam Report
 query = tag:support and subject:"(internal) Daily Spam Report for"
 tags = -new;+archive
 
+[Filter.17]
+message = tagging package updates
+query = tag:lists/team and '( subject:"package updates for" or subject:"container template updates" )'
+tags = -new;-lists/team;+lists/pkgs
+
 [Filter.80]
 message = Archive sucessful PBS Jobs
 query = subject:"/Datastore '.+' successful/"
-tags = -new;+archive
-
-[Filter.81]
-message = Archive package updates on Team mailing list
-query = from:repoman@noreply.maurer-it.com and subject:"package updates for"
 tags = -new;+archive
 
 [KillThreadsFilter]
@@ -112,20 +109,12 @@ tags = -new;+archive
 [ArchiveSentMailsFilter]
 sent_tag = sent
 
-# [FolderNameFilter]
-
-# [Filter.6]
-# message = tag proxmox messages on some lists
-# query = (tag:lists/qemu-devel or tag:lists/kvm or tag:/lists\/zfs*/ or tag:/lists\/ceph*/ or tag:lkml) and (proxmox or pve)
-# tags = +proxmox
-
 [Filter.99]
 message = propagate archive tag
 query = tag:archive
 tags = -new;-inbox
 
 [PropagateTagsInThreadFilter]
-# propagate_tags = review;interesting;todo;proxmox
 propagate_tags = review;watch;my-pr
 
 [InboxFilter]
