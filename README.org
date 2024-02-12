@@ -338,3 +338,25 @@ gpg --edit-key <password-store-key>
 > trust
 > 5 # trust ultimately
 #+end_src
+* org-protocol in Brave Brower
+
+[[https://www.reddit.com/r/emacs/comments/icjaie/orgprotocol_users_is_there_a_way_to_disable/][Redit about policy]]
+[[https://support.brave.com/hc/en-us/articles/360039248271-Group-Policy][Brave Docu]]
+
+Install the org-protocol policy system-wide.
+Brave and Chrome do not seem to allow specifying policies in /home
+
+#+begin_src json :tangle /sudo::/etc/brave/policies/managed/org-protocol.json :mkdirp t
+{
+  "AutoLaunchProtocolsFromOrigins": [
+    {
+      "allowed_origins": [ "*" ],
+      "protocol": "org-protocol2"
+    }
+  ]
+}
+#+end_src
+
+This could possibly be overwritten by passing =--user-data-dir= to Brave.
+
+[[https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/applications/networking/browsers/brave/default.nix#L187C36-L187C51][Brave nix source]]
