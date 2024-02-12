@@ -124,7 +124,8 @@ in {
       export SDL_VIDEODRIVER=wayland
       # QT (needs qt5.qtwayland in systemPackages), needed by VirtualBox GUI:
       export QT_QPA_PLATFORM=wayland
-      export QT_WAYLAND_DISABLE_WINDOWDECORATION="1"
+      export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+      export NIXOS_OZONE_WL=1
       export GDK_BACKEND=wayland
     '';
     extraOptions = [
