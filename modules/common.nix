@@ -44,10 +44,7 @@ with lib;
     # --- keyring
     gpg-tui
     xplr       # tui file explorer used in gpg-tui
-    pass-git-helper
     git-crypt
-    # pass-secret-service
-    passExtensions.pass-otp
 
     # -- python
     poetry
@@ -161,15 +158,6 @@ with lib;
   };
 
   services.ssh-agent.enable = true;
-
-  programs.rbw = {
-    enable = true;
-    settings = {
-      email = "ste.lendl@gmail.com";
-      # lock_timeout = 300;
-      pinentry = "qt";
-    };
-  };
 
   programs.tmux = {
     enable = true;
@@ -352,19 +340,6 @@ with lib;
     };
     # extraPackages = [];
 # https://github.com/nix-community/home-manager/blob/master/modules/programs/bat.nix
-  };
-
-  programs.gpg = {
-    enable = true;
-    homedir = "${config.xdg.dataHome}/gnupg";
-  };
-
-  services.gpg-agent = {
-    enable = true;
-    enableExtraSocket = true;
-    enableZshIntegration = true;
-    enableSshSupport = true;
-    pinentryFlavor = "qt";
   };
 
   services.syncthing = {

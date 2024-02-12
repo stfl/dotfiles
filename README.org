@@ -331,3 +331,10 @@ Installing some global dependencies for my dev environment.
 #+begin_src bash :noeval
 sudo apt install rust-clippy rustfmt
 #+end_src
+* password-store
+
+#+begin_src bash :noeval
+gpg --edit-key <password-store-key>
+> trust
+> 5 # trust ultimately
+#+end_src

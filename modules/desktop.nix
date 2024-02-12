@@ -38,10 +38,6 @@ in {
     sway-contrib.grimshot  # screenshot tool
     qalculate-gtk
 
-    # gnome.seahorse
-    pass-wayland
-    wofi-pass  # TODO add key mapping to sway!!
-
     # -- fonts
     symbola
     jetbrains-mono
@@ -227,6 +223,9 @@ in {
 
         # NOTE using swaylock installed from Debian!
         "${modifier}+Mod1+l" = "exec ${swaylock-bin} -f";
+
+        # wofi-pass
+        "${modifier}+g" = "exec --no-startup-id wofi-pass --autotype";
       };
       seat = {
         "*" = {
