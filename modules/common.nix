@@ -38,8 +38,9 @@ with lib;
 
     yazi # file browser
 
-    atop
+    # atop
     htop
+    btop
     # mtr  >> does not work as unprivilgeded user
 
     # --- keyring
