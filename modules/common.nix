@@ -20,6 +20,7 @@ with lib;
 
   home.packages = with pkgs; [
     nixpkgs-fmt
+    nvd
 
     # -- git and github runner
     gitAndTools.gh
