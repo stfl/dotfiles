@@ -21,6 +21,8 @@ with lib;
     rust-analyzer
     # rustfmt    # deb: install rustfmt
     # clippy     # deb: install rust-clippy
+
+    dart-sass
   ];
 
   programs.git = {
