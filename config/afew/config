@@ -96,7 +96,7 @@ tags = -new;+archive
 
 [Filter.17]
 message = tagging package updates
-query = tag:lists/team and '( subject:"package updates for" or subject:"container template updates" )'
+query = tag:lists/team and (subject:"package updates for" or subject:"container template updates")
 tags = -new;-lists/team;+lists/pkgs
 
 [Filter.80]
