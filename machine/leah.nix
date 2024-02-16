@@ -23,6 +23,8 @@ with lib;
     # clippy     # deb: install rust-clippy
 
     dart-sass
+    trunk
+    cargo-binstall
   ];
 
   programs.git = {
