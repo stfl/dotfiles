@@ -102,7 +102,7 @@ with lib;
     enable = true;
     lfs.enable = true;
     userName = "Stefan Lendl";
-    userEmail = "ste.lendl@gmail.com";
+    userEmail = "git@stfl.dev";
     ignores = [ "*~" "*.swp" "my-patches" ];
     aliases = {
       a     = "add";
