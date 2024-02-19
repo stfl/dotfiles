@@ -59,13 +59,13 @@ tags = +github;+github/{repo};+github/{orga};-github/{repo}/{type}/{number}+gith
 
 [Filter.11]
 message = Tagging general bug notifications
-query = from:bugzilla-daemon@bugzilla.proxmox.com to:bugs@proxmox.com
-tags = +bugs/triage;+unread;-new
-
-[Filter.12]
-message = Tagging other bug notifications
 query = from:bugzilla-daemon@bugzilla.proxmox.com
-tags = +bugs
+tags = +bugs;-new
+
+# [Filter.12]
+# message = Tagging other bug notifications
+# query = tag:to-me from:bugzilla-daemon@bugzilla.proxmox.com
+# tags = +my-bugs;+bugs;-new
 
 # Garbage Collect Datastore  $ TODO
 
