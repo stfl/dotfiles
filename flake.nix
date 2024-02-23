@@ -29,7 +29,12 @@
             mkHomeConfig = username: machineModule: system: home-manager.lib.homeManagerConfiguration {
                 pkgs = import nixpkgs {
                     system = "${system}";
-                    config.allowUnfree = true;
+                    config = {
+                        allowUnfree = true;
+                        permittedInsecurePackages = [
+                            "freeimage-unstable-2021-11-01"
+                        ];
+                    };
                 };
                 modules = [
                     {
