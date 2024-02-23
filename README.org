@@ -251,8 +251,8 @@ SUBSYSTEMS=="usb", ATTRS{idVendor}=="3297", MODE:="0666", SYMLINK+="ignition_dfu
 #+end_src
 
 #+begin_src bash
-groupadd plugdev
-usermod -aG plugdev $USER
+sudo groupadd plugdev
+sudo usermod -aG plugdev $USER
 #+end_src
 
 * Setup Syncthing
