@@ -28,6 +28,7 @@ in {
     libnotify
     xwaylandvideobridge
     wdisplays
+    wl-mirror
 
     # -- control Montior and Audio
     brightnessctl
