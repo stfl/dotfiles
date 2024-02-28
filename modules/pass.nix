@@ -20,6 +20,8 @@
 
   };
 
+  services.pass-secret-service.enable = true;
+
   # TODO
   # accounts.email.accounts."proxmox".passwordCommand =
   #   "${config.programs.rbw.package}/bin/rbw get webmail.proxmox.com";
