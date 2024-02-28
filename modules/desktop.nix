@@ -92,6 +92,8 @@ in {
     };
   };
 
+  programs.mpv.enable = true;
+
   # feh alternative for wayland
   programs.imv = {
     enable = true;
