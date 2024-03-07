@@ -28,7 +28,7 @@ in {
 
     # downloader
     spotdl
-    youtube-dl
+    yt-dlp
   ];
 
   programs.waybar.settings.mainBar = {
