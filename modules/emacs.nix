@@ -57,32 +57,68 @@ in {
   services.git-sync = {
     enable = true;
     repositories = {
-      doomemacs = {
-        interval = 1800;  # 30min (in case inotify does not trigger)
-        path = "${config.xdg.configHome}/doom";
-        uri = "git@github.com:stfl/doom.d.git";
-      };
       org = {
         interval = 600;  # 10min
         path = "${config.home.homeDirectory}/.org";
         uri = "git@github.com:stfl/org.git";
       };
+      doomemacs = {
+        interval = 600;
+        path = "${config.xdg.configHome}/doom";
+        uri = "git@github.com:stfl/doom.d.git";
+      };
     };
   };
 
-  systemd.user.services.git-sync-org.Unit.After = [ "ssh-agent.service" ];
-  systemd.user.services.git-sync-org.Service.Environment = [ "SSH_AUTH_SOCK=%t/ssh-agent" ];
-  systemd.user.services.git-sync-org.Service.Restart = mkForce "on-failure";
+  systemd.user.services.git-sync-org = {
+    Unit.After = [ "ssh-agent.service" ];
+    Service = {
+      Environment = [ "SSH_AUTH_SOCK=%t/ssh-agent" ];
+      WorkingDirectory = "${config.home.homeDirectory}/.org";
+      ExecStartPre = "${getExe pkgs.git-sync} -n -s";  # FIXME dont use getExe or patch upstream
+      Restart = mkForce "on-failure";
+    };
+  };
+
+  systemd.user.services.git-sync-org-resume = {
+    Unit.After = [ "suspend.target" ];
+    Service = {
+      Type = "simple";
+      ExecStart = "/usr/bin/systemctl --user --no-block restart git-sync-org.service";
+    };
+    Install.WantedBy = [ "suspend.target" ];
+  };
+
 
   # TODO until this has been merged: https://github.com/nix-community/home-manager/pull/4849
   xdg.configFile."systemd/user/git-sync-org.service.d/override.conf".text = ''
     [Service]
     Environment=PATH=${lib.makeBinPath (with pkgs; [ openssh git git-lfs ])}
   '';
+  
+  systemd.user.services.git-sync-doomemacs = {
+    Unit.After = [ "ssh-agent.service" ];
+    Service = {
+      Environment = [ "SSH_AUTH_SOCK=%t/ssh-agent" ];
+      WorkingDirectory = "${config.xdg.configHome}/doom";
+      ExecStartPre = "${getExe pkgs.git-sync} -n -s";  # FIXME dont use getExe or patch upstream
+      Restart = mkForce "on-failure";
+    };
+  };
 
-  systemd.user.services.git-sync-doomemacs.Unit.After = [ "ssh-agent.service" ];
-  systemd.user.services.git-sync-doomemacs.Service.Environment = [ "SSH_AUTH_SOCK=%t/ssh-agent" ];
-  systemd.user.services.git-sync-doomemacs.Service.Restart = mkForce "on-failure";
+  systemd.user.services.git-sync-doomemacs-resume = {
+    Unit.After = [ "suspend.target" ];
+    Service = {
+      Type = "simple";
+      ExecStart = "/usr/bin/systemctl --user --no-block restart git-sync-doomemacs.service";
+    };
+    Install.WantedBy = [ "suspend.target" ];
+  };
+
+  xdg.configFile."systemd/user/git-sync-doomemacs.service.d/override.conf".text = ''
+    [Service]
+    Environment=PATH=${lib.makeBinPath (with pkgs; [ openssh git git-lfs ])}
+  '';
 
 
 }
