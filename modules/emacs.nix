@@ -75,7 +75,7 @@ in {
     Service = {
       Environment = [ "SSH_AUTH_SOCK=%t/ssh-agent" ];
       WorkingDirectory = "${config.home.homeDirectory}/.org";
-      ExecStartPre = "${getExe pkgs.git-sync} -n -s";  # FIXME dont use getExe or patch upstream
+      ExecStartPre = "${pkgs.git-sync}/bin/git-sync -n -s";  # FIXME dont use getExe or patch upstream
       Restart = mkForce "on-failure";
     };
   };
@@ -101,7 +101,7 @@ in {
     Service = {
       Environment = [ "SSH_AUTH_SOCK=%t/ssh-agent" ];
       WorkingDirectory = "${config.xdg.configHome}/doom";
-      ExecStartPre = "${getExe pkgs.git-sync} -n -s";  # FIXME dont use getExe or patch upstream
+      ExecStartPre = "${pkgs.git-sync}/bin/git-sync -n -s";  # FIXME dont use getExe or patch upstream
       Restart = mkForce "on-failure";
     };
   };
