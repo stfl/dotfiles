@@ -25,6 +25,8 @@ in {
     org-protocol
     emacs-lsp-booster
 
+    rnix-lsp
+
     # -- spelling
     # languagetool
     # ltex-ls
