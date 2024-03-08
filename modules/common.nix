@@ -306,7 +306,7 @@ with lib;
     defaultCommand = "fd --type f";
     fileWidgetCommand = "fd --type f";   # CTRL-T
     fileWidgetOptions = [ "--preview 'head {}'" ];
-    tmux.enableShellIntegration = true;
+    tmux.enableShellIntegration = false;
   };
 
   programs.starship = {
