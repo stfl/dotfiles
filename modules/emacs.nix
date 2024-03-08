@@ -71,7 +71,7 @@ in {
   };
 
   systemd.user.services.git-sync-org = {
-    Unit.After = [ "ssh-agent.service" ];
+    Unit.After = [ "ssh-agent.service" "gpg-agent.service" ];
     Service = {
       Environment = [ "SSH_AUTH_SOCK=%t/ssh-agent" ];
       WorkingDirectory = "${config.home.homeDirectory}/.org";
@@ -97,7 +97,7 @@ in {
   '';
   
   systemd.user.services.git-sync-doomemacs = {
-    Unit.After = [ "ssh-agent.service" ];
+    Unit.After = [ "ssh-agent.service" "gpg-agent.service" ];
     Service = {
       Environment = [ "SSH_AUTH_SOCK=%t/ssh-agent" ];
       WorkingDirectory = "${config.xdg.configHome}/doom";
