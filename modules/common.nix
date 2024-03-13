@@ -130,6 +130,7 @@ with lib;
     };
     extraConfig = {
       core.pager = "less -FR --mouse";
+      init.defaultBranch = "main";
       branch.autoSetupMerge = "always";
       branch.autoSetupRebase = "always";
       sendEmail = {
