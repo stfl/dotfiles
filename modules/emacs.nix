@@ -26,6 +26,7 @@ in {
     emacs-lsp-booster
 
     rnix-lsp
+    alejandra
 
     # -- spelling
     # languagetool
