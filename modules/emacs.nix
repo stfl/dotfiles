@@ -28,6 +28,8 @@ in {
     rnix-lsp
     alejandra
 
+    nodejs
+
     # -- spelling
     # languagetool
     # ltex-ls
