@@ -26,7 +26,8 @@ in {
     org-protocol
     emacs-lsp-booster
 
-    rnix-lsp
+    # -- nix tooling
+    nil
     alejandra
 
     nodejs
