@@ -1,10 +1,12 @@
-{ config, lib, pkgs, ... }:
-
-with lib;
-
-let
-  nixGL = import ./nixGL.nix { inherit pkgs config; };
-  swaylock-bin = "/usr/bin/swaylock";   # don't use nix' swaylock bin, because it does not work
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib; let
+  nixGL = import ./nixGL.nix {inherit pkgs config;};
+  swaylock-bin = "/usr/bin/swaylock"; # don't use nix' swaylock bin, because it does not work
   TERMINAL = "${getExe config.programs.alacritty.package}";
 in {
   imports = [
@@ -32,11 +34,11 @@ in {
 
     # -- control Montior and Audio
     brightnessctl
-    libpulseaudio  # pulsectl
+    libpulseaudio # pulsectl
     pavucontrol
 
     # -- sway and GUI applications
-    sway-contrib.grimshot  # screenshot tool
+    sway-contrib.grimshot # screenshot tool
     qalculate-gtk
 
     # -- fonts
@@ -57,36 +59,37 @@ in {
 
   programs.alacritty = {
     enable = true;
-    package = (nixGL pkgs.alacritty);
+    package = nixGL pkgs.alacritty;
     settings = {
       font = {
         normal.family = "Source Code Pro";
         size = 11.0;
       };
-      colors = {  # Solarized Dark
+      colors = {
+        # Solarized Dark
         primary = {
           background = "0x002b36";
           foreground = "0x9aadaf";
         };
         normal = {
-          black =   "0x073642";
-          red =     "0xdc322f";
-          green =   "0x859900";
-          yellow =  "0xb58900";
-          blue =    "0x268bd2";
+          black = "0x073642";
+          red = "0xdc322f";
+          green = "0x859900";
+          yellow = "0xb58900";
+          blue = "0x268bd2";
           magenta = "0xd33682";
-          cyan =    "0x2aa198";
-          white =   "0xeee8d5";
+          cyan = "0x2aa198";
+          white = "0xeee8d5";
         };
         bright = {
-          black =   "0x002b36";
-          red =     "0xcb4b16";
-          green =   "0x586e75";
-          yellow =  "0x657b83";
-          blue =    "0x839496";
+          black = "0x002b36";
+          red = "0xcb4b16";
+          green = "0x586e75";
+          yellow = "0x657b83";
+          blue = "0x839496";
           magenta = "0x6c71c4";
-          cyan =    "0x93a1a1";
-          white =   "0xfdf6e3";
+          cyan = "0x93a1a1";
+          white = "0xfdf6e3";
         };
       };
     };
@@ -104,7 +107,7 @@ in {
 
   gtk = {
     enable = true;
-  # font = TODO;
+    # font = TODO;
   };
   qt = {
     enable = true;
@@ -149,7 +152,7 @@ in {
         followMouse = "yes";
       };
       fonts = {
-        names = [ "Source Code Pro" ];
+        names = ["Source Code Pro"];
         # style = "Bold Semi-Condensed";
         size = 11.0;
       };
@@ -164,73 +167,74 @@ in {
       right = "l";
       # gaps = {}; TODO
       floating.criteria = [
-        { title = "Steam - Update News"; }
-        { class = "Pavucontrol"; }
-        { title = "Volume Control"; }
-        { title = "VM .+ \('.+'\).*"; }  # TODO not working
-        { title = ".*noVNC.*"; }
-        { title = ".*Proxmox Console.*"; }
+        {title = "Steam - Update News";}
+        {class = "Pavucontrol";}
+        {title = "Volume Control";}
+        {title = "VM .+ \('.+'\).*";} # TODO not working
+        {title = ".*noVNC.*";}
+        {title = ".*Proxmox Console.*";}
       ];
-      bars = [];  # disable default bars -> use waybar
+      bars = []; # disable default bars -> use waybar
       keybindings = let
         cfg = config.wayland.windowManager.sway;
         modifier = cfg.config.modifier;
         menu = cfg.config.menu;
-      in lib.mkOptionDefault {
-        "${modifier}+Shift+q" = "kill";
-        "button2" = "kill";
+      in
+        lib.mkOptionDefault {
+          "${modifier}+Shift+q" = "kill";
+          "button2" = "kill";
 
-        # "${modifier}+d" = "exec ${menu}";
-        "${modifier}+space" = "exec ${menu}";
+          # "${modifier}+d" = "exec ${menu}";
+          "${modifier}+space" = "exec ${menu}";
 
-        "XF86AudioLowerVolume" = "exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10%";
-        "XF86AudioRaiseVolume" = "exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10%";
-        "XF86AudioMute" = "exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle";
-        "XF86AudioMicMute" = "exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle";
+          "XF86AudioLowerVolume" = "exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10%";
+          "XF86AudioRaiseVolume" = "exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10%";
+          "XF86AudioMute" = "exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle";
+          "XF86AudioMicMute" = "exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle";
 
-        "XF86MonBrightnessDown" = "exec --no-startup-id brightnessctl s 10%-";
-        "XF86MonBrightnessUp" = "exec --no-startup-id brightnessctl s 10%+";
+          "XF86MonBrightnessDown" = "exec --no-startup-id brightnessctl s 10%-";
+          "XF86MonBrightnessUp" = "exec --no-startup-id brightnessctl s 10%+";
 
-        # split in horizontal orientation
-        "${modifier}+Shift+s" = "split horizontal";
-        # split in vertical orientation
-        "${modifier}+Shift+v" = "split vertical";
-        "${modifier}+a" = "split toggle";
+          # split in horizontal orientation
+          "${modifier}+Shift+s" = "split horizontal";
+          # split in vertical orientation
+          "${modifier}+Shift+v" = "split vertical";
+          "${modifier}+a" = "split toggle";
 
-        # enter fullscreen mode for the focused container
-        "${modifier}+f" = "fullscreen toggle";
+          # enter fullscreen mode for the focused container
+          "${modifier}+f" = "fullscreen toggle";
 
-        # change container layout (stacked, tabbed, toggle split)
-        "${modifier}+s" = "layout stacking";
-        "${modifier}+t" = "layout tabbed";
-        "${modifier}+e" = "layout toggle all";
+          # change container layout (stacked, tabbed, toggle split)
+          "${modifier}+s" = "layout stacking";
+          "${modifier}+t" = "layout tabbed";
+          "${modifier}+e" = "layout toggle all";
 
-        # change focus between tiling / floating windows
-        "${modifier}+Mod1+space" = "focus mode_toggle";
+          # change focus between tiling / floating windows
+          "${modifier}+Mod1+space" = "focus mode_toggle";
 
-        # focus the parent container
-        "${modifier}+o" = "focus parent";
+          # focus the parent container
+          "${modifier}+o" = "focus parent";
 
-        # focus the child container
-        "${modifier}+i" = "focus child";
+          # focus the child container
+          "${modifier}+i" = "focus child";
 
-        # Show the next scratchpad window or hide the focused scratchpad window.
-        # If there are multiple scratchpad windows, this command cycles through them.
-        # NOTE remove from scratchpad by with toggle floting ($mod+Shift+space)
-        "${modifier}+minus" = "scratchpad show";  # NOTE default
+          # Show the next scratchpad window or hide the focused scratchpad window.
+          # If there are multiple scratchpad windows, this command cycles through them.
+          # NOTE remove from scratchpad by with toggle floting ($mod+Shift+space)
+          "${modifier}+minus" = "scratchpad show"; # NOTE default
 
-        "${modifier}+n" = "workspace next";
-        "${modifier}+p" = "workspace prev";
+          "${modifier}+n" = "workspace next";
+          "${modifier}+p" = "workspace prev";
 
-        # "${modifier}+Shift+c" = "reload";  # NOTE default
-        "${modifier}+Shift+r" = "restart";
+          # "${modifier}+Shift+c" = "reload";  # NOTE default
+          "${modifier}+Shift+r" = "restart";
 
-        # NOTE using swaylock installed from Debian!
-        "${modifier}+Mod1+l" = "exec ${swaylock-bin} -f";
+          # NOTE using swaylock installed from Debian!
+          "${modifier}+Mod1+l" = "exec ${swaylock-bin} -f";
 
-        # wofi-pass
-        "${modifier}+g" = "exec --no-startup-id wofi-pass --autotype";
-      };
+          # wofi-pass
+          "${modifier}+g" = "exec --no-startup-id wofi-pass --autotype";
+        };
       seat = {
         "*" = {
           hide_cursor = "when-typing enable";
@@ -250,7 +254,10 @@ in {
         };
       };
       startup = [
-        { command = "systemctl --user restart waybar"; always = true; }  # TODO this does not automatically restart on hm switch
+        {
+          command = "systemctl --user restart waybar";
+          always = true;
+        } # TODO this does not automatically restart on hm switch
       ];
     };
   };
@@ -286,12 +293,24 @@ in {
   services.swayidle = {
     enable = true;
     events = [
-      { event = "before-sleep"; command = "${swaylock-bin}"; }
-      { event = "lock"; command = "lock"; }
+      {
+        event = "before-sleep";
+        command = "${swaylock-bin}";
+      }
+      {
+        event = "lock";
+        command = "lock";
+      }
     ];
     timeouts = [
-      { timeout = 600; command = "${swaylock-bin} -fF"; }
-      { timeout = 1800; command = "systemctl suspend"; }
+      {
+        timeout = 600;
+        command = "${swaylock-bin} -fF";
+      }
+      {
+        timeout = 1800;
+        command = "systemctl suspend";
+      }
     ];
   };
 
@@ -345,8 +364,8 @@ in {
         #   "eDP-1"
         #   "HDMI-A-1"
         # ];
-        modules-left = [ "sway/workspaces" "sway/scratchpad" "sway/mode" "sway/window" ];
-        modules-center = [ "clock" ];
+        modules-left = ["sway/workspaces" "sway/scratchpad" "sway/mode" "sway/window"];
+        modules-center = ["clock"];
         modules-right = [
           "tray"
           "idle_inhibitor"
@@ -414,7 +433,7 @@ in {
           scroll-step = 5;
           format = "{icon} {volume: >3}%";
           format-bluetooth = "{icon} {volume: >3}%";
-          format-muted ="󰝟 "; # emoji: 🔇
+          format-muted = "󰝟 "; # emoji: 🔇
           format-icons = {
             headphones = "";
             handsfree = "";

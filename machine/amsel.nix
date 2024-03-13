@@ -1,9 +1,11 @@
-{ config, lib, pkgs, ... }:
-
-with lib;
-
-let
-  nixGL = import ../modules/nixGL.nix { inherit pkgs config; };
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib; let
+  nixGL = import ../modules/nixGL.nix {inherit pkgs config;};
 in {
   imports = [
     ../modules/desktop.nix

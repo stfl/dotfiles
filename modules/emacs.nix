@@ -1,8 +1,10 @@
-{ config, lib, pkgs, ... }:
-
-with lib;
-
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib; let
   org-protocol = pkgs.makeDesktopItem {
     name = "org-protocol";
     desktopName = "Org Protocol";
@@ -11,10 +13,9 @@ let
     mimeTypes = ["x-scheme-handler/org-protocol"];
   };
 in {
-
   home.sessionVariables = {
     EDITOR = "${config.programs.emacs.finalPackage}/bin/emacsclient";
-    LSP_USE_PLISTS = "true";  # for emacs lsp-mode
+    LSP_USE_PLISTS = "true"; # for emacs lsp-mode
   };
 
   home.sessionPath = [
@@ -34,13 +35,13 @@ in {
     # languagetool
     # ltex-ls
     # enchant
-    (aspellWithDicts (dicts: with dicts; [ en en-computers en-science de ]))
+    (aspellWithDicts (dicts: with dicts; [en en-computers en-science de]))
   ];
 
   programs.emacs = {
     enable = true;
     package = pkgs.emacs29-pgtk;
-    extraPackages = epkgs: with epkgs; [ vterm ];
+    extraPackages = epkgs: with epkgs; [vterm];
   };
 
   services.emacs = {
@@ -53,15 +54,15 @@ in {
   programs.git.extraConfig.core.editor = "${config.programs.emacs.finalPackage}/bin/emacsclient --no-wait";
 
   services.gpg-agent.extraConfig = ''
-      allow-emacs-pinentry
-      # allow-loopback-pinentry
-    '';
+    allow-emacs-pinentry
+    # allow-loopback-pinentry
+  '';
 
   services.git-sync = {
     enable = true;
     repositories = {
       org = {
-        interval = 600;  # 10min
+        interval = 600; # 10min
         path = "${config.home.homeDirectory}/.org";
         uri = "git@github.com:stfl/org.git";
       };
@@ -74,54 +75,51 @@ in {
   };
 
   systemd.user.services.git-sync-org = {
-    Unit.After = [ "ssh-agent.service" "gpg-agent.service" ];
+    Unit.After = ["ssh-agent.service" "gpg-agent.service"];
     Service = {
-      Environment = [ "SSH_AUTH_SOCK=%t/ssh-agent" ];
+      Environment = ["SSH_AUTH_SOCK=%t/ssh-agent"];
       WorkingDirectory = "${config.home.homeDirectory}/.org";
-      ExecStartPre = "${pkgs.git-sync}/bin/git-sync -n -s";  # FIXME dont use getExe or patch upstream
+      ExecStartPre = "${pkgs.git-sync}/bin/git-sync -n -s"; # FIXME dont use getExe or patch upstream
       Restart = mkForce "on-failure";
     };
   };
 
   systemd.user.services.git-sync-org-resume = {
-    Unit.After = [ "suspend.target" ];
+    Unit.After = ["suspend.target"];
     Service = {
       Type = "simple";
       ExecStart = "/usr/bin/systemctl --user --no-block restart git-sync-org.service";
     };
-    Install.WantedBy = [ "suspend.target" ];
+    Install.WantedBy = ["suspend.target"];
   };
-
 
   # TODO until this has been merged: https://github.com/nix-community/home-manager/pull/4849
   xdg.configFile."systemd/user/git-sync-org.service.d/override.conf".text = ''
     [Service]
-    Environment=PATH=${lib.makeBinPath (with pkgs; [ openssh git git-lfs ])}
+    Environment=PATH=${lib.makeBinPath (with pkgs; [openssh git git-lfs])}
   '';
-  
+
   systemd.user.services.git-sync-doomemacs = {
-    Unit.After = [ "ssh-agent.service" "gpg-agent.service" ];
+    Unit.After = ["ssh-agent.service" "gpg-agent.service"];
     Service = {
-      Environment = [ "SSH_AUTH_SOCK=%t/ssh-agent" ];
+      Environment = ["SSH_AUTH_SOCK=%t/ssh-agent"];
       WorkingDirectory = "${config.xdg.configHome}/doom";
-      ExecStartPre = "${pkgs.git-sync}/bin/git-sync -n -s";  # FIXME dont use getExe or patch upstream
+      ExecStartPre = "${pkgs.git-sync}/bin/git-sync -n -s"; # FIXME dont use getExe or patch upstream
       Restart = mkForce "on-failure";
     };
   };
 
   systemd.user.services.git-sync-doomemacs-resume = {
-    Unit.After = [ "suspend.target" ];
+    Unit.After = ["suspend.target"];
     Service = {
       Type = "simple";
       ExecStart = "/usr/bin/systemctl --user --no-block restart git-sync-doomemacs.service";
     };
-    Install.WantedBy = [ "suspend.target" ];
+    Install.WantedBy = ["suspend.target"];
   };
 
   xdg.configFile."systemd/user/git-sync-doomemacs.service.d/override.conf".text = ''
     [Service]
-    Environment=PATH=${lib.makeBinPath (with pkgs; [ openssh git git-lfs ])}
+    Environment=PATH=${lib.makeBinPath (with pkgs; [openssh git git-lfs])}
   '';
-
-
 }

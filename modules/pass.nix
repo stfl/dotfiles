@@ -1,11 +1,13 @@
-{ config, lib, pkgs, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   home.packages = with pkgs; [
-
     # gnome.seahorse
     # pass-wayland
-    wofi-pass  # TODO add key mapping to sway!!
+    wofi-pass # TODO add key mapping to sway!!
 
     # pass-secret-service
     # passExtensions.pass-otp
@@ -17,7 +19,6 @@
     package = pkgs.pass-wayland.withExtensions (ext: [
       ext.pass-otp
     ]);
-
   };
 
   services.pass-secret-service.enable = true;
@@ -49,7 +50,6 @@
     };
   };
 
-
   programs.gpg = {
     enable = true;
     homedir = "${config.xdg.dataHome}/gnupg";
@@ -66,6 +66,4 @@
     maxCacheTtl = 64800;
     maxCacheTtlSsh = 64800;
   };
-
-
 }

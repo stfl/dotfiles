@@ -1,8 +1,10 @@
-{ config, lib, pkgs, ... }:
-
-with lib;
-
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib; {
   imports = [
     ../modules/desktop.nix
     ../modules/emacs.nix
@@ -30,7 +32,8 @@ with lib;
   programs.git = {
     # userEmail = "s.lendl@proxmox.com";
     includes = [
-      { # apply updated git configuration for every repo inside ~/work/proxmox/<repo>
+      {
+        # apply updated git configuration for every repo inside ~/work/proxmox/<repo>
         condition = "gitdir:${config.home.homeDirectory}/work/proxmox/";
         contents = {
           user = {

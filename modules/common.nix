@@ -1,8 +1,11 @@
-{ pkgs, lib, config, options, ... }:
-
-with lib;
-
 {
+  pkgs,
+  lib,
+  config,
+  options,
+  ...
+}:
+with lib; {
   xdg.enable = true;
   xdg.mime.enable = true;
 
@@ -45,7 +48,7 @@ with lib;
 
     # --- keyring
     gpg-tui
-    xplr       # tui file explorer used in gpg-tui
+    xplr # tui file explorer used in gpg-tui
     git-crypt
 
     # -- python
@@ -103,29 +106,29 @@ with lib;
     lfs.enable = true;
     userName = "Stefan Lendl";
     userEmail = "git@stfl.dev";
-    ignores = [ "*~" "*.swp" "my-patches" ];
+    ignores = ["*~" "*.swp" "my-patches"];
     aliases = {
-      a     = "add";
-      br    = "branch";
-      c     = "commit";
-      ca    = "commit -a";
-      cam   = "commit -am";
-      cl    = "clone";
-      co    = "checkout";
-      d     = "diff";
+      a = "add";
+      br = "branch";
+      c = "commit";
+      ca = "commit -a";
+      cam = "commit -am";
+      cl = "clone";
+      co = "checkout";
+      d = "diff";
       # dt    = "difftool";
-      f     = "fetch";
+      f = "fetch";
       graph = "log --graph --decorate --oneline --all";
-      gr    = "log --graph --all --pretty=format:'%Cred%h%Creset %Cgreen%ad%Creset -%C(bold cyan)%d%Creset %s %C(magenta)<%an>%Creset' --date=short";
-      h     = "help";
-      l     = "log --topo-order --pretty=format:'%C(bold)Commit:%C(reset) %C(green)%H%C(red)%d%n%C(bold)Author:%C(reset) %C(cyan)%an <%ae>%n%C(bold)Date:%C(reset)   %C(blue)%ai (%ar)%C(reset)%n%+B'";
-      lg    = "log --graph --pretty=format:'%Cred%h%Creset %Cgreen%ad%Creset -%C(bold cyan)%d%Creset %s %C(magenta)<%an>%Creset' --date=short";
-      ls    = "ls-files";
-      m     = "merge";
-      pl    = "pull";
-      pu    = "push";
-      s     = "status";
-      rb    = "rebase";
+      gr = "log --graph --all --pretty=format:'%Cred%h%Creset %Cgreen%ad%Creset -%C(bold cyan)%d%Creset %s %C(magenta)<%an>%Creset' --date=short";
+      h = "help";
+      l = "log --topo-order --pretty=format:'%C(bold)Commit:%C(reset) %C(green)%H%C(red)%d%n%C(bold)Author:%C(reset) %C(cyan)%an <%ae>%n%C(bold)Date:%C(reset)   %C(blue)%ai (%ar)%C(reset)%n%+B'";
+      lg = "log --graph --pretty=format:'%Cred%h%Creset %Cgreen%ad%Creset -%C(bold cyan)%d%Creset %s %C(magenta)<%an>%Creset' --date=short";
+      ls = "ls-files";
+      m = "merge";
+      pl = "pull";
+      pu = "push";
+      s = "status";
+      rb = "rebase";
       # cp    = "cherry-pick";
     };
     extraConfig = {
@@ -139,7 +142,7 @@ with lib;
         suppresscc = "all";
       };
       format.signOff = true;
-      lfs."https://github.com".locksverify = false;    # github does not support lfs locksverify and git-sync complains about it
+      lfs."https://github.com".locksverify = false; # github does not support lfs locksverify and git-sync complains about it
     };
   };
 
@@ -150,7 +153,7 @@ with lib;
     controlMaster = "auto";
     controlPersist = "10m";
     serverAliveInterval = 10; # seconds
-    includes = [ "~/.ssh/config.d/*" ];
+    includes = ["~/.ssh/config.d/*"];
     extraConfig = ''
       AddKeysToAgent yes
     '';
@@ -302,11 +305,11 @@ with lib;
     enable = true;
     enableBashIntegration = true;
     enableZshIntegration = true;
-    changeDirWidgetCommand = "fd --type d";  # ALT-C
-    changeDirWidgetOptions = [ "--preview 'tree -C {} | head -200'" ];
+    changeDirWidgetCommand = "fd --type d"; # ALT-C
+    changeDirWidgetOptions = ["--preview 'tree -C {} | head -200'"];
     defaultCommand = "fd --type f";
-    fileWidgetCommand = "fd --type f";   # CTRL-T
-    fileWidgetOptions = [ "--preview 'head {}'" ];
+    fileWidgetCommand = "fd --type f"; # CTRL-T
+    fileWidgetOptions = ["--preview 'head {}'"];
     tmux.enableShellIntegration = false;
   };
 
@@ -342,7 +345,7 @@ with lib;
       # pager = "less -FR";  # TODO use $PAGER?
     };
     # extraPackages = [];
-# https://github.com/nix-community/home-manager/blob/master/modules/programs/bat.nix
+    # https://github.com/nix-community/home-manager/blob/master/modules/programs/bat.nix
   };
 
   services.syncthing = {
@@ -390,7 +393,7 @@ with lib;
         };
         mbsync = {
           enable = true;
-          create = "both";  # TODO "maildir" // imap" // "both" ??
+          create = "both"; # TODO "maildir" // imap" // "both" ??
           # remove = "both";
         };
         # mu.enable = true;
@@ -410,7 +413,7 @@ with lib;
 
   programs.notmuch = {
     enable = true;
-    new.tags = [ "new" ];
+    new.tags = ["new"];
     hooks.postNew = "${pkgs.afew}/bin/afew -t -n -v";
   };
 
