@@ -75,9 +75,9 @@ in {
   };
 
   systemd.user.services.git-sync-org = {
-    Unit.After = ["ssh-agent.service" "gpg-agent.service"];
+    Unit.After = ["gpg-agent-ssh.service"];
     Service = {
-      Environment = ["SSH_AUTH_SOCK=%t/ssh-agent"];
+      Environment = ["SSH_AUTH_SOCK=${config.systemd.user.sockets.gpg-agent-ssh.Socket.ListenStream}"];
       WorkingDirectory = "${config.home.homeDirectory}/.org";
       ExecStartPre = "${pkgs.git-sync}/bin/git-sync -n -s"; # FIXME dont use getExe or patch upstream
       Restart = mkForce "on-failure";
@@ -100,9 +100,9 @@ in {
   '';
 
   systemd.user.services.git-sync-doomemacs = {
-    Unit.After = ["ssh-agent.service" "gpg-agent.service"];
+    Unit.After = ["gpg-agent-ssh.service"];
     Service = {
-      Environment = ["SSH_AUTH_SOCK=%t/ssh-agent"];
+      Environment = ["SSH_AUTH_SOCK=${config.systemd.user.sockets.gpg-agent-ssh.Socket.ListenStream}"];
       WorkingDirectory = "${config.xdg.configHome}/doom";
       ExecStartPre = "${pkgs.git-sync}/bin/git-sync -n -s"; # FIXME dont use getExe or patch upstream
       Restart = mkForce "on-failure";
