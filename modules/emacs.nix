@@ -87,11 +87,11 @@ in {
 
   systemd.user.services.git-sync-org-resume = {
     Unit.After = ["suspend.target"];
+    Install.WantedBy = ["suspend.target"];
     Service = {
       Type = "simple";
       ExecStart = "/usr/bin/systemctl --user --no-block restart git-sync-org.service";
     };
-    Install.WantedBy = ["suspend.target"];
   };
 
   # TODO until this has been merged: https://github.com/nix-community/home-manager/pull/4849
@@ -113,11 +113,11 @@ in {
 
   systemd.user.services.git-sync-doomemacs-resume = {
     Unit.After = ["suspend.target"];
+    Install.WantedBy = ["suspend.target"];
     Service = {
       Type = "simple";
       ExecStart = "/usr/bin/systemctl --user --no-block restart git-sync-doomemacs.service";
     };
-    Install.WantedBy = ["suspend.target"];
   };
 
   xdg.configFile."systemd/user/git-sync-doomemacs.service.d/override.conf".text = ''
