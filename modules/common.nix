@@ -163,8 +163,6 @@ with lib; {
     source = ../config/ssh;
   };
 
-  services.ssh-agent.enable = true;
-
   programs.tmux = {
     enable = true;
     baseIndex = 1;
