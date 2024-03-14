@@ -7,6 +7,8 @@
   home.packages = with pkgs; [
     wofi-pass
 
+    sequoia-sq
+
     # pass-secret-service
     # passExtensions.pass-otp
     pass-git-helper
