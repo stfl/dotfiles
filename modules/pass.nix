@@ -1,16 +1,11 @@
 {
   config,
-  lib,
   pkgs,
   ...
 }: {
   home.packages = with pkgs; [
     wofi-pass
-
     sequoia-sq
-
-    # pass-secret-service
-    # passExtensions.pass-otp
     pass-git-helper
   ];
 
@@ -32,7 +27,6 @@
     enable = true;
     settings = {
       email = "ste.lendl@gmail.com";
-      # lock_timeout = 300;
       pinentry = pkgs.pinentry-gtk2;
     };
   };
