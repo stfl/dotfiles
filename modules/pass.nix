@@ -33,7 +33,7 @@
     settings = {
       email = "ste.lendl@gmail.com";
       # lock_timeout = 300;
-      pinentry = "gtk2";
+      pinentry = pkgs.pinentry-gtk2;
     };
   };
 
@@ -47,7 +47,7 @@
     enableExtraSocket = true;
     enableZshIntegration = true;
     enableSshSupport = true;
-    pinentryFlavor = "gtk2";
+    pinentryPackage = pkgs.pinentry-gtk2;
     defaultCacheTtl = 64800; # 18 hours
     defaultCacheTtlSsh = 64800;
     maxCacheTtl = 64800;
