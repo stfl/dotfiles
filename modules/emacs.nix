@@ -76,6 +76,7 @@ in {
 
   systemd.user.services.git-sync-org = {
     Unit.After = ["gpg-agent-ssh.service"];
+    Install.WantedBy = ["sway-session.target"];
     Service = {
       Environment = ["SSH_AUTH_SOCK=${config.systemd.user.sockets.gpg-agent-ssh.Socket.ListenStream}"];
       WorkingDirectory = "${config.home.homeDirectory}/.org";
@@ -101,6 +102,7 @@ in {
 
   systemd.user.services.git-sync-doomemacs = {
     Unit.After = ["gpg-agent-ssh.service"];
+    Install.WantedBy = ["sway-session.target"];
     Service = {
       Environment = ["SSH_AUTH_SOCK=${config.systemd.user.sockets.gpg-agent-ssh.Socket.ListenStream}"];
       WorkingDirectory = "${config.xdg.configHome}/doom";
