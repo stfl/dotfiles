@@ -179,6 +179,7 @@ in {
         cfg = config.wayland.windowManager.sway;
         modifier = cfg.config.modifier;
         menu = cfg.config.menu;
+        swayosd_client = "${config.services.swayosd.package}/bin/swayosd-client";
       in
         lib.mkOptionDefault {
           "${modifier}+Shift+q" = "kill";
@@ -187,13 +188,22 @@ in {
           # "${modifier}+d" = "exec ${menu}";
           "${modifier}+space" = "exec ${menu}";
 
-          "XF86AudioLowerVolume" = "exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10%";
-          "XF86AudioRaiseVolume" = "exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10%";
-          "XF86AudioMute" = "exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle";
-          "XF86AudioMicMute" = "exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle";
+          # "XF86AudioLowerVolume" = "exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10%";
+          "XF86AudioLowerVolume" = "exec ${swayosd_client} --output-volume lower --max-volume 120";
+          # "XF86AudioRaiseVolume" = "exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10%";
+          "XF86AudioRaiseVolume" = "exec ${swayosd_client} --output-volume raise --max-volume 120";
+          # "XF86AudioMute" = "exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle";
+          "XF86AudioMute" = "exec ${swayosd_client} --output-volume mute-toggle";
 
-          "XF86MonBrightnessDown" = "exec --no-startup-id brightnessctl s 10%-";
-          "XF86MonBrightnessUp" = "exec --no-startup-id brightnessctl s 10%+";
+          # "XF86AudioMicMute" = "exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle";
+          "XF86AudioMicMute" = "exec ${swayosd_client} --input-volume mute-toggle";
+
+          # "XF86MonBrightnessDown" = "exec --no-startup-id brightnessctl s 10%-";
+          "XF86MonBrightnessDown" = "exec ${swayosd_client} --brightness lower";
+          # "XF86MonBrightnessUp" = "exec --no-startup-id brightnessctl s 10%+";
+          "XF86MonBrightnessUp" = "exec ${swayosd_client} --brightness raise";
+
+          # "Caps_Lock" = "exec ${swayosd_client} --caps-lock";
 
           # split in horizontal orientation
           "${modifier}+Shift+s" = "split horizontal";
@@ -356,7 +366,9 @@ in {
       target = "sway-session.target";
     };
     settings = {
-      mainBar = {
+      mainBar = let
+        swayosd_client = "${config.services.swayosd.package}/bin/swayosd-client";
+      in {
         layer = "top";
         position = "top";
         height = 32;
@@ -418,8 +430,8 @@ in {
           # FIXME minimum backlight 5%
           format = "{icon} {percent: >3}%";
           format-icons = ["" ""];
-          on-scroll-down = "brightnessctl -c backlight set 5%-";
-          on-scroll-up = "brightnessctl -c backlight set +5%";
+          on-scroll-down = "${swayosd_client} --brightness lower";
+          on-scroll-up = "${swayosd_client} --brightness raise";
           # reverse-scrolling = "true";  # TODO broken
         };
         network = {
@@ -444,7 +456,9 @@ in {
             default = ["" ""];
           };
           on-click = "${getExe pkgs.pavucontrol}";
-          on-click-right = "pactl set-sink-mute @DEFAULT_SINK@ toggle";
+          on-click-right = "${swayosd_client} --output-volume mute-toggle";
+          on-scroll-down = "${swayosd_client} --output-volume lower --max-volume 120";
+          on-scroll-up = "${swayosd_client} --output-volume raise --max-volume 120";
         };
         battery = {
           interval = 60;
@@ -479,6 +493,13 @@ in {
     };
     style = ../config/waybar.css;
   };
+
+  services.swayosd = {
+    enable = true;
+    topMargin = 0.1;
+  };
+  systemd.user.services.swayosd.Install.WantedBy = ["sway-session.target"];
+  xdg.configFile."swayosd/style.scss".source = ../config/swayosd/style.scss;
 
   # programs.cava = {
   #   enable = true;
