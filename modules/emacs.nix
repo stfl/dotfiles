@@ -61,6 +61,7 @@ in {
         interval = 600; # 10min
         path = "${config.home.homeDirectory}/.org";
         uri = "git@github.com:stfl/org.git";
+        extraPackages = with pkgs; [git-lfs];
       };
       doomemacs = {
         interval = 600;
@@ -90,12 +91,6 @@ in {
     };
   };
 
-  # TODO until this has been merged: https://github.com/nix-community/home-manager/pull/4849
-  xdg.configFile."systemd/user/git-sync-org.service.d/override.conf".text = ''
-    [Service]
-    Environment=PATH=${lib.makeBinPath (with pkgs; [openssh git git-lfs])}
-  '';
-
   systemd.user.services.git-sync-doomemacs = {
     Unit.Requires = ["gpg-agent-ssh.socket"];
     Install.WantedBy = mkForce ["sway-session.target"];
@@ -115,9 +110,4 @@ in {
       ExecStart = "/usr/bin/systemctl --user --no-block restart git-sync-doomemacs.service";
     };
   };
-
-  xdg.configFile."systemd/user/git-sync-doomemacs.service.d/override.conf".text = ''
-    [Service]
-    Environment=PATH=${lib.makeBinPath (with pkgs; [openssh git git-lfs])}
-  '';
 }
