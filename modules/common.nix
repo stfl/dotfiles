@@ -41,9 +41,9 @@ with lib; {
 
     yazi # file browser
 
-    # atop
     htop
     btop
+    glances
     # mtr  >> does not work as unprivilgeded user
 
     # --- keyring
