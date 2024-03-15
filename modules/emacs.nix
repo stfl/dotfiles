@@ -27,8 +27,8 @@ in {
     emacs-lsp-booster
 
     # -- nix tooling
-    nil
-    alejandra
+    nil # lsp
+    alejandra # formatter
 
     nodejs
 
