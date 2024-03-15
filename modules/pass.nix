@@ -47,5 +47,9 @@
     maxCacheTtl = 64800;
     maxCacheTtlSsh = 64800;
     # sshKeys = [];  # TODO keygrips!!
+    extraConfig = ''
+      allow-emacs-pinentry
+      # allow-loopback-pinentry
+    '';
   };
 }

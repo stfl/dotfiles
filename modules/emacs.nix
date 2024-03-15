@@ -54,11 +54,6 @@ in {
 
   programs.git.extraConfig.core.editor = "${config.programs.emacs.finalPackage}/bin/emacsclient --no-wait";
 
-  services.gpg-agent.extraConfig = ''
-    allow-emacs-pinentry
-    # allow-loopback-pinentry
-  '';
-
   services.git-sync = {
     enable = true;
     repositories = {
