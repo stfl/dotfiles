@@ -26,7 +26,7 @@ in {
     mixxx
 
     # -- rust
-    rustup
+    # rustup
 
     # downloader
     spotdl
