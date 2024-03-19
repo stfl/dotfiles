@@ -31,6 +31,8 @@
     emacs-lsp-booster,
     ...
   } @ inputs: let
+    lib = nixpkgs.lib;
+    system = "x86_64-linux";
     mkHomeConfig = username: machineModule: system:
       home-manager.lib.homeManagerConfiguration {
         pkgs = import nixpkgs {
@@ -66,5 +68,21 @@
       "stefan@amsel" = mkHomeConfig "stefan" ./machine/amsel.nix "x86_64-linux";
       "slendl@leah" = mkHomeConfig "slendl" ./machine/leah.nix "x86_64-linux";
     };
+
+    nixosConfigurations = {
+      nixos-vm = lib.nixosSystem {
+          inherit system;
+          modules = [
+            ./hosts/nixos-vm
+            home-manager.nixosModules.home-manager {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+            #  home-manager.users.stefan = {
+            #    imports = [ ./home.nix ];
+            #  };
+            }
+          ];
+	};
+     };
   };
 }
