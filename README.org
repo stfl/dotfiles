@@ -386,3 +386,19 @@ Brave and Chrome do not seem to allow specifying policies in /home
 This could possibly be overwritten by passing =--user-data-dir= to Brave.
 
 [[https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/applications/networking/browsers/brave/default.nix#L187C36-L187C51][Brave nix source]]
+
+* nixos-rebuild
+
+#+begin_src bash :noeval
+nixos-rebuild switch --flake ".#"
+#+end_src
+
+** on target-host
+
+#+begin_src bash :noeval
+nixos-rebuild \
+    --target-host stefan@192.168.31.217 \
+    --use-remote-sudo \
+    switch \
+    --flake ".#nixos-vm"
+#+end_src
