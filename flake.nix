@@ -33,7 +33,7 @@
   } @ inputs: let
     lib = nixpkgs.lib;
     system = "x86_64-linux";
-    mkHomeConfig = username: machineModule: system:
+    mkStandaloneHomeConfig = username: homeModule: system:
       home-manager.lib.homeManagerConfiguration {
         pkgs = import nixpkgs {
           system = "${system}";
@@ -59,14 +59,14 @@
             ];
           }
           ./modules/common.nix
-          machineModule
+          homeModule
         ];
       };
   in {
     defaultPackage.x86_64-linux = home-manager.defaultPackage.x86_64-linux;
     homeConfigurations = {
-      "stefan@amsel" = mkHomeConfig "stefan" ./machine/amsel.nix "x86_64-linux";
-      "slendl@leah" = mkHomeConfig "slendl" ./machine/leah.nix "x86_64-linux";
+      "stefan@amsel" = mkStandaloneHomeConfig "stefan" ./hosts/amsel/home.nix "x86_64-linux";
+      "slendl@leah" = mkStandaloneHomeConfig "slendl" ./hosts/leah/home.nix "x86_64-linux";
     };
 
     nixosConfigurations = {
@@ -82,7 +82,7 @@
               home.stateVersion = "23.11";
               imports = [
                 ./modules/common.nix
-                ./machine/nixos-vm.nix
+                ./hosts/nixos-vm/home.nix
               ];
             };
           }
