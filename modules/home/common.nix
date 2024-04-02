@@ -9,6 +9,7 @@ with lib; {
   xdg.enable = true;
   xdg.mime.enable = true;
 
+  # FIXME I don't actually need the home-manager binary
   programs.home-manager.enable = true;
 
   systemd.user.startServices = "sd-switch";
@@ -160,7 +161,7 @@ with lib; {
   };
   home.file.".ssh/config.d/" = {
     recursive = true;
-    source = ../config/ssh;
+    source = ../../config/ssh;
   };
 
   programs.tmux = {
@@ -420,5 +421,5 @@ with lib; {
   };
 
   programs.afew.enable = true;
-  xdg.configFile."afew/config".source = lib.mkForce ../config/afew/config;
+  xdg.configFile."afew/config".source = lib.mkForce ../../config/afew/config;
 }

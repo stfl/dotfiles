@@ -58,7 +58,7 @@
               emacs-lsp-booster.overlays.default
             ];
           }
-          ./modules/common.nix
+          ./modules/home/common.nix
           homeModule
         ];
       };
@@ -81,7 +81,7 @@
             home-manager.users.stefan = {
               home.stateVersion = "23.11";
               imports = [
-                ./modules/common.nix
+                ./modules/home/common.nix
                 ./hosts/nixos-vm/home.nix
               ];
             };

@@ -491,7 +491,7 @@ in {
         };
       };
     };
-    style = ../config/waybar.css;
+    style = ../../config/waybar.css;
   };
 
   services.swayosd = {
@@ -499,7 +499,7 @@ in {
     topMargin = 0.1;
   };
   systemd.user.services.swayosd.Install.WantedBy = ["sway-session.target"];
-  xdg.configFile."swayosd/style.scss".source = ../config/swayosd/style.scss;
+  xdg.configFile."swayosd/style.scss".source = ../../config/swayosd/style.scss;
 
   # programs.cava = {
   #   enable = true;

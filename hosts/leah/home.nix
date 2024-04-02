@@ -6,9 +6,9 @@
 }:
 with lib; {
   imports = [
-    ../../modules/desktop.nix
-    ../../modules/emacs.nix
-    ../../modules/pass.nix
+    ../../modules/home/desktop.nix
+    ../../modules/home/emacs.nix
+    ../../modules/home/pass.nix
   ];
 
   targets.genericLinux.enable = true;
