@@ -7,24 +7,16 @@
 with lib; let
 in {
   imports = [
+    ../../modules/home/common.nix
     ../../modules/home/desktop.nix
     ../../modules/home/emacs.nix
     ../../modules/home/pass.nix
   ];
 
-  targets.genericLinux.enable = true;
+  home.stateVersion = "23.11";
 
   home.packages = with pkgs; [
     nvtop-intel
-
-    mixxx
-
-    # -- rust
-    # rustup
-
-    # downloader
-    spotdl
-    yt-dlp
   ];
 
   programs.waybar.settings.mainBar = {

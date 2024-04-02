@@ -72,20 +72,10 @@
     nixosConfigurations = {
       nixos-vm = lib.nixosSystem {
         inherit system;
+        specialArgs = inputs;
         modules = [
+          ./modules
           ./hosts/nixos-vm
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.stefan = {
-              home.stateVersion = "23.11";
-              imports = [
-                ./modules/home/common.nix
-                ./hosts/nixos-vm/home.nix
-              ];
-            };
-          }
         ];
       };
     };

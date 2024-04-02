@@ -4,6 +4,7 @@
 {
   config,
   pkgs,
+  home-manager,
   ...
 }: let
   USER = "stefan";
@@ -11,6 +12,7 @@ in {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    home-manager.nixosModules.default
   ];
 
   # Bootloader.
@@ -89,9 +91,6 @@ in {
 
   programs.zsh.enable = true;
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -130,40 +129,31 @@ in {
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.11"; # Did you read the comment?
 
-  #  nix = {
-  #    settings.auto-optimize-store = true;
-  #    gc = {
-  #      automatic = true;
-  #	dates = "weekly";
-  #	options = "--delete-older-than 14d";
-  #    };
-  #  };
+  home-manager.users.${USER} = {
+    home.stateVersion = "23.11";
+    imports = [./home.nix];
+  };
 
   nix.settings.trusted-users = ["root" "${USER}"];
 
-  services.syncthing = {
-    enable = true;
-    user = "${USER}";
-    dataDir = "/home/${USER}/syncthing";
-    configDir = "/home/${USER}/.config/syncthing";
-    guiAddress = "127.0.0.1:8384";
-  };
+  # services.syncthing = {
+  #   enable = true;
+  #   user = "${USER}";
+  #   dataDir = "/home/${USER}/syncthing";
+  #   configDir = "/home/${USER}/.config/syncthing";
+  #   guiAddress = "127.0.0.1:8384";
+  # };
 
   virtualisation.docker.enable = true;
   # TODO KVM and QEMU
 
-  fonts.packages = with pkgs; [
-    noto-fonts
-    fira-code
-    ubuntu_font_family
-    jetbrains-mono
-    source-code-pro
-    anonymousPro
-  ];
-  fonts.fontDir.enable = true;
-
-  nix = {
-    package = pkgs.nixFlakes;
-    extraOptions = "experimental-features = nix-command flakes";
-  };
+  # fonts.packages = with pkgs; [
+  #   noto-fonts
+  #   fira-code
+  #   ubuntu_font_family
+  #   jetbrains-mono
+  #   source-code-pro
+  #   anonymousPro
+  # ];
+  # fonts.fontDir.enable = true;
 }
