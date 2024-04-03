@@ -17,7 +17,7 @@ with lib; {
 
   home.packages = with pkgs; [
     nixgl.nixGLIntel
-    nvtop-intel
+    nvtopPackages.intel
 
     # -- rust
     rust-analyzer

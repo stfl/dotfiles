@@ -19,7 +19,7 @@ in {
 
   home.packages = with pkgs; [
     nixgl.nixGLIntel
-    nvtop-intel
+    nvtopPackages.intel
 
     (nixGL calibre)
 

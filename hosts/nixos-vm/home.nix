@@ -16,7 +16,7 @@ in {
   home.stateVersion = "23.11";
 
   home.packages = with pkgs; [
-    nvtop-intel
+    nvtopPackages.intel
   ];
 
   programs.waybar.settings.mainBar = {
