@@ -436,10 +436,11 @@ in {
         };
         network = {
           # "interface" = "wlp2s0"; // (Optional) To force the use of this interface;
-          format = "⚠ Disabled";
+          # format = "⚠ Disabled";
           format-wifi = "  {essid}";
           format-ethernet = " {ifname}: {ipaddr}/{cidr}";
           format-disconnected = "⚠ Disconnected";
+          format-disabled = "🛪 Disabled";
         };
         pulseaudio = {
           scroll-step = 5;
