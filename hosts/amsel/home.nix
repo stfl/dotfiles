@@ -5,7 +5,7 @@
   ...
 }:
 with lib; let
-  nixGL = import ../modules/nixGL.nix {inherit pkgs config;};
+  nixGL = import ../../modules/home/nixGL.nix {inherit pkgs config;};
 in {
   imports = [
     ../../modules/home/desktop.nix
