@@ -6,8 +6,22 @@
   ...
 }:
 with lib; {
-  xdg.enable = true;
-  xdg.mime.enable = true;
+  xdg = {
+    enable = true;
+    mime.enable = true;
+    userDirs = {
+      enable = true;
+      desktop = "Desktop";
+      documents = "Documents";
+      download = "Downloads";
+      music = "Music";
+      pictures = "Pictures";
+      videos = "Videos";
+      extraConfig = {
+        XDG_SCREENSHOTS_DIR = "${config.home.homeDirectory}/Screenshots";
+      };
+    };
+  };
 
   # FIXME I don't actually need the home-manager binary
   programs.home-manager.enable = true;

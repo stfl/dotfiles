@@ -244,6 +244,11 @@ in {
 
           # wofi-pass
           "${modifier}+g" = "exec --no-startup-id wofi-pass --autotype";
+
+          # Taking screenshots with grimshot
+          "${modifier}+Mod1+p" = "exec --no-startup-id grimshot --notify save area";
+          "${modifier}+Shift+p" = "exec --no-startup-id grimshot --notify save active";
+          "${modifier}+Ctrl+p" = "exec --no-startup-id grimshot --notify save output";
         };
       seat = {
         "*" = {
