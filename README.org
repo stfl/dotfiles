@@ -14,7 +14,7 @@ nix run . -- switch -b backup --flake .
 #+begin_src bash
 nix flake update
 nix run . -- build --flake .
-nvd diff result /nix/var/nix/profiles/per-user/${USER}/home-manager
+nvd diff /nix/var/nix/profiles/per-user/${USER}/home-manager result
 
 read "Continue? [Enter] → Yes, [Ctrl]+[C] → No."
 nix run . -- switch -b backup --flake .
