@@ -39,6 +39,7 @@ with lib; {
     btop
     glances
     # mtr  >> does not work as unprivilgeded user
+    diskonaut
 
     # --- keyring
     gpg-tui
