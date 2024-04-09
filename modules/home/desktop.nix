@@ -14,7 +14,7 @@ in {
   ];
 
   home.sessionVariables = {
-    TERMINAL = TERMINAL;
+    inherit TERMINAL;
     BROWSER = "${getExe (nixGL pkgs.brave)}";
   };
 
@@ -51,7 +51,6 @@ in {
     symbola
     dejavu_fonts
     hicolor-icon-theme
-    # quivira       # TODO https://github.com/NixOS/nixpkgs/pull/167228
     nerdfonts
   ];
 
@@ -246,9 +245,9 @@ in {
           "${modifier}+g" = "exec --no-startup-id wofi-pass --autotype";
 
           # Taking screenshots with grimshot
-          "${modifier}+Mod1+p" = "exec --no-startup-id grimshot --notify save area";
-          "${modifier}+Shift+p" = "exec --no-startup-id grimshot --notify save active";
-          "${modifier}+Ctrl+p" = "exec --no-startup-id grimshot --notify save output";
+          "${modifier}+Mod1+p" = "exec --no-startup-id ${getExe pkgs.sway-contrib.grimshot} --notify save area";
+          "${modifier}+Shift+p" = "exec --no-startup-id ${getExe pkgs.sway-contrib.grimshot} --notify save active";
+          "${modifier}+Ctrl+p" = "exec --no-startup-id ${getExe pkgs.sway-contrib.grimshot} --notify save output";
         };
       seat = {
         "*" = {
@@ -324,7 +323,7 @@ in {
       }
       {
         timeout = 1800;
-        command = "systemctl suspend";
+        command = "systemctl suspend"; # FIXME this does not work!
       }
     ];
   };
@@ -334,10 +333,6 @@ in {
     tray = true;
     latitude = 48.210033;
     longitude = 16.363449;
-    # temperate = {
-    #   day = ...;
-    #   night = ...;
-    # };
   };
 
   services.mako = {

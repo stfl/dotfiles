@@ -23,9 +23,6 @@ with lib; {
     };
   };
 
-  # FIXME I don't actually need the home-manager binary
-  programs.home-manager.enable = true;
-
   systemd.user.startServices = "sd-switch";
 
   home.sessionVariables = {
@@ -122,6 +119,10 @@ with lib; {
     userName = "Stefan Lendl";
     userEmail = "git@stfl.dev";
     ignores = ["*~" "*.swp" "my-patches"];
+    difftastic = {
+      enable = false; # TODO unfortunatly, this breaks things in magit
+      background = "dark";
+    };
     aliases = {
       a = "add";
       br = "branch";
