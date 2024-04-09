@@ -9,6 +9,7 @@ with lib; {
     ../../modules/home/desktop.nix
     ../../modules/home/emacs.nix
     ../../modules/home/pass.nix
+    ../../modules/home/email.nix
   ];
 
   targets.genericLinux.enable = true;
@@ -74,5 +75,55 @@ with lib; {
       #   };
       # }
     ];
+  };
+
+  accounts.email = {
+    maildirBasePath = "Mail";
+    accounts = {
+      "proxmox" = {
+        address = "s.lendl@proxmox.com";
+        primary = true;
+        realName = "Stefan Lendl";
+        userName = "s.lendl";
+        passwordCommand = "${config.programs.rbw.package}/bin/rbw get webmail.proxmox.com";
+        # signature = {TODO};
+        folders = {
+          drafts = "Entw&APw-rfe";
+          inbox = "Inbox";
+          sent = "Gesendete Objekte";
+        };
+        imap = {
+          host = "webmail.proxmox.com";
+          # port = 993;
+          tls.enable = true;
+          # imapnotify = {
+          #   enable = true;
+          #   boxes = [
+          #     "Inbox";
+          #   ];
+          # };
+        };
+        smtp = {
+          host = "mail.proxmox.com";
+          port = 25;
+          tls.enable = false;
+          # port =
+        };
+        msmtp = {
+          enable = true;
+          extraConfig = {
+            auth = "off";
+          };
+        };
+        mbsync = {
+          enable = true;
+          create = "both"; # TODO "maildir" // imap" // "both" ??
+          # remove = "both";
+        };
+        # mu.enable = true;
+        notmuch.enable = true;
+        # thunderbird.enable = true;
+      };
+    };
   };
 }
