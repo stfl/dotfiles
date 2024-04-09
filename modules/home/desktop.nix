@@ -13,6 +13,27 @@ in {
     ./nixgl-option.nix
   ];
 
+  xdg = {
+    enable = true;
+    mime.enable = true;
+    userDirs = {
+      enable = true;
+      desktop = "Desktop";
+      documents = "Documents";
+      download = "Downloads";
+      music = "Music";
+      pictures = "Pictures";
+      videos = "Videos";
+      extraConfig = {
+        XDG_SCREENSHOTS_DIR = "${config.home.homeDirectory}/Screenshots";
+      };
+    };
+  };
+
+  home.activation.createScreenshotDir = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    run mkdir -p ${config.xdg.userDirs.extraConfig.XDG_SCREENSHOTS_DIR}
+  '';
+
   home.sessionVariables = {
     inherit TERMINAL;
     BROWSER = "${getExe (nixGL pkgs.brave)}";

@@ -6,27 +6,6 @@
   ...
 }:
 with lib; {
-  xdg = {
-    enable = true;
-    mime.enable = true;
-    userDirs = {
-      enable = true;
-      desktop = "Desktop";
-      documents = "Documents";
-      download = "Downloads";
-      music = "Music";
-      pictures = "Pictures";
-      videos = "Videos";
-      extraConfig = {
-        XDG_SCREENSHOTS_DIR = "${config.home.homeDirectory}/Screenshots";
-      };
-    };
-  };
-
-  home.activation.createScreenshotDir = lib.hm.dag.entryAfter ["writeBoundary"] ''
-    run mkdir -p ${config.xdg.userDirs.extraConfig.XDG_SCREENSHOTS_DIR}
-  '';
-
   systemd.user.startServices = "sd-switch";
 
   home.sessionVariables = {
