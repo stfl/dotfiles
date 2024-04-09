@@ -34,8 +34,7 @@ with lib; {
   ];
 
   home.packages = with pkgs; [
-    nixpkgs-fmt
-    nvd
+    nvd # diffing nix derivations
 
     # -- git and github runner
     gitAndTools.gh

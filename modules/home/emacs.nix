@@ -5,6 +5,7 @@
   ...
 }:
 with lib; let
+  # TODO this should already exist in emacs 29.2
   org-protocol = pkgs.makeDesktopItem {
     name = "org-protocol";
     desktopName = "Org Protocol";
@@ -36,7 +37,7 @@ in {
     # languagetool
     # ltex-ls
     # enchant
-    (aspellWithDicts (dicts: with dicts; [en en-computers en-science de]))
+    # (aspellWithDicts (dicts: with dicts; [en en-computers en-science de]))
   ];
 
   programs.emacs = {
