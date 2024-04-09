@@ -23,6 +23,10 @@ with lib; {
     };
   };
 
+  home.activation.createScreenshotDir = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    run mkdir -p ${config.xdg.userDirs.extraConfig.XDG_SCREENSHOTS_DIR}
+  '';
+
   systemd.user.startServices = "sd-switch";
 
   home.sessionVariables = {
