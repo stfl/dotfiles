@@ -78,6 +78,14 @@
           ./hosts/nixos-vm
         ];
       };
+      kondor = lib.nixosSystem {
+        inherit system;
+        specialArgs = inputs;
+        modules = [
+          ./modules
+          ./hosts/kondor
+        ];
+      };
     };
   };
 }

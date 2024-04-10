@@ -5,6 +5,7 @@
   config,
   pkgs,
   home-manager,
+  lib,
   ...
 }: let
   USER = "stefan";
@@ -15,12 +16,22 @@ in {
     home-manager.nixosModules.default
   ];
 
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/sda";
-  boot.loader.grub.useOSProber = true;
+  # Bootloader.
+  boot = {
+    # kernelPackages = lib.mkDefault pkgs.linuxKernel.packages.linux_6_6;
+    loader = {
+      systemd-boot = {
+        enable = true;
+        configurationLimit = 10;
+      };
+      efi.canTouchEfiVariables = true;
+      timeout = 5;
+    };
+  };
 
-  networking.hostName = "nixos-vm";
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking.hostName = "kondor";
+
+  # networking.wireless.enable = true; # Enables wireless support via wpa_supplicant. (not compatible with NetworkManager)
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -87,6 +98,7 @@ in {
     vim
     htop
     killall
+    rsync
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -123,13 +135,13 @@ in {
 
   nix.settings.trusted-users = ["root" "${USER}"];
 
-  # services.syncthing = {
-  #   enable = true;
-  #   user = "${USER}";
-  #   dataDir = "/home/${USER}/syncthing";
-  #   configDir = "/home/${USER}/.config/syncthing";
-  #   guiAddress = "127.0.0.1:8384";
-  # };
+  services.syncthing = {
+    enable = true;
+    user = "${USER}";
+    dataDir = "/home/${USER}/syncthing";
+    configDir = "/home/${USER}/.config/syncthing";
+    guiAddress = "127.0.0.1:8384";
+  };
 
   virtualisation.docker.enable = true;
   # TODO KVM and QEMU
