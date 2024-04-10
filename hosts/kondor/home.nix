@@ -13,8 +13,6 @@ in {
     ../../modules/home/pass.nix
   ];
 
-  home.stateVersion = "23.11";
-
   home.packages = with pkgs; [
     nvtopPackages.intel
   ];
@@ -23,7 +21,9 @@ in {
     network.on-click = "nm-connection-editor";
   };
 
-  wayland.windowManager.sway.extraOptions = [
+  wayland.windowManager.sway.extraOptions = lib.mkForce [
+    "--verbose"
+    "--debug"
     "--unsupported-gpu"
   ];
 }

@@ -126,10 +126,10 @@ in {
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.11"; # Did you read the comment?
+  system.stateVersion = "24.05"; # Did you read the comment?
 
   home-manager.users.${USER} = {
-    home.stateVersion = "23.11";
+    home.stateVersion = "24.05";
     imports = [./home.nix];
   };
 
@@ -155,4 +155,14 @@ in {
   #   anonymousPro
   # ];
   # fonts.fontDir.enable = true;
+
+  # Enable OpenGL
+  hardware.opengl = {
+    enable = true;
+    driSupport = true;
+    driSupport32Bit = true;
+    extraPackages = with pkgs; [
+      vaapiVdpau
+    ];
+  };
 }
