@@ -11,6 +11,7 @@ in {
     ../../modules/home/desktop.nix
     ../../modules/home/emacs.nix
     ../../modules/home/pass.nix
+    ../../modules/home/syncthing.nix
   ];
 
   targets.genericLinux.enable = true;
