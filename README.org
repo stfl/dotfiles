@@ -373,3 +373,87 @@ nixos-rebuild \
     switch \
     --flake ".#nixos-vm"
 #+end_src
+* NixOS Setup
+
+The easiest solution is to do a remote setup. Having the nixos config on an
+existing machine and connect to the new system via ssh.
+
+On the installation target, I need to change the password, so that ssh will work.
+
+#+begin_src bash :noeval
+passwd
+#+end_src
+
+** Partitioning
+
+Partioning with an ESP and a single large partition with ext4.
+
+#+begin_src bash :noeval
+# EVO Plus 500gb
+parted /dev/nvme0n1 -- mklabel gpt
+parted /dev/nvme0n1 -- mkpart ESP fat32 1MiB 512MiB
+parted /dev/nvme0n1 -- mkpart primary 512MiB 100%
+parted /dev/nvme0n1 -- set 1 boot on
+mkfs.fat -F32 -n BOOT /dev/nvme0n1p1
+mkfs.ext4 -L nixos /dev/nvme0n1p2
+#+end_src
+
+** Setup
+
+#+begin_src bash :noeval
+mount /dev/disk/by-label/nixos /mnt
+mkdir -p /mnt/boot
+mount /dev/disk/by-label/BOOT /mnt/boot
+#+end_src
+
+generate the hardware-configuration.nix
+
+#+begin_src bash :noeval
+nixos-generate-config --root /mnt --dir .
+#+end_src
+
+copy the hardware-configuration to the git repo
+
+#+begin_src bash
+HOST=kondor
+mkdir -p hosts/$HOST
+scp nixos@192.168.11.11:hardware-configuration.nix hosts/$HOST
+cp hosts/nixos-vm/{default,home}.nix hosts/$HOST
+#+end_src
+
+... customize =hardware-configuration.nix, default.nix and home.nix=
+
+** Installation
+
+you will need to get the config to the target, because remote nixos-install does
+not exist...
+
+~THIS DOES NOT WORK, BECAUSE THERE IS NOT rsync ON THE TARGET~
+#+begin_src bash
+rsync -ravh ./ nixos@192.168.11.11:dotfiles/ --exclude /
+#+end_src
+
+On the target, run nixos-install
+
+#+begin_src bash :noeval
+HOST=kondor
+nixos-install --root /mnt --flake .#$HOST
+#+end_src
+
+** Repair NixOS Installation via Live ISO
+:PROPERTIES:
+:ID:       ef647d22-567a-4a19-8fbd-e0cf897cd69e
+:END:
+
+To repair a [[id:3ac15631-6cd3-4832-90fd-5e1f34de7d7d][NixOS]] installation when booted to a live ISO:
+
+[[* Mount the partitions]] to ~/mnt~ and enter the special nixos chroot:
+
+#+begin_src bash :noeval
+nixos-enter
+#+end_src
+
+#+begin_src bash :noeval
+cd /path/to/dotfiles
+nixos-rebuild switch --flake .#nixos-vm
+#+end_src
