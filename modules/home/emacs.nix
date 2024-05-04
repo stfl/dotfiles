@@ -43,7 +43,7 @@ in {
   programs.emacs = {
     enable = true;
     package = pkgs.emacs29-pgtk;
-    extraPackages = epkgs: with epkgs; [vterm];
+    extraPackages = epkgs: with epkgs; [vterm pdf-tools];
   };
 
   services.emacs = {
