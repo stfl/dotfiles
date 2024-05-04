@@ -27,6 +27,7 @@ in {
 
     # -- rust
     # rustup
+    yarn
 
     # downloader
     spotdl
