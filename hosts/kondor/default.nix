@@ -99,6 +99,8 @@ in {
     htop
     killall
     rsync
+
+    qt5.qtwayland
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
