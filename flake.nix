@@ -86,6 +86,14 @@
           ./hosts/kondor
         ];
       };
+      falke = lib.nixosSystem {
+        inherit system;
+        specialArgs = inputs;
+        modules = [
+          ./modules
+          ./hosts/falke
+        ];
+      };
     };
   };
 }

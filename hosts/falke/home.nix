@@ -22,8 +22,4 @@ in {
   programs.waybar.settings.mainBar = {
     network.on-click = "nm-connection-editor";
   };
-
-  wayland.windowManager.sway.extraOptions = [
-    "--unsupported-gpu"
-  ];
 }
