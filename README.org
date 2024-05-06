@@ -388,22 +388,24 @@ passwd
 
 Partioning with an ESP and a single large partition with ext4.
 
-#+begin_src bash :noeval
-# EVO Plus 500gb
-parted /dev/nvme0n1 -- mklabel gpt
-parted /dev/nvme0n1 -- mkpart ESP fat32 1MiB 512MiB
-parted /dev/nvme0n1 -- mkpart primary 512MiB 100%
-parted /dev/nvme0n1 -- set 1 boot on
-mkfs.fat -F32 -n BOOT /dev/nvme0n1p1
-mkfs.ext4 -L nixos /dev/nvme0n1p2
-#+end_src
+#+begin_export bash :noeval
+parted /dev/sda -- mklabel gpt
+parted /dev/sda -- mkpart ESP fat32 1MiB 512MiB
+parted /dev/sda -- mkpart primary linux-swap 512MiB 8.5GiB
+parted /dev/sda -- mkpart primary 8.5GiB 100%
+parted /dev/sda -- set 1 boot on
+mkfs.fat -F32 -n BOOT /dev/sda1
+mkswap -L swap /dev/sda2
+mkfs.ext4 -L nixos /dev/sda3
+#+end_export
 
 ** Setup
 
 #+begin_src bash :noeval
-mount /dev/disk/by-label/nixos /mnt
+mount /dev/sda3 /mnt
 mkdir -p /mnt/boot
-mount /dev/disk/by-label/BOOT /mnt/boot
+mount /dev/sda1 /mnt/boot
+swapon /dev/sda2
 #+end_src
 
 generate the hardware-configuration.nix
