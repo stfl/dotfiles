@@ -50,6 +50,11 @@ with lib; {
     poetry
   ];
 
+  programs.fd = {
+    enable = true;
+    # extraOptions = "--no-ignore-vcs";
+  };
+
   programs.ripgrep = {
     enable = true;
     arguments = [
