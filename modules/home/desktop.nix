@@ -148,16 +148,30 @@ in {
     extraSessionCommands = ''
       # SDL:
       export SDL_VIDEODRIVER=wayland
-      # QT (needs qt5.qtwayland in systemPackages), needed by VirtualBox GUI:
-      export QT_QPA_PLATFORM=wayland
-      export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
       export NIXOS_OZONE_WL=1
       export GDK_BACKEND=wayland
+
+      export _JAVA_AWT_WM_NONREPARENTING=1
+      export BEMENU_BACKEND=wayland
+      export CLUTTER_BACKEND=wayland
+      export ECORE_EVAS_ENGINE=wayland_egl
+      export ELM_ACCEL=gl
+      export ELM_DISPLAY=wl
+      export ELM_ENGINE=wayland_egl
+      export MOZ_DBUS_REMOTE=1
+      export MOZ_ENABLE_WAYLAND=1
+      export NO_AT_BRIDGE=1
+      export SAL_USE_VCLPLUGIN=gtk3
+
+      export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+      export QT_QPA_PLATFORM=wayland-egl # needs qt5.qtwayland in systemPackages
+      export QT_QPA_PLATFORMTHEME="qt5ct"
+
+      export XDG_SESSION_TYPE="wayland"
+      export XDG_CURRENT_DESKTOP="sway"
     '';
     extraOptions = [
       "--verbose"
-      # "--debug"
-      # "--unsupported-gpu"
     ];
     wrapperFeatures = {
       base = true;

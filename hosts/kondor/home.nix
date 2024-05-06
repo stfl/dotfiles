@@ -13,8 +13,6 @@ in {
     ../../modules/home/pass.nix
   ];
 
-  home.stateVersion = "23.11";
-
   home.packages = with pkgs; [
     nvtopPackages.intel
   ];
@@ -23,7 +21,15 @@ in {
     network.on-click = "nm-connection-editor";
   };
 
-  wayland.windowManager.sway.extraOptions = [
-    "--unsupported-gpu"
-  ];
+  wayland.windowManager.sway = {
+    extraOptions = [
+      "--unsupported-gpu"
+    ];
+    extraSessionCommands = ''
+      # Nvidia specific config
+      export WLR_NO_HARDWARE_CURSORS=1
+      export GBM_BACKEND=nvidia-drm
+      export __GLX_VENDOR_LIBRARY_NAME=nvidia
+    '';
+  };
 }
