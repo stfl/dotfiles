@@ -99,6 +99,8 @@ in {
     htop
     killall
     rsync
+
+    qt5.qtwayland
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -155,4 +157,14 @@ in {
   #   anonymousPro
   # ];
   # fonts.fontDir.enable = true;
+
+  # Enable OpenGL
+  hardware.opengl = {
+    enable = true;
+    driSupport = true;
+    driSupport32Bit = true;
+    extraPackages = with pkgs; [
+      vaapiVdpau
+    ];
+  };
 }
