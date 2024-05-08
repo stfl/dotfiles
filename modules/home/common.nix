@@ -33,6 +33,8 @@ with lib; {
 
     yazi # file browser
 
+    unzip
+
     htop
     btop
     glances
@@ -354,5 +356,4 @@ with lib; {
     # extraPackages = [];
     # https://github.com/nix-community/home-manager/blob/master/modules/programs/bat.nix
   };
-
 }
