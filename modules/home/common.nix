@@ -22,7 +22,6 @@ with lib; {
     # -- git and github runner
     gitAndTools.gh
     gitAndTools.git-crypt
-    act
     git-absorb
 
     # -- terminal tools
