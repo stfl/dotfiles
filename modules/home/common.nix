@@ -161,9 +161,16 @@ with lib; {
       AddKeysToAgent yes
     '';
   };
-  home.file.".ssh/config.d/" = {
+  home.file.".ssh/config.d.ln/" = {
     recursive = true;
     source = ../../config/ssh;
+    onChange = ''${getExe pkgs.rsync} -rL --chown "stefan:users" --del ~/.ssh/config.d.ln/ ~/.ssh/config.d/'';
+  };
+
+  # workaround to have a full copy of the config
+  home.file.".ssh/config" = {
+    target = ".ssh/config.ln";
+    onChange = ''cat ~/.ssh/config.ln > ~/.ssh/config && chmod 600 ~/.ssh/config'';
   };
 
   programs.tmux = {
