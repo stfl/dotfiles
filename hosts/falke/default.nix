@@ -61,11 +61,12 @@ in {
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
+  security.polkit.enable = true;
+
   # Enable sound with pipewire.
   sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
-  security.polkit.enable = true;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -101,7 +102,6 @@ in {
     killall
     rsync
 
-    qt5.qtwayland
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

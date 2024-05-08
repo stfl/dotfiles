@@ -13,8 +13,6 @@ in {
     ../../modules/home/pass.nix
   ];
 
-  home.stateVersion = "23.11";
-
   home.packages = with pkgs; [
     nvtopPackages.intel
   ];
