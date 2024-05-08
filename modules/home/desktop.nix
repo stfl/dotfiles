@@ -534,7 +534,6 @@ in {
     topMargin = 0.1;
   };
   systemd.user.services.swayosd.Install.WantedBy = ["sway-session.target"];
-  xdg.configFile."swayosd/style.css".source = ../../config/swayosd/style.css;
 
   # programs.cava = {
   #   enable = true;
