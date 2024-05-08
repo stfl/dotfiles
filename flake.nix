@@ -20,7 +20,6 @@
     emacs-lsp-booster = {
       url = "github:slotThe/emacs-lsp-booster-flake";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-utils.follows = "flake-utils";
     };
   };
 
