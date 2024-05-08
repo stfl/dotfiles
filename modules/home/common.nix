@@ -6,7 +6,6 @@
   ...
 }:
 with lib; {
-  systemd.user.startServices = "sd-switch";
 
   home.sessionVariables = {
     PAGER = "less -FR --mouse";

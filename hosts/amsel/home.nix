@@ -15,6 +15,7 @@ in {
   ];
 
   targets.genericLinux.enable = true;
+  systemd.user.startServices = "sd-switch";
 
   nixGLPrefix = getExe pkgs.nixgl.nixGLIntel;
 
