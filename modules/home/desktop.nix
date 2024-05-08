@@ -455,8 +455,7 @@ in {
           };
         };
         temperature = {
-          # // "thermal-zone" = 2;
-          # // "hwmon-path" = "/sys/class/hwmon/hwmon2/temp1_input";
+          # "thermal-zone" = 2;
           critical-threshold = 80;
           format = " {temperatureC}°C";
         };
