@@ -359,10 +359,6 @@ in {
         timeout = 600;
         command = "${swaylock-bin} -fF";
       }
-      {
-        timeout = 1800;
-        command = "systemctl suspend"; # FIXME this does not work!
-      }
     ];
   };
 
