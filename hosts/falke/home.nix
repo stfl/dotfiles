@@ -38,6 +38,21 @@ in {
           }
         ];
       };
+      magazin_hdmi = {
+        outputs = [
+          {
+            criteria = "eDP-1";
+            # position = "0,2160";
+            position = "0,1801"; # 1.2 scaling
+          }
+          {
+            # criteria = "HannStar*HC284UFB*";
+            criteria = "HDMI-A-1";
+            position = "0,0";
+            scale = 1.2;
+          }
+        ];
+      };
     };
   };
 
