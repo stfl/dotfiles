@@ -84,10 +84,20 @@ in {
   users.users.${USER} = {
     isNormalUser = true;
     description = "Stefan";
-    extraGroups = ["networkmanager" "wheel" "docker"];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "docker"
+      "plugdev" # for zsa
+    ];
     initialPassword = "nixos";
     shell = pkgs.zsh;
   };
+
+  # ErgoDox EZ
+  hardware.keyboard.zsa.enable = true;
+
+  hardware.ledger.enable = true;
 
   programs.zsh.enable = true;
 
