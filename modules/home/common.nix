@@ -339,13 +339,6 @@ with lib; {
     enableZshIntegration = true;
   };
 
-  programs.neovim = {
-    enable = true;
-    viAlias = true;
-    vimAlias = true;
-    vimdiffAlias = true;
-  };
-
   programs.bat = {
     enable = true;
     config = {
