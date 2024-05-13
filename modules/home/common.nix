@@ -6,7 +6,6 @@
   ...
 }:
 with lib; {
-
   home.sessionVariables = {
     PAGER = "less -FR --mouse";
   };
