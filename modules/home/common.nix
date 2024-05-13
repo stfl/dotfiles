@@ -266,6 +266,8 @@ with lib; {
           PS1='$ '
           PROMPT='$ '
       fi
+
+      setopt histignorespace
     '';
     prezto = {
       enable = true;
