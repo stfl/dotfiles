@@ -280,7 +280,7 @@ in {
           "${modifier}+Mod1+l" = "exec ${swaylock-bin} -fF";
 
           # wofi-pass
-          "${modifier}+g" = "exec --no-startup-id wofi-pass --autotype";
+          "${modifier}+g" = "exec --no-startup-id ${getExe pkgs.wofi-pass} --autotype";
 
           # Taking screenshots with grimshot
           "${modifier}+Mod1+p" = "exec --no-startup-id ${getExe pkgs.sway-contrib.grimshot} --notify save area";
