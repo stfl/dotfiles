@@ -534,6 +534,9 @@ in {
   };
   systemd.user.services.swayosd.Install.WantedBy = ["sway-session.target"];
 
+  # enable forwarding pause/play/.. buttons for bluetooth headsets to media players
+  services.mpris-proxy.enable = true;
+
   # programs.cava = {
   #   enable = true;
   #   settings = {
