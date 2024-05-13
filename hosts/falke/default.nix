@@ -63,6 +63,9 @@ in {
 
   security.polkit.enable = true;
 
+  # security.pam.services.swaylock = {};
+  security.pam.services.swaylock.fprintAuth = false;
+
   # Enable sound with pipewire.
   sound.enable = true;
   hardware.pulseaudio.enable = false;

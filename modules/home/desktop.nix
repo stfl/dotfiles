@@ -6,7 +6,10 @@
 }:
 with lib; let
   nixGL = import ./nixGL.nix {inherit pkgs config;};
-  swaylock-bin = "/usr/bin/swaylock"; # don't use nix' swaylock bin, because it does not work
+  swaylock-bin =
+    if (config.targets.genericLinux.enable == false)
+    then "${getExe pkgs.swaylock}"
+    else "/usr/bin/swaylock"; # don't use nix' swaylock bin, because it does not work
   TERMINAL = "${getExe config.programs.alacritty.package}";
 in {
   imports = [
@@ -274,7 +277,7 @@ in {
           "${modifier}+Shift+r" = "restart";
 
           # NOTE using swaylock installed from Debian!
-          "${modifier}+Mod1+l" = "exec ${swaylock-bin} -f";
+          "${modifier}+Mod1+l" = "exec ${swaylock-bin} -fF";
 
           # wofi-pass
           "${modifier}+g" = "exec --no-startup-id wofi-pass --autotype";
@@ -348,7 +351,7 @@ in {
       }
       {
         event = "lock";
-        command = "lock";
+        command = "${swaylock-bin}";
       }
     ];
     timeouts = [
