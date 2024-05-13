@@ -102,11 +102,36 @@ in {
     killall
     rsync
 
+    cryptsetup
+
+    (
+      let
+        UID = "1000";
+        GID = "100";
+        mount_name = "crypt-stick";
+        disk_part_id = "usb-USB_Flash_Disk_SCY0000000008298-0:0-part1";
+      in
+        writeScriptBin "mount-crypt-stick" ''
+          mkdir -p /mnt/${mount_name}
+          ${lib.getExe cryptsetup} luksOpen /dev/disk/by-id/${disk_part_id} ${mount_name}
+          mount -o uid=${UID},gid=${GID} /dev/mapper/${mount_name} /mnt/${mount_name}
+        ''
+    )
+    (
+      let
+        mount_name = "crypt-stick";
+      in
+        writeScriptBin "umount-crypt-stick" ''
+          umount /mnt/${mount_name}
+          ${lib.getExe cryptsetup} luksClose /dev/mapper/${mount_name}
+        ''
+    )
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   programs.mtr.enable = true;
+
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
