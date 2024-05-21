@@ -156,7 +156,10 @@ with lib; {
     controlMaster = "auto";
     controlPersist = "10m";
     serverAliveInterval = 10; # seconds
-    includes = ["~/.ssh/config.d/*"];
+    includes = [
+      "${config.home.homeDirectory}/.ssh/config.d/*"
+      "${config.home.homeDirectory}/.ssh/config-extra.d/*"
+    ];
     extraConfig = ''
       AddKeysToAgent yes
     '';
@@ -166,6 +169,10 @@ with lib; {
     source = ../../config/ssh;
     onChange = ''${getExe pkgs.rsync} -rL --chown "stefan:users" --del ~/.ssh/config.d.ln/ ~/.ssh/config.d/'';
   };
+
+  home.activation.createSshConfigExtraDir = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    run mkdir -p ${config.home.homeDirectory}/.ssh/config-extra.d/
+  '';
 
   # workaround to have a full copy of the config
   home.file.".ssh/config" = {
