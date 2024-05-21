@@ -21,6 +21,11 @@
       url = "github:slotThe/emacs-lsp-booster-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.darwin.follows = "";
+    };
   };
 
   outputs = {
@@ -28,6 +33,7 @@
     home-manager,
     nixgl,
     emacs-lsp-booster,
+    agenix,
     ...
   } @ inputs: let
     lib = nixpkgs.lib;
@@ -91,6 +97,8 @@
         modules = [
           ./modules
           ./hosts/falke
+          agenix.nixosModules.default
+          {environment.systemPackages = [agenix.packages.${system}.default];}
         ];
       };
     };
