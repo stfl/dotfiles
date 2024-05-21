@@ -446,9 +446,8 @@ in {
         };
         memory = {
           format = "{icon} {: >2}%";
-          critical-threshold = 10; # FIXME
           format-icons = ["○" "◔" "◑" "◕" "●"];
-          on-click = "${TERMINAL} -e htop";
+          on-click = "${TERMINAL} -e ${getExe pkgs.btop}";
           states = {
             critical = 90;
           };
@@ -466,6 +465,9 @@ in {
           on-scroll-down = "${swayosd_client} --brightness lower";
           on-scroll-up = "${swayosd_client} --brightness raise";
           # reverse-scrolling = "true";  # TODO broken
+          reverse-scrolling = true;
+          reverse-mouse-scrolling = false;
+          smooth-scrolling-threshold = 0.1;
         };
         network = {
           # "interface" = "wlp2s0"; // (Optional) To force the use of this interface;
@@ -493,11 +495,21 @@ in {
           on-click-right = "${swayosd_client} --output-volume mute-toggle";
           on-scroll-down = "${swayosd_client} --output-volume lower --max-volume 120";
           on-scroll-up = "${swayosd_client} --output-volume raise --max-volume 120";
+          reverse-scrolling = true;
+          reverse-mouse-scrolling = false;
+          smooth-scrolling-threshold = 0.1;
+          # scroll-step = 0.5;
         };
         battery = {
-          interval = 60;
+          interval = 10;
+          states.warning = 30;
+          states.critical = 10;
           format = "{capacity}% {icon}";
           format-icons = ["" "" "" "" ""];
+          format-charging = "{capacity}% 󱐋{icon}";
+          format-plugged = "{capacity}% ";
+          format-full = "{capacity}% ";
+          tooltip-format = "{timeTo}\nHealth: {health} %\nCycles: {cycles}";
         };
         disk = {
           interval = 60;
@@ -509,7 +521,7 @@ in {
         };
         cpu = {
           interval = 2;
-          on-click = "${TERMINAL} -e htop";
+          on-click = "${TERMINAL} -e ${getExe pkgs.btop}";
           states = {
             normal-load = 60;
             high-load = 80;
