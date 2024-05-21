@@ -347,16 +347,16 @@ in {
     events = [
       {
         event = "before-sleep";
-        command = "${swaylock-bin}";
+        command = "${swaylock-bin} -F";
       }
       {
         event = "lock";
-        command = "${swaylock-bin}";
+        command = "${swaylock-bin} -F";
       }
     ];
     timeouts = [
       {
-        timeout = 600;
+        timeout = 1200;
         command = "${swaylock-bin} -fF";
       }
     ];
