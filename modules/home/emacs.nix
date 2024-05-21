@@ -78,7 +78,7 @@ in {
     Service = {
       Environment = ["SSH_AUTH_SOCK=${config.systemd.user.sockets.gpg-agent-ssh.Socket.ListenStream}"];
       WorkingDirectory = "${config.home.homeDirectory}/.org";
-      ExecStartPre = "${pkgs.git-sync}/bin/git-sync -n -s"; # FIXME dont use getExe or patch upstream
+      ExecStartPre = "${pkgs.git-sync}/bin/git-sync -n -s";
       Restart = mkForce "on-failure";
     };
   };
@@ -88,7 +88,7 @@ in {
     Install.WantedBy = ["suspend.target"];
     Service = {
       Type = "simple";
-      ExecStart = "/usr/bin/systemctl --user --no-block restart git-sync-org.service";
+      ExecStart = "${pkgs.systemd}/bin/systemctl --user --no-block restart git-sync-org.service";
     };
   };
 
@@ -98,7 +98,7 @@ in {
     Service = {
       Environment = ["SSH_AUTH_SOCK=${config.systemd.user.sockets.gpg-agent-ssh.Socket.ListenStream}"];
       WorkingDirectory = "${config.xdg.configHome}/doom";
-      ExecStartPre = "${pkgs.git-sync}/bin/git-sync -n -s"; # FIXME dont use getExe or patch upstream
+      ExecStartPre = "${pkgs.git-sync}/bin/git-sync -n -s";
       Restart = mkForce "on-failure";
     };
   };
@@ -108,7 +108,7 @@ in {
     Install.WantedBy = ["suspend.target"];
     Service = {
       Type = "simple";
-      ExecStart = "/usr/bin/systemctl --user --no-block restart git-sync-doomemacs.service";
+      ExecStart = "${pkgs.systemd}/bin/systemctl --user --no-block restart git-sync-doomemacs.service";
     };
   };
 }
