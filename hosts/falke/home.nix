@@ -28,12 +28,33 @@ in {
       standalone.outputs = [
         {criteria = "eDP-1";}
       ];
-      docked_3datax = {
+      "3datax" = {
         outputs = [
-          {criteria = "eDP-1";}
-          {criteria = "DP-6";}
           {
-            criteria = "DP-7";
+            criteria = "eDP-1";
+            position = "0,0";
+          }
+          {
+            criteria = "Dell Inc. DELL U2518D 3C4YP8AV547L";
+            position = "1920,0";
+            transform = "90";
+          }
+          {
+            criteria = "Dell Inc. DELL U2518D 3C4YP8AV590L";
+            position = "3360,0";
+            transform = "normal";
+          }
+        ];
+      };
+      "3datax_half" = {
+        outputs = [
+          {
+            criteria = "eDP-1";
+            position = "0,0";
+          }
+          {
+            criteria = "Dell Inc. DELL U2518D 3C4YP8AV547L";
+            position = "1920,0";
             transform = "90";
           }
         ];
