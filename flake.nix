@@ -70,8 +70,8 @@
   in {
     defaultPackage.x86_64-linux = home-manager.defaultPackage.x86_64-linux;
     homeConfigurations = {
-      "stefan@amsel" = mkStandaloneHomeConfig "stefan" ./hosts/amsel/home.nix "x86_64-linux";
-      "slendl@leah" = mkStandaloneHomeConfig "slendl" ./hosts/leah/home.nix "x86_64-linux";
+      "stefan@amsel" = mkStandaloneHomeConfig "stefan" ./hosts/amsel/home.nix "${system}";
+      "slendl@leah" = mkStandaloneHomeConfig "slendl" ./hosts/leah/home.nix "${system}";
     };
 
     nixosConfigurations = {
