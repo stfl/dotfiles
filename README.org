@@ -109,6 +109,7 @@ nix run . -- switch -b backup --flake .
 https://github.com/stfl/doom.d#installation
 
 ** swaylock
+
 [2023-09-07 Thu] - swaylock from nix does not work with home-manager on Debian with LDAP...
 
 install swaylock from Debian repo
@@ -163,6 +164,7 @@ On the Proxmox workstation setting ~~/.nix-profile/bin/zsh~ as the login shell d
 As a workaround I install zsh via apt, set ~/bin/zsh~ as LDAP Login shell and still set ~programs.zsh.enable = true~ in nix.
 
 /Let's hope the versions and nix config will not diverge too much..../
+
 ** Access user journal
 
 Per default, I cannot access the user's own journal ~journalctl --user~. I am fine with granting access to the system's journal.
@@ -170,6 +172,7 @@ Per default, I cannot access the user's own journal ~journalctl --user~. I am fi
 #+begin_src bash :dir /sudo::
 /sbin/usermod -a -G systemd-journal slendl
 #+end_src
+
 ** Set default boot target to multi-user
 
 #+begin_src bash :dir /sudo::
@@ -257,6 +260,7 @@ sudo usermod -aG plugdev $USER
 #+end_src
 
 * Setup Syncthing
+
 * Configure logind on Debian 12
 
 I am using i3wm, installed through nix home-manager. System-wide configuration
@@ -299,6 +303,7 @@ IdleActionSec=20m
 #+begin_src bash :dir /sudo:: :results value
 systemctl daemon-reload
 #+end_src
+
 * Docker
 
 Installing Docker via home-manager does not make any sense because it's a system
@@ -317,6 +322,7 @@ usermod -a -G docker $USER
 #+end_src
 
 reboot
+
 * Bashrc for root
 
 I am using the system frequently as root, so I want to have a decently
@@ -327,6 +333,7 @@ Symlink root's .bashrc to the config file in this repo.
 #+begin_src bash :dir /sudo:: :results value
 ln /home/slendl/.config/dotfiles/config/bash/.bashrc.root /root/.bashrc -sf
 #+end_src
+
 * password-store
 
 #+begin_src bash :noeval
@@ -373,6 +380,7 @@ nixos-rebuild \
     switch \
     --flake ".#nixos-vm"
 #+end_src
+
 * NixOS Setup
 
 The easiest solution is to do a remote setup. Having the nixos config on an
