@@ -531,9 +531,7 @@ in {
         };
         clock = {
           tooltip-format = "<big>{:%Y %B}</big>\n<tt>{calendar}</tt>";
-          format = "{:%F  %H:%M}";
-          format-alt = "{:%F   %T}";
-          interval = 1;
+          format = "{:%a  %F  %H:%M}";
         };
       };
     };
