@@ -7,14 +7,15 @@
 with lib; let
 in {
   imports = [
-    ../../modules/home/common.nix
-    ../../modules/home/desktop.nix
+    ../../modules/home
     ../../modules/home/emacs.nix
     ../../modules/home/pass.nix
   ];
 
   home.packages = with pkgs; [
     nvtopPackages.intel
+
+    transmission-gtk
   ];
 
   programs.waybar.settings.mainBar = {
