@@ -19,7 +19,6 @@ in {
   ];
 
   programs.waybar.settings.mainBar = {
-    network.on-click = "nm-connection-editor";
     temperature.hwmon-path = "/sys/class/hwmon/hwmon4/temp1_input";
   };
 
