@@ -86,7 +86,7 @@ in {
     enable = true;
     package = nixGL pkgs.alacritty;
     settings = {
-      history = 100000;
+      scrolling.history = 100000;
       font = {
         normal.family = "Source Code Pro";
         size = 11.0;
