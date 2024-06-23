@@ -49,12 +49,14 @@ in {
 
     # -- communication
     (nixGL signal-desktop)
+    (nixGL discord)
 
     qt5.qtwayland
     libnotify
     xwaylandvideobridge
     wdisplays
     wl-mirror
+    kanshi # install the binary in addition to the service for debugging configs
 
     # -- control Montior and Audio
     brightnessctl
@@ -64,6 +66,7 @@ in {
     # -- sway and GUI applications
     sway-contrib.grimshot # screenshot tool
     qalculate-gtk
+    pcmanfm
 
     # -- fonts
     symbola
@@ -84,6 +87,7 @@ in {
     enable = true;
     package = nixGL pkgs.alacritty;
     settings = {
+      history = 100000;
       font = {
         normal.family = "Source Code Pro";
         size = 11.0;

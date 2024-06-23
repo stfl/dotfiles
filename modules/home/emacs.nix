@@ -33,6 +33,8 @@ in {
 
     nodejs
 
+    pandoc
+
     # -- spelling
     # languagetool
     # ltex-ls

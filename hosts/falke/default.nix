@@ -15,6 +15,7 @@ in {
     ./hardware-configuration.nix
     home-manager.nixosModules.default
     ../../modules/steam.nix
+    ../../modules/desktop.nix
   ];
 
   # Bootloader.
