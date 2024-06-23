@@ -90,20 +90,6 @@ in {
 
   programs.zsh.enable = true;
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    wget
-    dig
-    git
-    vim
-    htop
-    killall
-    rsync
-
-    qt5.qtwayland
-  ];
-
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   programs.mtr.enable = true;

@@ -32,4 +32,15 @@
       emacs-lsp-booster.overlays.default
     ];
   };
+
+  environment.systemPackages = with pkgs; [
+    wget
+    dig
+    git
+    neovim
+    htop
+    killall
+    rsync
+    mtr
+  ];
 }

@@ -51,7 +51,6 @@ in {
     (nixGL signal-desktop)
     (nixGL discord)
 
-    qt5.qtwayland
     libnotify
     xwaylandvideobridge
     wdisplays
