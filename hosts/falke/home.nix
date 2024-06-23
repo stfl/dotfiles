@@ -69,7 +69,7 @@ in {
             # criteria = "HannStar*HC284UFB*";
             criteria = "HDMI-A-1";
             position = "0,0";
-            scale = 1.2;
+            # scale = 1.2;
           }
         ];
       };
