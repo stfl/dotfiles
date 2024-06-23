@@ -66,6 +66,7 @@ in {
     sway-contrib.grimshot # screenshot tool
     qalculate-gtk
     pcmanfm
+    transmission-gtk
 
     # -- fonts
     symbola
