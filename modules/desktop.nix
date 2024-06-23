@@ -8,5 +8,7 @@
 
   environment.systemPackages = with pkgs; [
     qt5.qtwayland
+    wayland-utils
+    wlr-protocols
   ];
 }
