@@ -15,6 +15,7 @@ in {
     ./hardware-configuration.nix
     home-manager.nixosModules.default
     ../../modules/steam.nix
+    ../../modules/desktop.nix
   ];
 
   # Bootloader.
@@ -62,6 +63,8 @@ in {
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
+  security.polkit.enable = true;
+
   # Enable sound with pipewire.
   sound.enable = true;
   hardware.pulseaudio.enable = false;
@@ -77,28 +80,54 @@ in {
     # use the example session manager (no others are packaged yet so this is enabled by default,
     # no need to redefine it in your config for now)
     # media-session.enable = true;
+    wireplumber.configPackages = [
+      (pkgs.writeTextDir "share/wireplumber/bluetooth.lua.d/51-bluez-config.lua" ''
+        bluez_monitor.properties = {
+          ["bluez5.enable-sbc-xq"] = true,
+          ["bluez5.enable-msbc"] = true,
+          ["bluez5.enable-hw-volume"] = true,
+          ["bluez5.headset-roles"] = "[ hsp_hs hsp_ag hfp_hf hfp_ag ]"
+        }
+      '')
+    ];
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${USER} = {
     isNormalUser = true;
     description = "Stefan";
-    extraGroups = ["networkmanager" "wheel" "docker"];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "docker"
+      "plugdev" # for zsa
+    ];
     initialPassword = "nixos";
     shell = pkgs.zsh;
   };
 
+  # ErgoDox EZ
+  hardware.keyboard.zsa.enable = true;
+
+  hardware.ledger.enable = true;
+
   programs.zsh.enable = true;
+
+  # system-wide neovim
+  programs.neovim = {
+    enable = true;
+    viAlias = true;
+    vimAlias = true;
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   programs.mtr.enable = true;
+
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
   };
-
-  # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
@@ -153,5 +182,18 @@ in {
     extraPackages = with pkgs; [
       vaapiVdpau
     ];
+  };
+
+  hardware.bluetooth.enable = true; # enables support for Bluetooth
+  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
+  services.blueman.enable = true;
+
+  # Suspend-then-hibernate everywhere
+  services.logind = {
+    extraConfig = ''
+      HandlePowerKey=suspend
+      IdleAction=suspend
+      IdleActionSec=2h
+    '';
   };
 }
