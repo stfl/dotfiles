@@ -14,7 +14,7 @@ in {
   ];
 
   home.packages = with pkgs; [
-    nvtopPackages.intel
+    nvtopPackages.nvidia
   ];
 
   wayland.windowManager.sway = {
