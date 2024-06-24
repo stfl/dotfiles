@@ -127,8 +127,13 @@ in {
     rsync
     powertop
 
-    cryptsetup
+    cntr
 
+    dmidecode
+    lm_sensors
+    s-tui
+
+    cryptsetup
     (
       let
         UID = "1000";
