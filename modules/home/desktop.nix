@@ -360,12 +360,12 @@ in {
         command = "${swaylock-bin} -F";
       }
     ];
-    timeouts = [
-      {
-        timeout = 1200;
-        command = "${swaylock-bin} -fF";
-      }
-    ];
+    # timeouts = [
+    #   {
+    #     timeout = 1200;
+    #     command = "${swaylock-bin} -fF";
+    #   }
+    # ];
   };
 
   services.gammastep = {
