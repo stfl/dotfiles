@@ -68,6 +68,8 @@ in {
     pcmanfm
     transmission-gtk
 
+    zenith # system monitor
+
     # -- fonts
     symbola
     jetbrains-mono
