@@ -45,7 +45,7 @@
     defaultCacheTtlSsh = 64800;
     maxCacheTtl = 64800;
     maxCacheTtlSsh = 64800;
-    # sshKeys = [];  # TODO keygrips!!
+    # sshKeys = [];
     extraConfig = ''
       allow-emacs-pinentry
       # allow-loopback-pinentry
