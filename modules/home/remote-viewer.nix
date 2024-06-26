@@ -5,8 +5,10 @@
   ...
 }: {
   home.packages = with pkgs; [
-    remmina
     rustdesk-flutter
-    # teamviewer
   ];
+
+  services.remmina = {
+    enable = true;
+  };
 }

@@ -11,6 +11,7 @@ in {
     ../../modules/home/desktop.nix
     ../../modules/home/emacs.nix
     ../../modules/home/pass.nix
+    ../../modules/home/remote-viewer.nix
   ];
 
   home.packages = with pkgs; [
