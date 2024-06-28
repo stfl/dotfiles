@@ -26,7 +26,7 @@ in {
         enable = true;
         configurationLimit = 10;
       };
-      efi.canTouchEfiVariables = true;
+      efi.canTouchEfiVariables = false;
       timeout = 5;
     };
   };

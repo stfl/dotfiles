@@ -25,8 +25,10 @@ in {
       systemd-boot = {
         enable = true;
         configurationLimit = 10;
+        # graceful = true;
+        memtest86.enable = true;
       };
-      efi.canTouchEfiVariables = true;
+      efi.canTouchEfiVariables = false;
       timeout = 5;
     };
   };
