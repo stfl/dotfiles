@@ -34,6 +34,7 @@ in {
     nodejs
 
     pandoc
+    zip
 
     # -- spelling
     # languagetool
