@@ -66,7 +66,7 @@ in {
     sway-contrib.grimshot # screenshot tool
     qalculate-gtk
     pcmanfm
-    transmission-gtk
+    transmission_4-gtk
 
     zenith # system monitor
 
