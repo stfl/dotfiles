@@ -153,16 +153,15 @@ with lib; {
     enable = true;
     package = pkgs.openssh;
     forwardAgent = false;
+    addKeysToAgent = "yes";
     controlMaster = "auto";
     controlPersist = "10m";
     serverAliveInterval = 10; # seconds
+    serverAliveCountMax = 10;
     includes = [
       "${config.home.homeDirectory}/.ssh/config.d/*"
       "${config.home.homeDirectory}/.ssh/config-extra.d/*"
     ];
-    extraConfig = ''
-      AddKeysToAgent yes
-    '';
   };
   home.file.".ssh/config.d.ln/" = {
     recursive = true;
