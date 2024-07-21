@@ -39,5 +39,25 @@
     ];
   };
 
-  age.secrets.wg-solar-private.file = ../secrets/wg-solar-private.age;
+  age.secrets.wg-hei-private.file = ../secrets/wg-hei-private.age;
+  age.secrets.wg-hei-preshared.file = ../secrets/wg-hei-preshared.age;
+
+  networking.wg-quick.interfaces.hei0 = {
+    address = ["192.168.41.11/32"];
+    privateKeyFile = config.age.secrets.wg-hei-private.path;
+
+    postUp = ''
+      ${pkgs.systemd}/bin/resolvectl dns hei0 192.168.40.3
+    '';
+    # ${pkgs.systemd}/bin/resolvectl domain hei0 \~hei.at
+
+    peers = [
+      {
+        publicKey = "RDmsyH09C/ElDj4vILZdnR2NfKxJI24KhhA3WUnkkEU=";
+        presharedKeyFile = config.age.secrets.wg-hei-preshared.path;
+        allowedIPs = ["192.168.41.11/32" "192.168.40.0/24"];
+        endpoint = "remote.hei.at:51820";
+      }
+    ];
+  };
 }
