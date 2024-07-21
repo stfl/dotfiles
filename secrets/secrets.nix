@@ -4,4 +4,7 @@ let
 in {
   "wg-pulswerk-private.age".publicKeys = [key falke];
   "wg-pulswerk-preshared.age".publicKeys = [key falke];
+
+  "wg-solar-private.age".publicKeys = [key falke];
+  # "wg-solar-preshared.age".publicKeys = [key falke];
 }
