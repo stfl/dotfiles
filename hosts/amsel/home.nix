@@ -11,6 +11,7 @@ in {
     ../../modules/home/desktop.nix
     ../../modules/home/emacs.nix
     ../../modules/home/pass.nix
+    ../../modules/home/dj.nix
     ../../modules/home/syncthing.nix
   ];
 
@@ -25,15 +26,9 @@ in {
 
     (nixGL calibre)
 
-    mixxx
-
     # -- rust
     # rustup
     yarn
-
-    # downloader
-    spotdl
-    yt-dlp
   ];
 
   programs.waybar.settings.mainBar = {
