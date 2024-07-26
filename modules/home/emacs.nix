@@ -30,6 +30,7 @@ in {
     # -- nix tooling
     nil # lsp
     alejandra # formatter
+    codeium
 
     nodejs
 
