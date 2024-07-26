@@ -1,6 +1,5 @@
 {
   config,
-  lib,
   pkgs,
   ...
 }: {
@@ -48,8 +47,8 @@
 
     postUp = ''
       ${pkgs.systemd}/bin/resolvectl dns hei0 192.168.40.3
+      ${pkgs.systemd}/bin/resolvectl domain hei0 \~hei.local
     '';
-    # ${pkgs.systemd}/bin/resolvectl domain hei0 \~hei.at
 
     peers = [
       {
