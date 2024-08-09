@@ -42,6 +42,9 @@ in {
     # ltex-ls
     # enchant
     # (aspellWithDicts (dicts: with dicts; [en en-computers en-science de]))
+
+    # AI Chat for org-roam
+    khoj
   ];
 
   programs.emacs = {
