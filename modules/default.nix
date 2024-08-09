@@ -17,10 +17,6 @@
     settings.auto-optimise-store = true;
   };
 
-  home-manager.useUserPackages = true;
-  home-manager.useGlobalPkgs = true;
-  home-manager.backupFileExtension = "backup";
-
   nixpkgs = {
     config = {
       allowUnfree = true;
@@ -32,6 +28,12 @@
     overlays = [
       emacs-lsp-booster.overlays.default
     ];
+  };
+
+  home-manager = {
+    useUserPackages = true;
+    useGlobalPkgs = true;
+    backupFileExtension = "backup";
   };
 
   environment.systemPackages = with pkgs; [
