@@ -44,7 +44,7 @@ in {
     # (aspellWithDicts (dicts: with dicts; [en en-computers en-science de]))
 
     # AI Chat for org-roam
-    khoj
+    # khoj
   ];
 
   programs.emacs = {
