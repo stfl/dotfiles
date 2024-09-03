@@ -15,6 +15,7 @@ in {
     ./hardware-configuration.nix
     home-manager.nixosModules.default
     ../../modules/steam.nix
+    ../../modules/virt.nix
     ../../modules/desktop.nix
     ../../modules/wireguard.nix
   ];
