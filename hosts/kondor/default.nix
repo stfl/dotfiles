@@ -15,6 +15,7 @@ in {
     ./hardware-configuration.nix
     home-manager.nixosModules.default
     ../../modules/steam.nix
+    ../../modules/virt.nix
     ../../modules/desktop.nix
   ];
 
@@ -100,6 +101,7 @@ in {
       "wheel"
       "docker"
       "plugdev" # for zsa
+      "libvirtd"
     ];
     initialPassword = "nixos";
     shell = pkgs.zsh;
@@ -161,7 +163,6 @@ in {
   };
 
   virtualisation.docker.enable = true;
-  # TODO KVM and QEMU
 
   # fonts.packages = with pkgs; [
   #   noto-fonts
