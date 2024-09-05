@@ -120,6 +120,11 @@ in {
 
   programs.zsh.enable = true;
 
+  programs.wireshark = {
+    enable = true;
+    package = pkgs.wireshark; # install GUI wireshark
+  };
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
