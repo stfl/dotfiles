@@ -5,7 +5,9 @@
   ...
 }: {
   virtualisation.libvirtd.enable = true;
+  # virtualisation.qemu.package = pkgs.qemu_full;  # FIXME seems to not work
   programs.virt-manager.enable = true;
+  security.polkit.enable = true;
 
   # TODO this would be nice
   # users.users.<myuser>.extraGroups = [ "libvirtd" ];
