@@ -105,6 +105,7 @@ in {
     extraGroups = [
       "networkmanager"
       "wheel"
+      "libvirtd" # virt-manager
       "docker"
       "plugdev" # for zsa
     ];
