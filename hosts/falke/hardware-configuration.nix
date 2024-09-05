@@ -3,10 +3,12 @@
   lib,
   pkgs,
   modulesPath,
+  nixos-hardware,
   ...
 }: {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
+    nixos-hardware.nixosModules.lenovo-thinkpad-e14-intel
   ];
 
   boot = {
@@ -42,4 +44,5 @@
 
   powerManagement.cpuFreqGovernor = "ondemand";
   powerManagement.powertop.enable = true;
+  services.throttled.enable = false; # i7-13700H is not supported
 }
