@@ -13,8 +13,14 @@
   ];
 
   boot.initrd.availableKernelModules = ["nvme" "ahci" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "sr_mod"];
-  boot.initrd.kernelModules = ["nvidia"];
+  boot.initrd.kernelModules = [
+    "nvidia"
+    "nvidia_drm"
+    # "nvidia_modeset"
+    # "nvidia_uvm"
+  ];
   boot.kernelModules = ["kvm-amd"];
+  boot.kernelParams = ["nvidia-drm.fbdev=1"];
   boot.extraModulePackages = [];
 
   fileSystems."/" = {
@@ -41,6 +47,7 @@
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
   # NVidia
+  # services.xserver.videoDrivers = ["nouveau"]; # need the xserver setting even for a wayland system
   services.xserver.videoDrivers = ["nvidia"]; # need the xserver setting even for a wayland system
   hardware.nvidia = {
     # Modesetting is required.
@@ -67,11 +74,19 @@
 
     nvidiaPersistenced = true;
 
+    # prime.sync.enable = true;
+
+    # slower but may solve the screen tearing issues
+    forceFullCompositionPipeline = true;
+
     # Enable the Nvidia settings menu,
     # accessible via `nvidia-settings`.
     nvidiaSettings = true;
 
     # Optionally, you may need to select the appropriate driver version for your specific GPU.
     package = config.boot.kernelPackages.nvidiaPackages.beta;
+    # package = config.boot.kernelPackages.nvidiaPackages.stable;
+    # package = config.boot.kernelPackages.nvidiaPackages.production;
+    # package = config.boot.kernelPackages.nvidiaPackages.vulkan_beta;
   };
 }

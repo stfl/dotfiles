@@ -11,6 +11,7 @@
       # gamescope
       # gamemode
       mangohud
+      steamtinkerlaunch
       # openssl_1_1
     ];
   };
@@ -19,7 +20,7 @@
   # programs.gamemode.settings.general.inhibit_screensaver = 0;
 
   # packages = with pkgs; [
-  # steam-run
-  # mangohud
+  # win64
+  # wine64Packages.waylandFull
   # ];
 }
