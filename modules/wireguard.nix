@@ -31,7 +31,12 @@
       {
         publicKey = "Z9Xx5qgdfswnFjbpKutlBnQ8SZVur8Q8nrrsc9HTlTw=";
         presharedKeyFile = config.age.secrets.wg-pulswerk-preshared.path;
-        allowedIPs = ["192.168.25.3/32" "192.168.22.0/24"];
+        allowedIPs = [
+          "192.168.25.3/32"
+          "192.168.22.0/24"
+          # "0.0.0.0/0"
+          # "::/0"
+        ];
         endpoint = "wien.pulswerk.at:51820";
         # persistentKeepalive = 25;
       }
