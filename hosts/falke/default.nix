@@ -136,11 +136,20 @@ in {
     rsync
     powertop
 
+    ccls
+
     cntr
 
     dmidecode
     lm_sensors
     s-tui
+    batmon
+
+    tcpdump
+    sshfs
+    bridge-utils
+    ethtool
+    smcroute
 
     cryptsetup
     (
@@ -218,7 +227,6 @@ in {
   };
 
   virtualisation.docker.enable = true;
-  # TODO KVM and QEMU
 
   # fonts.packages = with pkgs; [
   #   noto-fonts
