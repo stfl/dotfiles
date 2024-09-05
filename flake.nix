@@ -12,6 +12,7 @@
       url = "github:numtide/flake-utils";
       inputs.systems.follows = "systems";
     };
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     nixgl = {
       url = "github:guibou/nixGL";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -34,6 +35,7 @@
     nixgl,
     emacs-lsp-booster,
     agenix,
+    nixos-hardware,
     ...
   } @ inputs: let
     lib = nixpkgs.lib;
