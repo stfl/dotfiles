@@ -167,8 +167,12 @@ in {
       export ELM_ACCEL=gl
       export ELM_DISPLAY=wl
       export ELM_ENGINE=wayland_egl
+
+      # Firefox wayland environment variable
       export MOZ_DBUS_REMOTE=1
       export MOZ_ENABLE_WAYLAND=1
+      export MOZ_USE_XINPUT2=1
+
       export NO_AT_BRIDGE=1
       export SAL_USE_VCLPLUGIN=gtk3
 
