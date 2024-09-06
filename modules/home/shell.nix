@@ -34,11 +34,10 @@ with lib; {
     yazi # file browser
 
     unzip
+    p7zip
 
     htop
     btop
-    glances
-    # mtr  >> does not work as unprivilgeded user
     diskonaut
 
     # --- keyring
