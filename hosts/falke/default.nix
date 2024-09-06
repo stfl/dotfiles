@@ -24,7 +24,9 @@ in {
     loader = {
       systemd-boot = {
         enable = true;
-        configurationLimit = 10;
+        configurationLimit = 20;
+        # graceful = true;
+        memtest86.enable = true;
       };
       efi.canTouchEfiVariables = true;
       timeout = 5;
