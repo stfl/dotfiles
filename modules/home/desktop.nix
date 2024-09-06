@@ -336,8 +336,8 @@ in {
       insensitive = true;
       no_actions = "true";
       prompt = "Search";
-      key_down = "Down,Control_L-n,Control_L-j";
-      key_up = "Up,Control_L-p,Control_L-k";
+      key_down = "Down,Ctrl-n,Ctrl-j";
+      key_up = "Up,Ctrl-p,Ctrl-k";
     };
   };
 
