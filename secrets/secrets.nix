@@ -6,4 +6,5 @@ in {
   "wg-pulswerk-preshared.age".publicKeys = [key falke];
   "wg-hei-private.age".publicKeys = [key falke];
   "wg-hei-preshared.age".publicKeys = [key falke];
+  "3datax-ssh-config.age".publicKeys = [key falke];
 }

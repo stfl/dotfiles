@@ -260,7 +260,6 @@ sudo usermod -aG plugdev $USER
 #+end_src
 
 * Setup Syncthing
-
 * Configure logind on Debian 12
 
 I am using i3wm, installed through nix home-manager. System-wide configuration
@@ -467,3 +466,17 @@ nixos-enter
 cd /path/to/dotfiles
 nixos-rebuild switch --flake .#nixos-vm
 #+end_src
+
+* secrets with agenix
+** Add a new secret
+
+Modify [[file:secrets/secrets.nix]] and add the new secret file.
+
+** Edit a secret
+
+#+begin_src bash
+cd secrets
+agenix -e <name-of-secret>.age
+#+end_src
+
+~Emacs~ will open. Close with =SPC b k= to terminate the buffer and return to the shell

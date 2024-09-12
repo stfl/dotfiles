@@ -19,6 +19,7 @@ in {
     ../../modules/switch.nix
     ../../modules/desktop.nix
     ../../modules/wireguard.nix
+    ../../modules/3datax.nix
   ];
 
   # Bootloader.
