@@ -11,4 +11,7 @@
     wayland-utils
     wlr-protocols
   ];
+
+  xdg.portal.wlr.enable = true;
+  xdg.portal.config.common.default = "*"; # use the first available portal
 }
