@@ -18,6 +18,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
+    emacs-overlay = {
+      url = "github:nix-community/emacs-overlay";
+      inputs.flake-utils.follows = "flake-utils";
+    };
     emacs-lsp-booster = {
       url = "github:slotThe/emacs-lsp-booster-flake";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -34,6 +38,7 @@
     home-manager,
     nixgl,
     emacs-lsp-booster,
+    emacs-overlay,
     agenix,
     nixos-hardware,
     ...
@@ -63,6 +68,7 @@
             nixpkgs.overlays = [
               nixgl.overlay
               emacs-lsp-booster.overlays.default
+              emacs-overlay.overlays.emacs
             ];
           }
           ./modules/home/common.nix
