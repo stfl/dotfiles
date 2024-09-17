@@ -49,7 +49,7 @@ in {
 
   programs.emacs = {
     enable = true;
-    package = pkgs.emacs29-pgtk;
+    package = pkgs.emacs-unstable-pgtk;
     extraPackages = epkgs: with epkgs; [vterm pdf-tools];
   };
 
