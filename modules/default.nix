@@ -49,6 +49,9 @@
     backupFileExtension = "backup";
   };
 
+  # get completion for system packages
+  environment.pathsToLink = ["/share/zsh"];
+
   environment.systemPackages = with pkgs; [
     wget
     dig
