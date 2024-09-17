@@ -18,10 +18,12 @@
     settings = {
       auto-optimise-store = true;
       substituters = [
+        "https://stfl-dotfiles.cachix.org"
         "https://nix-community.cachix.org"
         "https://cache.nixos.org/"
       ];
       trusted-public-keys = [
+        "stfl-dotfiles.cachix.org-1:ey4Zr5BgT0cUbmMZ+pWlmA51e795UfMvv37/L2ATp0s="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       ];
     };
@@ -56,5 +58,6 @@
     killall
     rsync
     mtr
+    cachix
   ];
 }
