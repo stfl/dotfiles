@@ -5,17 +5,10 @@
   ...
 }:
 with lib; let
-  # TODO this should already exist in emacs 29.2
-  org-protocol = pkgs.makeDesktopItem {
-    name = "org-protocol";
-    desktopName = "Org Protocol";
-    exec = "emacsclient -- %u";
-    terminal = false;
-    mimeTypes = ["x-scheme-handler/org-protocol"];
-  };
+  emacs-pkg = pkgs.emacs-unstable-pgtk;
 in {
   home.sessionVariables = {
-    EDITOR = "${config.programs.emacs.finalPackage}/bin/emacsclient";
+    EDITOR = "${emacs-pkg}/bin/emacsclient";
     LSP_USE_PLISTS = "true"; # for emacs lsp-mode
   };
 
@@ -24,7 +17,7 @@ in {
   ];
 
   home.packages = with pkgs; [
-    org-protocol
+    # org-protocol
     emacs-lsp-booster
 
     # -- nix tooling
@@ -49,18 +42,19 @@ in {
 
   programs.emacs = {
     enable = true;
-    package = pkgs.emacs-unstable-pgtk;
+    package = emacs-pkg;
     extraPackages = epkgs: with epkgs; [vterm pdf-tools];
   };
 
   services.emacs = {
     enable = false;
+    package = emacs-pkg;
     socketActivation.enable = true;
     defaultEditor = true;
     client.enable = true;
   };
 
-  programs.git.extraConfig.core.editor = "${config.programs.emacs.finalPackage}/bin/emacsclient --no-wait";
+  programs.git.extraConfig.core.editor = "${emacs-pkg}/bin/emacsclient --no-wait";
 
   services.git-sync = {
     enable = true;
