@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  emacs-lsp-booster,
   emacs-overlay,
   home-manager,
   ...
@@ -38,7 +37,6 @@
       ];
     };
     overlays = [
-      emacs-lsp-booster.overlays.default
       emacs-overlay.overlays.emacs
     ];
   };

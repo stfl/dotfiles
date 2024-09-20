@@ -18,7 +18,6 @@ in {
 
   home.packages = with pkgs; [
     # org-protocol
-    emacs-lsp-booster
 
     # -- nix tooling
     nil # lsp
