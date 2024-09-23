@@ -6,14 +6,20 @@
   lib,
   pkgs,
   modulesPath,
+  nixos-hardware,
   ...
 }: {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
+    nixos-hardware.nixosModules.common-hidpi
+    nixos-hardware.nixosModules.common-pc-ssd
+    nixos-hardware.nixosModules.common-cpu-amd
+    nixos-hardware.nixosModules.common-cpu-amd-pstate
+    nixos-hardware.nixosModules.common-cpu-amd-zenpower
+    nixos-hardware.nixosModules.common-gpu-amd
   ];
 
   boot.initrd.availableKernelModules = ["nvme" "ahci" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "sr_mod"];
-  boot.extraModulePackages = [];
 
   fileSystems."/" = {
     device = "/dev/disk/by-label/nixos";
@@ -36,18 +42,8 @@
   # networking.interfaces.wlo1.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
-  # Radeon
-  services.xserver.videoDrivers = lib.mkDefault ["modesetting"];
-
-  hardware.graphics = {
-    enable = lib.mkDefault true;
-    enable32Bit = lib.mkDefault true;
-  };
-
-  hardware.amdgpu.initrd.enable = lib.mkDefault true;
-
+  # Extra Radeon stuff
   systemd.tmpfiles.rules = [
     # "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"
   ];
