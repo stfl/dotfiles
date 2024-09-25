@@ -20,6 +20,7 @@ in {
     ../../modules/desktop.nix
     ../../modules/wireguard.nix
     ../../modules/3datax.nix
+    ../../modules/autosuspend.nix
   ];
 
   # Bootloader.
@@ -266,6 +267,8 @@ in {
   systemd.sleep.extraConfig = "HibernateDelaySec=1h";
 
   # Suspend the system when battery level drops to 5% or lower
+  services.autoSuspend.enable = true;
+
   services.udev.extraRules = ''
     SUBSYSTEM=="power_supply", ATTR{status}=="Discharging", ATTR{capacity}=="[0-5]", RUN+="${pkgs.systemd}/bin/systemctl hibernate"
   '';
