@@ -49,14 +49,14 @@ in {
   };
 
   config = mkIf cfg.enable {
-    systemd.user.timers."lowbatt" = {
+    systemd.user.timers.auto-suspend = {
       description = "check battery level";
       timerConfig.OnBootSec = "1m";
       timerConfig.OnUnitInactiveSec = "1m";
-      timerConfig.Unit = "lowbatt.service";
+      timerConfig.Unit = "auto-suspend.service";
       wantedBy = ["timers.target"];
     };
-    systemd.user.services."lowbatt" = {
+    systemd.user.services.auto-suspend = {
       description = "battery level notifier";
       serviceConfig.PassEnvironment = "DISPLAY";
       script = ''
