@@ -129,6 +129,18 @@ in {
     package = pkgs.wireshark; # install GUI wireshark
   };
 
+  # Configure the phy with as DHCP server
+  # needs manually configuring the interface with ip 192.168.99.1
+  # services.dnsmasq = {
+  #   enable = true;
+  #   extraConfig = ''
+  #     dhcp-range=192.168.99.219,192.168.99.219,255.255.255.0,12h
+  #     dhcp-option=option:router,192.168.99.1
+  #     dhcp-option=option:dns-server,8.8.8.8
+  #     dhcp-authoritative
+  #   '';
+  # };
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
