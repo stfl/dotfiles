@@ -17,14 +17,11 @@ with lib; {
   home.packages = with pkgs; [
     nvd # diffing nix derivations
     nix-diff
+    nix-zsh-completions
 
-    # -- git and github runner
-    gitAndTools.gh
-    gitAndTools.git-crypt
     git-absorb
 
     # -- terminal tools
-    nix-zsh-completions
     fd
     jq
     tldr
