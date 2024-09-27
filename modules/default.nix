@@ -37,7 +37,7 @@
       ];
     };
     overlays = [
-      emacs-overlay.overlays.emacs
+      emacs-overlay.overlays.default
     ];
   };
 

@@ -5,7 +5,14 @@
   ...
 }:
 with lib; let
-  emacs-pkg = pkgs.emacs-unstable-pgtk;
+  emacs-pkg = with pkgs;
+    (emacsPackagesFor pkgs.emacs-unstable-pgtk)
+    .emacsWithPackages (epkgs:
+      with epkgs; [
+        treesit-grammars.with-all-grammars
+        vterm
+        pdf-tools
+      ]);
 in {
   home.sessionVariables = {
     EDITOR = "${emacs-pkg}/bin/emacsclient";
@@ -42,7 +49,6 @@ in {
   programs.emacs = {
     enable = true;
     package = emacs-pkg;
-    extraPackages = epkgs: with epkgs; [vterm pdf-tools];
   };
 
   services.emacs = {

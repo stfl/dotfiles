@@ -62,7 +62,7 @@
           {
             nixpkgs.overlays = [
               nixgl.overlay
-              emacs-overlay.overlays.emacs
+              emacs-overlay.overlays.default
             ];
           }
           ./modules/home/common.nix
