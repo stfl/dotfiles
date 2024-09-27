@@ -261,6 +261,91 @@ with lib; {
 
   programs.zsh = {
     enable = true;
+    enableCompletion = true;
+    enableVteIntegration = true; # TODO?
+    autocd = true;
+    # cdpath = [ ];  # List of paths to autocomplete calls to cd.
+    autosuggestion = {
+      enable = true;
+      highlight = "fg=#78888a";
+      strategy = ["history"];
+    };
+    defaultKeymap = "viins";
+    dotDir = ".config/zsh";
+    history = {
+      append = true;
+      # expireDuplicatesFirst = true;
+      ignoreAllDups = true;
+      extended = true; # Save timestamp into the history file.
+      ignoreSpace = true;
+    };
+    historySubstringSearch = {
+      enable = true;
+      searchDownKey = [
+        "^J"
+        "^[[B"
+      ];
+      searchUpKey = [
+        "^[[A"
+        "^K"
+      ];
+    };
+    syntaxHighlighting = {
+      enable = true;
+      highlighters = [
+        "main"
+        "brackets"
+        "pattern"
+        "line"
+        "root"
+      ];
+    };
+
+    shellAliases = {
+      x = "exit";
+      ip = "ip --color=auto";
+      ipp = "ip -br addr";
+      ipa = "ip -br addr";
+      ipl = "ip -br link";
+      "--" = "cd -";
+      "1" = "cd -1";
+      "2" = "cd -2";
+      "3" = "cd -3";
+      "4" = "cd -4";
+      "5" = "cd -5";
+      "6" = "cd -6";
+      "7" = "cd -7";
+      "8" = "cd -8";
+      "9" = "cd -9";
+    };
+
+    initExtra = ''
+      # Directory convenience functions
+      setopt auto_pushd
+      setopt pushd_ignore_dups
+      setopt pushdminus
+
+      bindkey '^A' beginning-of-line
+      bindkey '^E' end-of-line
+      # Pos1 End buttons
+      bindkey '^[[H' beginning-of-line
+      bindkey '^[[F' end-of-line
+
+      # Backspace that wraps around lines
+      bindkey "^?" backward-delete-char
+
+      bindkey "^[OC" forward-char
+      bindkey "^[OD" backward-char
+
+      bindkey '^[[1;5C' forward-word
+      bindkey '^[[1;5D' backward-word
+      bindkey '^[[1;2C' forward-word
+      bindkey '^[[1;2D' backward-word
+
+      bindkey "^_" undo
+      bindkey " " magic-space
+    '';
+
     profileExtra = ''
       # Need to disable features to support TRAMP
       if [ "$TERM" = dumb ]; then
@@ -271,50 +356,19 @@ with lib; {
           PS1='$ '
           PROMPT='$ '
       fi
-
-      setopt histignorespace
     '';
-    prezto = {
-      enable = true;
-      pmodules = [
-        "environment"
-        "terminal"
-        "editor"
-        "history"
-        "history-substring-search"
-        "directory"
-        "spectrum"
-        "syntax-highlighting"
-        "utility"
-        "completion"
-        "autosuggestions"
-        "archive"
-        # "fasd"
-        "git"
-        "rsync"
-        # "prompt"  > starship instead
-        # "ssh"
-        # "gpg"
-      ];
-      editor = {
-        keymap = "vi";
-        dotExpansion = true;
-      };
-    };
 
-    shellAliases = {
-      x = "exit";
-      ip = "ip --color=auto";
-      ipp = "ip -br addr";
-      ipa = "ip -br addr";
-      ipl = "ip -br link";
-    };
-    # workaround when using prezto, which sets up $PATH in .zprofile which is sourced after .zshenv
-    initExtra = mkIf config.programs.zsh.prezto.enable ''
-      # need to setup $PATH properly again to prefer nix installed packages
-      . "${pkgs.nix}/etc/profile.d/nix.sh"
-      typeset -U path
-    '';
+    plugins = [
+      {
+        name = "cd-dot-expansion";
+        src = pkgs.fetchFromGitHub {
+          owner = "wazum";
+          repo = "zsh-directory-dot-expansion";
+          rev = "master";
+          sha256 = "Hs4n43ceJoTKrh6Z4b/ozZ0McL0IXgdufljRtP++dVs=";
+        };
+      }
+    ];
   };
 
   programs.fzf = {
