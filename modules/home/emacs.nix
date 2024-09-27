@@ -59,6 +59,17 @@ in {
     client.enable = true;
   };
 
+  # https://github.com/hlissner/dotfiles/commit/0df9027010b424410a4622eba54b979c256f0efb
+  # TODO system.userActivationScripts ??
+  # system.userActivationScripts = {
+  #   installDoomEmacs = ''
+  #     if [ ! -d "$XDG_CONFIG_HOME/emacs" ]; then
+  #        git clone --depth=1 --single-branch "${cfg.doom.repoUrl}" "$XDG_CONFIG_HOME/emacs"
+  #        git clone "${cfg.doom.configRepoUrl}" "$XDG_CONFIG_HOME/doom"
+  #     fi
+  #   '';
+  # };
+
   programs.git.extraConfig.core.editor = "${emacs-pkg}/bin/emacsclient --no-wait";
 
   services.git-sync = {
