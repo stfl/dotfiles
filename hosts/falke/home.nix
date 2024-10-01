@@ -24,18 +24,21 @@ with lib; {
 
   services.kanshi = {
     enable = true;
-    settings = [
+    settings = let
+      rotated_output = "Dell Inc. DELL U2518D 3C4YP8AV547L";
+      center_output = "Dell Inc. DELL U2518D 3C4YP8AV590L";
+    in [
       {
         output.criteria = "eDP-1";
         output.alias = "builtin";
       }
       {
-        output.criteria = "Dell Inc. DELL U2518D 3C4YP8AV547L";
+        output.criteria = "${rotated_output}";
         output.transform = "90";
         output.alias = "rotated";
       }
       {
-        output.criteria = "Dell Inc. DELL U2518D 3C4YP8AV590L";
+        output.criteria = "${center_output}";
         output.transform = "normal";
         output.alias = "center";
       }
@@ -64,6 +67,18 @@ with lib; {
             position = "3360,0";
           }
         ];
+        profile.exec = [
+          "${pkgs.sway}/bin/swaymsg workspace 1,  move workspace to eDP-1"
+          "${pkgs.sway}/bin/swaymsg workspace 2,  move workspace to eDP-1"
+          "${pkgs.sway}/bin/swaymsg workspace 3,  move workspace to output '\"${rotated_output}\"'"
+          "${pkgs.sway}/bin/swaymsg workspace 4,  move workspace to output '\"${rotated_output}\"'"
+          "${pkgs.sway}/bin/swaymsg workspace 5,  move workspace to output '\"${center_output}\"'"
+          "${pkgs.sway}/bin/swaymsg workspace 6,  move workspace to output '\"${center_output}\"'"
+          "${pkgs.sway}/bin/swaymsg workspace 7,  move workspace to output '\"${center_output}\"'"
+          "${pkgs.sway}/bin/swaymsg workspace 8,  move workspace to output '\"${center_output}\"'"
+          "${pkgs.sway}/bin/swaymsg workspace 9,  move workspace to output '\"${center_output}\"'"
+          "${pkgs.sway}/bin/swaymsg workspace 10, move workspace to output '\"${center_output}\"'"
+        ];
       }
       {
         profile.name = "3datax_half";
@@ -76,6 +91,18 @@ with lib; {
             criteria = "$rotated";
             position = "1920,0";
           }
+        ];
+        profile.exec = [
+          "${pkgs.sway}/bin/swaymsg workspace 1,  move workspace to eDP-1"
+          "${pkgs.sway}/bin/swaymsg workspace 2,  move workspace to eDP-1"
+          "${pkgs.sway}/bin/swaymsg workspace 3,  move workspace to output '\"${rotated_output}\"'"
+          "${pkgs.sway}/bin/swaymsg workspace 4,  move workspace to output '\"${rotated_output}\"'"
+          "${pkgs.sway}/bin/swaymsg workspace 5,  move workspace to output '\"${rotated_output}\"'"
+          "${pkgs.sway}/bin/swaymsg workspace 6,  move workspace to output '\"${rotated_output}\"'"
+          "${pkgs.sway}/bin/swaymsg workspace 7,  move workspace to output '\"${rotated_output}\"'"
+          "${pkgs.sway}/bin/swaymsg workspace 8,  move workspace to output '\"${rotated_output}\"'"
+          "${pkgs.sway}/bin/swaymsg workspace 9,  move workspace to output '\"${rotated_output}\"'"
+          "${pkgs.sway}/bin/swaymsg workspace 10, move workspace to output '\"${rotated_output}\"'"
         ];
       }
     ];
