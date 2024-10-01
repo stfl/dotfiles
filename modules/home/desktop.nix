@@ -552,10 +552,20 @@ in {
     enable = true;
     topMargin = 0.1;
   };
+  # TODO contribute upstream
   systemd.user.services.swayosd.Install.WantedBy = ["sway-session.target"];
 
   # enable forwarding pause/play/.. buttons for bluetooth headsets to media players
   services.mpris-proxy.enable = true;
+
+  # fix auto-reloading kanshi service
+  # TODO contribute upstream
+  systemd.user.services.kanshi.Unit = {
+    X-Restart-Triggers = [
+      "${config.xdg.configFile."kanshi/config".source}"
+    ];
+    X-SwitchMethod = "restart";
+  };
 
   # programs.cava = {
   #   enable = true;
