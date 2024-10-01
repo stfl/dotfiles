@@ -4,8 +4,7 @@
   pkgs,
   ...
 }:
-with lib; let
-in {
+with lib; {
   imports = [
     ../../modules/home
     ../../modules/home/desktop.nix
@@ -25,57 +24,61 @@ in {
 
   services.kanshi = {
     enable = true;
-    profiles = {
-      standalone.outputs = [
-        {criteria = "eDP-1";}
-      ];
-      "3datax" = {
-        outputs = [
+    settings = [
+      {
+        output.criteria = "eDP-1";
+        output.alias = "builtin";
+      }
+      {
+        output.criteria = "Dell Inc. DELL U2518D 3C4YP8AV547L";
+        output.transform = "90";
+        output.alias = "rotated";
+      }
+      {
+        output.criteria = "Dell Inc. DELL U2518D 3C4YP8AV590L";
+        output.transform = "normal";
+        output.alias = "center";
+      }
+      {
+        profile.name = "standalone";
+        profile.outputs = [
           {
-            criteria = "eDP-1";
+            criteria = "$builtin";
+            position = "0,0";
+          }
+        ];
+      }
+      {
+        profile.name = "3datax";
+        profile.outputs = [
+          {
+            criteria = "$builtin";
             position = "0,0";
           }
           {
-            criteria = "Dell Inc. DELL U2518D 3C4YP8AV547L";
+            criteria = "$rotated";
             position = "1920,0";
-            transform = "90";
           }
           {
-            criteria = "Dell Inc. DELL U2518D 3C4YP8AV590L";
+            criteria = "$center";
             position = "3360,0";
-            transform = "normal";
           }
         ];
-      };
-      "3datax_half" = {
-        outputs = [
+      }
+      {
+        profile.name = "3datax_half";
+        profile.outputs = [
           {
-            criteria = "eDP-1";
+            criteria = "$builtin";
             position = "0,0";
           }
           {
-            criteria = "Dell Inc. DELL U2518D 3C4YP8AV547L";
+            criteria = "$rotated";
             position = "1920,0";
-            transform = "90";
           }
         ];
-      };
-      magazin_hdmi = {
-        outputs = [
-          {
-            criteria = "eDP-1";
-            # position = "0,2160";
-            position = "0,1801"; # 1.2 scaling
-          }
-          {
-            # criteria = "HannStar*HC284UFB*";
-            criteria = "HDMI-A-1";
-            position = "0,0";
-            # scale = 1.2;
-          }
-        ];
-      };
-    };
+      }
+    ];
   };
 
   programs.git.includes = [
