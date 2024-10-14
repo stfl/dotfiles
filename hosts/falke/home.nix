@@ -32,21 +32,25 @@ with lib; {
       {
         output.criteria = "eDP-1";
         output.alias = "builtin";
+        output.scale = 1.;
       }
       {
         output.criteria = "${office_rotated_output}";
         output.transform = "90";
         output.alias = "rotated";
+        output.scale = 1.;
       }
       {
         output.criteria = "${office_center_output}";
         output.transform = "normal";
         output.alias = "center";
+        output.scale = 1.;
       }
       {
         output.criteria = "${home_output}";
         output.transform = "normal";
         output.alias = "home";
+        output.scale = 1.2;
       }
       {
         profile.name = "standalone";
@@ -121,7 +125,7 @@ with lib; {
         profile.outputs = [
           {
             criteria = "$builtin";
-            position = "0,0";
+            position = "0,600";
           }
           {
             criteria = "$home";
