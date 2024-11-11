@@ -28,7 +28,7 @@ with lib; {
     httpie
     feh
 
-    yazi # file browser
+    # yazi # file browser
 
     unzip
     p7zip
