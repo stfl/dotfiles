@@ -278,8 +278,8 @@ with lib; {
         "^[[B"
       ];
       searchUpKey = [
-        "^[[A"
         "^K"
+        "^[[A"
       ];
     };
     syntaxHighlighting = {
@@ -319,6 +319,7 @@ with lib; {
 
       bindkey '^A' beginning-of-line
       bindkey '^E' end-of-line
+
       # Pos1 End buttons
       bindkey '^[[H' beginning-of-line
       bindkey '^[[F' end-of-line
@@ -326,16 +327,50 @@ with lib; {
       # Backspace that wraps around lines
       bindkey "^?" backward-delete-char
 
+      # delete in normal mode
+      bindkey "^[[3~" delete-char
+      bindkey -M vicmd "^[[3~" delete-char
+
       bindkey "^[OC" forward-char
       bindkey "^[OD" backward-char
 
-      bindkey '^[[1;5C' forward-word
-      bindkey '^[[1;5D' backward-word
-      bindkey '^[[1;2C' forward-word
-      bindkey '^[[1;2D' backward-word
+      # bindkey '^[[1;5C' forward-word
+      # bindkey '^[[1;5D' backward-word
+      # bindkey '^[[1;2C' forward-word
+      # bindkey '^[[1;2D' backward-word
+
+      # C-left and C-right
+      bindkey "^F" vi-forward-word
+      bindkey "^[^[[C" vi-forward-word
+      bindkey "^[Oc" vi-forward-word
+      bindkey "^[[5C" vi-forward-word
+      bindkey "^[[1;5C" vi-forward-word
+      bindkey "^[^[[D" vi-backward-word
+      bindkey "^[Od" vi-backward-word
+      bindkey "^[[1;5D" vi-backward-word
+      bindkey "^[[5D" vi-backward-word
 
       bindkey "^_" undo
       bindkey " " magic-space
+
+      # Inserts 'sudo ' at the beginning of the line.
+      function prepend-sudo {
+        if [[ "$BUFFER" != su(do|)\ * ]]; then
+          BUFFER="sudo $BUFFER"
+          (( CURSOR += 5 ))
+        fi
+      }
+      zle -N prepend-sudo
+      bindkey "^X^S" prepend-sudo
+
+      # Expand aliases
+      # function glob-alias {
+      #   zle _expand_alias
+      #   zle expand-word
+      #   zle magic-space
+      # }
+      # zle -N glob-alias
+      # bindkey "^@" glob-alias
     '';
 
     profileExtra = ''
@@ -349,6 +384,99 @@ with lib; {
           PROMPT='$ '
       fi
     '';
+
+    # NOTE prezto bindkeys
+    # "^@" glob-alias
+    # "^A"-"^C" self-insert
+    # "^D" list-choices
+    # "^E" vi-add-eol
+    # "^F" vi-forward-word
+    # "^G" list-expand
+    # "^H" vi-backward-delete-char
+    # "^I" fzf-completion
+    # "^J" accept-line
+    # "^K" self-insert
+    # "^L" clear-screen
+    # "^M" accept-line
+    # "^N"-"^P" self-insert
+    # "^Q" push-line-or-edit
+    # "^R" fzf-history-widget
+    # "^S" self-insert
+    # "^T" fzf-file-widget
+    # "^U" vi-kill-line
+    # "^V" vi-quoted-insert
+    # "^W" vi-backward-kill-word
+    # "^X^R" _read_comp
+    # "^X^S" prepend-sudo
+    # "^X?" _complete_debug
+    # "^XC" _correct_filename
+    # "^Xa" _expand_alias
+    # "^Xc" _correct_word
+    # "^Xd" _list_expansions
+    # "^Xe" _expand_word
+    # "^Xh" _complete_help
+    # "^Xm" _most_recent_file
+    # "^Xn" _next_tags
+    # "^Xt" _complete_tag
+    # "^X~" _bash_list-choices
+    # "^Y"-"^Z" self-insert
+    # "^[" vi-cmd-mode
+    # "^[^[[C" vi-forward-word
+    # "^[^[[D" vi-backward-word
+    # "^[," _history-complete-newer
+    # "^[/" _history-complete-older
+    # "^[E" expand-cmd-path
+    # "^[M" copy-prev-shell-word
+    # "^[OA" history-substring-search-up
+    # "^[OB" history-substring-search-down
+    # "^[OC" forward-char
+    # "^[OD" backward-char
+    # "^[OF" end-of-line
+    # "^[OH" beginning-of-line
+    # "^[OP" _prezto-zle-noop
+    # "^[OQ" _prezto-zle-noop
+    # "^[OR" _prezto-zle-noop
+    # "^[OS" _prezto-zle-noop
+    # "^[Oc" vi-forward-word
+    # "^[Od" vi-backward-word
+    # "^[Q" push-line-or-edit
+    # "^[[15~" _prezto-zle-noop
+    # "^[[17~" _prezto-zle-noop
+    # "^[[18~" _prezto-zle-noop
+    # "^[[19~" _prezto-zle-noop
+    # "^[[1;5C" vi-forward-word
+    # "^[[1;5D" vi-backward-word
+    # "^[[200~" bracketed-paste
+    # "^[[20~" _prezto-zle-noop
+    # "^[[21~" _prezto-zle-noop
+    # "^[[23~" _prezto-zle-noop
+    # "^[[24~" _prezto-zle-noop
+    # "^[[2~" overwrite-mode
+    # "^[[3~" delete-char
+    # "^[[5;5~" _prezto-zle-noop
+    # "^[[5C" vi-forward-word
+    # "^[[5D" vi-backward-word
+    # "^[[5~" _prezto-zle-noop
+    # "^[[6;5~" _prezto-zle-noop
+    # "^[[6~" _prezto-zle-noop
+    # "^[[A" up-line-or-history
+    # "^[[B" down-line-or-history
+    # "^[[C" vi-forward-char
+    # "^[[D" vi-backward-char
+    # "^[[Z" reverse-menu-complete
+    # "^[c" fzf-cd-widget
+    # "^[e" expand-cmd-path
+    # "^[m" copy-prev-shell-word
+    # "^[q" push-line-or-edit
+    # "^[~" _bash_complete-word
+    # "^\\\\"-"^\^" self-insert
+    # "^_" undo
+    # " " magic-space
+    # "!"-"-" self-insert
+    # "." expand-dot-to-parent-directory-path
+    # "/"-"~" self-insert
+    # "^?" backward-delete-char
+    # "\M-^@"-"\M-^?" self-insert
 
     plugins = [
       {
