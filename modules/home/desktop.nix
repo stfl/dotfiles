@@ -195,6 +195,7 @@ in {
       modifier = "Mod4";
       terminal = "${TERMINAL}";
       menu = "${getExe pkgs.wofi}";
+      defaultWorkspace = "1";
       focus = {
         followMouse = "yes";
       };
