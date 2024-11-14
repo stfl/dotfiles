@@ -18,8 +18,8 @@ parted /dev/nvme0n1 -- mkpart primary 512MiB 100%
 create the LUKS encrypted partition
 
 #+begin_src bash
-cryptsetup luksFormat /dev/nvme0n1p2
-cryptsetup open /dev/nvme0n1p2 encrypted
+cryptsetup -v luksFormat /dev/nvme0n1p2 --label=LUKS 
+cryptsetup -v open /dev/nvme0n1p2 encrypted
 #+end_src
 
 Create he LVM on the encrypted partition and create a 16GB swap logical volume.
@@ -27,25 +27,25 @@ Create he LVM on the encrypted partition and create a 16GB swap logical volume.
 #+begin_src bash
 pvcreate /dev/mapper/encrypted
 vgcreate vg /dev/mapper/encrypted
-lvcreate -L 16G -n swap vg
-lvcreate -l 100%FREE -n root vg
+lvcreate -n swap -L 16G vg
+lvcreate -n root -l 100%FREE vg
 #+end_src
 
 format partitions
 
 #+begin_src bash
-mkfs.fat -F 32 -n boot /dev/nvme0n1p1
-mkswap -L swap /dev/vg/swap
-mkfs.ext4 -L nixos /dev/vg/root
+mkfs.fat  -n BOOT -F 32 /dev/nvme0n1p1
+mkswap    -L SWAP       /dev/mapper/vg-swap
+mkfs.ext4 -L ROOT       /dev/mapper/vg-root
 #+end_src
 
 mount partitions
 
 #+begin_src bash
-mount /dev/vg/root /mnt
+mount /dev/disk/by-label/ROOT /mnt
 mkdir /mnt/boot
-mount /dev/disk/by-label/boot /mnt/boot
-swapon /dev/vg/swap
+mount -o umask=0077 /dev/disk/by-label/BOOT /mnt/boot
+swapon -L SWAP
 #+end_src
 
 #+begin_src bash
@@ -55,7 +55,7 @@ nixos-generate-config --root /mnt --dir .
 copy the new hardware-configuration.nix to the new host config in the flake repo.
 
 #+begin_src bash
-scp root@192.168.0.50:nixos/hardware-configuration.nix hosts/pirol
+scp root@192.168.0.50:hardware-configuration.nix hosts/pirol
 #+end_src
 
 customize the setup ...
@@ -71,14 +71,36 @@ on the target host
 
 #+begin_src bash
 cd dotfiles
-nixos-install --root /mnt --flake .#pirol
+nixos-install --root /mnt --flake .#pirol --no-root-passwd 
 #+end_src
 
-> reboot
-
-update the user password
+change root and user password
 
 #+begin_src bash
-passwd
+nixos-enter --root /mnt -c 'passwd'
+nixos-enter --root /mnt -c 'passwd stefan'
+#+end_src
+
+savely unmount everything
+
+#+begin_src bash
+umount -R /mnt
+swapoff -L SWAP
+vgchange -a n vg
+cryptsetup close /dev/mapper/encrypted
+#+end_src
+
+>> reboot
+
+* Troubleshotting via live iso
+
+mount partitions
+
+#+begin_src bash
+cryptsetup open /dev/nvme0n1p2 encrypted
+
+mount /dev/disk/by-label/ROOT /mnt
+mount -o umask=0077 /dev/disk/by-label/BOOT /mnt/boot
+swapon -L SWAP
 #+end_src
 

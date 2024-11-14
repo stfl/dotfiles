@@ -15,34 +15,30 @@
   ];
 
   fileSystems."/" = {
-    device = "/dev/vg/root";
+    device = "/dev/disk/by-label/ROOT";
     fsType = "ext4";
   };
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-label/boot";
+    device = "/dev/disk/by-label/BOOT";
     fsType = "vfat";
+    options = ["fmask=0077" "dmask=0077"];
   };
 
-  swapDevices = [{device = "/dev/disk/by-label/swap";}];
+  swapDevices = [{device = "/dev/disk/by-label/SWAP";}];
 
   boot = {
     initrd = {
-      availableKernelModules = ["xhci_pci" "nvme" "usb_storage" "sd_mod" "sdhci_pci" "aes"];
-      kernelModules = ["dm-snapshot"];
-      luks.devices = {
-        encrypted = {
-          device = "/dev/disk/by-label/encrypted";
-          preLVM = true;
-        };
-      };
+      availableKernelModules = ["xhci_pci" "nvme" "usb_storage" "sd_mod" "sdhci_pci"];
+      kernelModules = ["dm-snapshot" "cryptd"];
+      luks.devices."encrypted".device = "/dev/disk/by-label/LUKS";
     };
 
-    kernelModules = ["kvm-intel" "aes"];
+    kernelModules = ["kvm-intel"];
     extraModulePackages = [];
     # kernelParams = ["mitigations=auto"];
 
-    resumeDevice = "/dev/vg/swap";
+    resumeDevice = "/dev/disk/by-label/SWAP";
 
     loader = {
       systemd-boot = {
@@ -56,17 +52,16 @@
     };
   };
 
-  networking.useDHCP = lib.mkDefault true;
-
   powerManagement = {
     enable = true;
     # cpuFreqGovernor = "ondemand";
     powertop.enable = true;
   };
 
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+  nixpkgs.hostPlatform = "x86_64-linux";
 
   hardware = {
+    enableAllFirmware = true;
     cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
     bluetooth.enable = true; # enables support for Bluetooth
