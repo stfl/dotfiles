@@ -561,11 +561,14 @@ in {
 
   # fix auto-reloading kanshi service
   # TODO contribute upstream
-  systemd.user.services.kanshi.Unit = {
-    X-Restart-Triggers = [
-      "${config.xdg.configFile."kanshi/config".source}"
-    ];
-    X-SwitchMethod = "restart";
+  systemd.user.services.kanshi = lib.mkIf config.services.kanshi.enable {
+    Service.Restart = "always";
+    Unit = {
+      X-Restart-Triggers = [
+        "${config.xdg.configFile."kanshi/config".source}"
+      ];
+      X-SwitchMethod = "restart";
+    };
   };
 
   # programs.cava = {
