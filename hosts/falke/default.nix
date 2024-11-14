@@ -23,30 +23,33 @@ in {
     ../../modules/autosuspend.nix
   ];
 
-  # Bootloader.
-  boot = {
-    # kernelPackages = lib.mkDefault pkgs.linuxKernel.packages.linux_6_6;
-    loader = {
-      systemd-boot = {
-        enable = true;
-        configurationLimit = 20;
-        # graceful = true;
-        memtest86.enable = true;
-      };
-      efi.canTouchEfiVariables = false;
-      timeout = 5;
-    };
-  };
-
   networking.hostName = "falke";
 
-  # networking.wireless.enable = true; # Enables wireless support via wpa_supplicant. (not compatible with NetworkManager)
+  # Define a user account. Don't forget to set a password with ‘passwd’.
+  users.users.${USER} = {
+    isNormalUser = true;
+    description = "Stefan";
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "wireshark"
+      "libvirtd" # virt-manager
+      "docker"
+      "plugdev" # for zsa
+    ];
+    initialPassword = "nixos";
+    shell = pkgs.zsh;
+  };
 
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+  system.stateVersion = "23.11"; # Did you read the comment?
 
-  # Enable networking
+  home-manager.users.${USER} = {
+    home.stateVersion = "23.11";
+    imports = [./home.nix];
+  };
+
+  nix.settings.trusted-users = ["root" "${USER}"];
+
   networking.networkmanager.enable = true;
 
   # Set your time zone.
@@ -67,56 +70,6 @@ in {
     LC_TIME = "de_AT.utf8";
   };
 
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
-  security.polkit.enable = true;
-
-  # security.pam.services.swaylock = {};
-  security.pam.services.swaylock.fprintAuth = false;
-
-  # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    # jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    # media-session.enable = true;
-    wireplumber.configPackages = [
-      (pkgs.writeTextDir "share/wireplumber/bluetooth.lua.d/51-bluez-config.lua" ''
-        bluez_monitor.properties = {
-          ["bluez5.enable-sbc-xq"] = true,
-          ["bluez5.enable-msbc"] = true,
-          ["bluez5.enable-hw-volume"] = true,
-          ["bluez5.headset-roles"] = "[ hsp_hs hsp_ag hfp_hf hfp_ag ]"
-        }
-      '')
-    ];
-  };
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.${USER} = {
-    isNormalUser = true;
-    description = "Stefan";
-    extraGroups = [
-      "networkmanager"
-      "wheel"
-      "wireshark"
-      "libvirtd" # virt-manager
-      "docker"
-      "plugdev" # for zsa
-    ];
-    initialPassword = "nixos";
-    shell = pkgs.zsh;
-  };
-
   # ErgoDox EZ
   hardware.keyboard.zsa.enable = true;
 
@@ -129,20 +82,6 @@ in {
     package = pkgs.wireshark; # install GUI wireshark
   };
 
-  # Configure the phy with as DHCP server
-  # needs manually configuring the interface with ip 192.168.99.1
-  # services.dnsmasq = {
-  #   enable = true;
-  #   extraConfig = ''
-  #     dhcp-range=192.168.99.219,192.168.99.219,255.255.255.0,12h
-  #     dhcp-option=option:router,192.168.99.1
-  #     dhcp-option=option:dns-server,8.8.8.8
-  #     dhcp-authoritative
-  #   '';
-  # };
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
   environment.systemPackages = with pkgs; [
     wget
     dig
@@ -168,28 +107,6 @@ in {
     smcroute
 
     cryptsetup
-    (
-      let
-        UID = "1000";
-        GID = "100";
-        mount_name = "crypt-stick";
-        disk_part_id = "usb-USB_Flash_Disk_SCY0000000008298-0:0-part1";
-      in
-        writeScriptBin "mount-crypt-stick" ''
-          mkdir -p /mnt/${mount_name}
-          ${lib.getExe cryptsetup} luksOpen /dev/disk/by-id/${disk_part_id} ${mount_name}
-          mount -o uid=${UID},gid=${GID} /dev/mapper/${mount_name} /mnt/${mount_name}
-        ''
-    )
-    (
-      let
-        mount_name = "crypt-stick";
-      in
-        writeScriptBin "umount-crypt-stick" ''
-          umount /mnt/${mount_name}
-          ${lib.getExe cryptsetup} luksClose /dev/mapper/${mount_name}
-        ''
-    )
   ];
 
   # system-wide neovim
@@ -208,8 +125,6 @@ in {
     enableSSHSupport = true;
   };
 
-  # List services that you want to enable:
-
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
@@ -218,21 +133,6 @@ in {
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   networking.firewall.enable = false;
-
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.11"; # Did you read the comment?
-
-  home-manager.users.${USER} = {
-    home.stateVersion = "23.11";
-    imports = [./home.nix];
-  };
-
-  nix.settings.trusted-users = ["root" "${USER}"];
 
   services.syncthing = {
     enable = true;
@@ -253,14 +153,6 @@ in {
   #   anonymousPro
   # ];
   # fonts.fontDir.enable = true;
-
-  # Enable OpenGL
-  hardware.graphics = {
-    enable = true;
-    extraPackages = with pkgs; [
-      vaapiVdpau
-    ];
-  };
 
   hardware.bluetooth.enable = true; # enables support for Bluetooth
   hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot

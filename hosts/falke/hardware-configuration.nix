@@ -19,6 +19,17 @@
     kernelModules = ["kvm-intel"];
     extraModulePackages = [];
     resumeDevice = "/dev/disk/by-label/swap";
+
+    loader = {
+      systemd-boot = {
+        enable = true;
+        configurationLimit = 20;
+        # graceful = true;
+        memtest86.enable = true;
+      };
+      efi.canTouchEfiVariables = false;
+      timeout = 5;
+    };
   };
 
   fileSystems."/" = {
@@ -33,15 +44,25 @@
 
   swapDevices = [{device = "/dev/disk/by-label/swap";}];
 
-  # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
-  # (the default) this is the recommended approach. When using systemd-networkd it's
-  # still possible to use this option, but it's recommended to use it in conjunction
-  # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
-  networking.useDHCP = lib.mkDefault true;
+  nixpkgs.hostPlatform = "x86_64-linux";
 
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+  powerManagement = {
+    enable = true;
+    # cpuFreqGovernor = "ondemand";
+    powertop.enable = true;
+  };
 
-  powerManagement.cpuFreqGovernor = "performance";
-  powerManagement.powertop.enable = true;
   services.throttled.enable = false; # i7-13700H is not supported
+
+  hardware = {
+    enableAllFirmware = true;
+    cpu.intel.updateMicrocode = config.hardware.enableRedistributableFirmware;
+
+    graphics = {
+      enable = true;
+      extraPackages = with pkgs; [
+        vaapiVdpau
+      ];
+    };
+  };
 }
