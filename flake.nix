@@ -71,7 +71,7 @@
           homeModule
         ];
       };
-  in {
+  in rec {
     defaultPackage.x86_64-linux = home-manager.defaultPackage.x86_64-linux;
     homeConfigurations = {
       "stefan@amsel" = mkStandaloneHomeConfig "stefan" ./hosts/amsel/home.nix "${system}";
@@ -79,6 +79,14 @@
     };
 
     nixosConfigurations = {
+      iso = lib.nixosSystem {
+        inherit system;
+        specialArgs = inputs;
+        modules = [
+          "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
+          ./modules/iso.nix
+        ];
+      };
       nixos-vm = lib.nixosSystem {
         inherit system;
         specialArgs = inputs;
@@ -106,5 +114,7 @@
         ];
       };
     };
+
+    iso = nixosConfigurations.iso.config.system.build.isoImage;
   };
 }

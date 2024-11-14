@@ -1,5 +1,5 @@
-#+PROPERTY: header-args :results silent
 #+title: My nix home-manager config
+#+PROPERTY: header-args:bash :noeval
 
 #+begin_src bash
 nix run . -- build --flake .
@@ -480,3 +480,16 @@ agenix -e <name-of-secret>.age
 #+end_src
 
 ~Emacs~ will open. Close with =SPC b k= to terminate the buffer and return to the shell
+
+* Create a custom iso
+
+edit [[file:modules/iso.nix]]
+
+#+begin_src bash
+nix build .#iso
+#+end_src
+
+#+begin_src bash
+sudo dd if=results/iso/*.iso of=/dev/sda bs=4M status=progress && sync
+#+end_src
+
