@@ -5,14 +5,7 @@
   ...
 }:
 with lib; let
-  emacs-pkg = with pkgs;
-    (emacsPackagesFor pkgs.emacs-unstable-pgtk)
-    .emacsWithPackages (epkgs:
-      with epkgs; [
-        treesit-grammars.with-all-grammars
-        vterm
-        pdf-tools
-      ]);
+  emacs-pkg = pkgs.emacs-unstable-pgtk;
 in {
   home.sessionVariables = {
     EDITOR = "${emacs-pkg}/bin/emacsclient";
@@ -28,36 +21,54 @@ in {
 
     # -- nix tooling
     nil # lsp
-    alejandra # formatter
-    codeium
+    alejandra # nix formatter
 
-    nodejs
+    # AI
+    copilot-node-server
+    nodejs # TODO maybe I don't need this anymore
+    aider-chat
+    # khoj
+
+    ripgrep
+    fd
+    pinentry-emacs
+    zstd
+    editorconfig-core-c
+    sqlite
+    age
 
     pandoc
     zip
+
+    typst
+    typst-lsp
+    tree-sitter-grammars.tree-sitter-typst # TODO all grammers may be installed already?
 
     # -- spelling
     # languagetool
     # ltex-ls
     # enchant
     # (aspellWithDicts (dicts: with dicts; [en en-computers en-science de]))
-
-    # AI Chat for org-roam
-    # khoj
   ];
 
   programs.emacs = {
     enable = true;
     package = emacs-pkg;
+    extraPackages = epkgs:
+      with epkgs; [
+        treesit-grammars.with-all-grammars
+        vterm
+        pdf-tools
+      ];
   };
 
-  services.emacs = {
-    enable = false;
-    package = emacs-pkg;
-    socketActivation.enable = true;
-    defaultEditor = true;
-    client.enable = true;
-  };
+  # services.emacs = {
+  #   enable = false;
+  #   package = emacs-pkg;
+  #   socketActivation.enable = true;
+  #   defaultEditor = true;
+  #   client.enable = true;
+  # };
 
   # https://github.com/hlissner/dotfiles/commit/0df9027010b424410a4622eba54b979c256f0efb
   # TODO system.userActivationScripts ??
