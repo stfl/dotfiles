@@ -1,0 +1,84 @@
+#+title: README
+#+PROPERTY: header-args:bash :noeval
+
+This is a readme and setup log for the "pirol" Lenovo T490.
+
+* Partitioning
+
+It is using LVM on top of LUKS.
+
+Create partition table and ESP partition (/boot)
+#+begin_src bash
+parted /dev/nvme0n1 -- mklabel gpt
+parted /dev/nvme0n1 -- mkpart ESP fat32 1MiB 512MiB
+parted /dev/nvme0n1 -- set 1 esp on
+parted /dev/nvme0n1 -- mkpart primary 512MiB 100%
+#+end_src
+
+create the LUKS encrypted partition
+
+#+begin_src bash
+cryptsetup luksFormat /dev/nvme0n1p2
+cryptsetup open /dev/nvme0n1p2 encrypted
+#+end_src
+
+Create he LVM on the encrypted partition and create a 16GB swap logical volume.
+
+#+begin_src bash
+pvcreate /dev/mapper/encrypted
+vgcreate vg /dev/mapper/encrypted
+lvcreate -L 16G -n swap vg
+lvcreate -l 100%FREE -n root vg
+#+end_src
+
+format partitions
+
+#+begin_src bash
+mkfs.fat -F 32 -n boot /dev/nvme0n1p1
+mkswap -L swap /dev/vg/swap
+mkfs.ext4 -L nixos /dev/vg/root
+#+end_src
+
+mount partitions
+
+#+begin_src bash
+mount /dev/vg/root /mnt
+mkdir /mnt/boot
+mount /dev/disk/by-label/boot /mnt/boot
+swapon /dev/vg/swap
+#+end_src
+
+#+begin_src bash
+nixos-generate-config --root /mnt --dir .
+#+end_src
+
+copy the new hardware-configuration.nix to the new host config in the flake repo.
+
+#+begin_src bash
+scp root@192.168.0.50:nixos/hardware-configuration.nix hosts/pirol
+#+end_src
+
+customize the setup ...
+
+* initial deployment
+
+#+begin_src bash
+rsync -rvh --exclude / --exclude result --del --delete-excluded \
+    ./ root@192.168.0.50:dotfiles/
+#+end_src
+
+on the target host
+
+#+begin_src bash
+cd dotfiles
+nixos-install --root /mnt --flake .#pirol
+#+end_src
+
+> reboot
+
+update the user password
+
+#+begin_src bash
+passwd
+#+end_src
+

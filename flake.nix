@@ -113,6 +113,14 @@
           {environment.systemPackages = [agenix.packages.${system}.default];}
         ];
       };
+      pirol = lib.nixosSystem {
+        inherit system;
+        specialArgs = inputs;
+        modules = [
+          ./modules
+          ./hosts/pirol
+        ];
+      };
     };
 
     iso = nixosConfigurations.iso.config.system.build.isoImage;
