@@ -143,6 +143,17 @@ in {
     platformTheme.name = "gtk";
   };
 
+  services.udiskie = {
+    enable = true;
+    automount = true;
+    notify = true;
+    settings = {
+      program_options = {
+        file_manager = "${pkgs.pcmanfm}/bin/pcmanfm";
+      };
+    };
+  };
+
   wayland.windowManager.sway = {
     enable = true;
 
@@ -215,6 +226,7 @@ in {
       right = "l";
       # gaps = {}; TODO
       floating.criteria = [
+        {title = "Removable medium is inserted";}
         {title = "Steam - Update News";}
         {class = "Pavucontrol";}
         {title = "Volume Control";}
