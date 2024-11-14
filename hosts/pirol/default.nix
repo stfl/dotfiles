@@ -40,6 +40,8 @@ in {
     shell = pkgs.zsh;
   };
 
+  system.stateVersion = "24.11"; # Did you read the comment?
+
   home-manager.users.${USER} = {
     home.stateVersion = "24.11";
     imports = [./home.nix];
@@ -80,14 +82,6 @@ in {
   };
 
   environment.systemPackages = with pkgs; [
-    ((pkgs.emacsPackagesFor pkgs.emacs-unstable-pgtk).emacsWithPackages
-      (epkgs:
-        with epkgs; [
-          treesit-grammars.with-all-grammars
-          vterm
-          pdf-tools
-        ]))
-
     dmidecode
     lm_sensors
     s-tui
@@ -117,8 +111,6 @@ in {
   networking.firewall.allowedTCPPorts = [22];
   # networking.firewall.allowedUDPPorts = [ ... ];
 
-  system.stateVersion = "24.11"; # Did you read the comment?
-
   services.syncthing = {
     enable = true;
     user = "${USER}";
@@ -138,14 +130,6 @@ in {
   #   anonymousPro
   # ];
   # fonts.fontDir.enable = true;
-
-  # Enable OpenGL
-  hardware.graphics = {
-    enable = true;
-    extraPackages = with pkgs; [
-      vaapiVdpau
-    ];
-  };
 
   hardware.bluetooth.enable = true; # enables support for Bluetooth
   hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
