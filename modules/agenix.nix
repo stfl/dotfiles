@@ -2,7 +2,6 @@
   config,
   pkgs,
   lib,
-  inputs,
   agenix,
   system,
   ...
@@ -12,6 +11,6 @@
   ];
 
   environment.systemPackages = [
-    inputs.agenix.packages."${system}".default
+    agenix.packages."${system}".default
   ];
 }
