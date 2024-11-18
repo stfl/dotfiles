@@ -1,9 +1,6 @@
 {
-  config,
-  lib,
   pkgs,
   emacs-overlay,
-  home-manager,
   ...
 }: {
   nix = {
@@ -48,7 +45,11 @@
   };
 
   # get completion for system packages
-  environment.pathsToLink = ["/share/zsh"];
+  environment.pathsToLink = [
+    "/share/zsh"
+    "/share/xdg-desktop-portal"
+    "/share/applications"
+  ];
 
   environment.systemPackages = with pkgs; [
     wget
