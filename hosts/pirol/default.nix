@@ -1,25 +1,18 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
 {
-  config,
   pkgs,
   home-manager,
-  lib,
+  USER,
   ...
-}: let
-  USER = "stefan";
-in {
+}: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     home-manager.nixosModules.default
-    # ../../modules/steam.nix
+
+    ../../modules
     ../../modules/virt.nix
     # ../../modules/switch.nix
     ../../modules/desktop.nix
-    # ../../modules/wireguard.nix
-    # ../../modules/3datax.nix
     ../../modules/autosuspend.nix
     ../../modules/ledger.nix
   ];
@@ -33,7 +26,6 @@ in {
       "networkmanager"
       "wheel"
       "wireshark"
-      "libvirtd" # virt-manager
       "docker"
       "plugdev" # for zsa
     ];
@@ -129,10 +121,6 @@ in {
   #   anonymousPro
   # ];
   # fonts.fontDir.enable = true;
-
-  hardware.bluetooth.enable = true; # enables support for Bluetooth
-  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
-  services.blueman.enable = true;
 
   # Suspend-then-hibernate everywhere
   services.logind = {

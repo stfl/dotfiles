@@ -42,6 +42,8 @@
   } @ inputs: let
     lib = nixpkgs.lib;
     system = "x86_64-linux";
+    USER = "stefan";
+
     mkStandaloneHomeConfig = username: homeModule: system:
       home-manager.lib.homeManagerConfiguration {
         pkgs = import nixpkgs {
@@ -90,29 +92,20 @@
 
       kondor = lib.nixosSystem {
         inherit system;
-        specialArgs = inputs;
-        modules = [
-          ./modules
-          ./hosts/kondor
-        ];
+        specialArgs = inputs // {inherit USER;};
+        modules = [./hosts/kondor];
       };
 
       falke = lib.nixosSystem {
         inherit system;
-        specialArgs = inputs;
-        modules = [
-          ./modules
-          ./hosts/falke
-        ];
+        specialArgs = inputs // {inherit USER;};
+        modules = [./hosts/falke];
       };
 
       pirol = lib.nixosSystem {
         inherit system;
-        specialArgs = inputs;
-        modules = [
-          ./modules
-          ./hosts/pirol
-        ];
+        specialArgs = inputs // {inherit USER;};
+        modules = [./hosts/pirol];
       };
     };
 

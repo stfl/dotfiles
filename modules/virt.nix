@@ -1,16 +1,10 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: {
+{USER, ...}: {
   virtualisation.libvirtd.enable = true;
   # virtualisation.qemu.package = pkgs.qemu_full;  # FIXME seems to not work
   programs.virt-manager.enable = true;
   security.polkit.enable = true;
 
-  # TODO this would be nice
-  # users.users.<myuser>.extraGroups = [ "libvirtd" ];
+  users.users."${USER}".extraGroups = ["libvirtd"];
 
   # TODO home-manager config - this would be nice
   # dconf.settings = {
