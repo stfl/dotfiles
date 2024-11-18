@@ -11,7 +11,7 @@
 
     ../../modules
     ../../modules/steam.nix
-    ../../modules/virt.nix
+    ../../modules/virtualization.nix
     ../../modules/desktop.nix
     ../../modules/ledger.nix
 

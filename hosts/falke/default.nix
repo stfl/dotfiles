@@ -10,7 +10,7 @@
     home-manager.nixosModules.default
 
     ../../modules
-    ../../modules/virt.nix
+    ../../modules/virtualization.nix
     ../../modules/switch.nix
     ../../modules/desktop.nix
     ../../modules/autosuspend.nix
