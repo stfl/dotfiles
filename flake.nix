@@ -109,8 +109,6 @@
         modules = [
           ./modules
           ./hosts/falke
-          agenix.nixosModules.default
-          {environment.systemPackages = [agenix.packages.${system}.default];}
         ];
       };
       pirol = lib.nixosSystem {

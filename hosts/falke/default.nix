@@ -14,14 +14,16 @@ in {
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     home-manager.nixosModules.default
-    ../../modules/steam.nix
+
     ../../modules/virt.nix
     ../../modules/switch.nix
     ../../modules/desktop.nix
-    ../../modules/wireguard.nix
-    ../../modules/3datax.nix
     ../../modules/autosuspend.nix
     ../../modules/ledger.nix
+
+    # Customers
+    ../../modules/projects/pulswerk.nix
+    ../../modules/projects/3datax.nix
   ];
 
   networking.hostName = "falke";
