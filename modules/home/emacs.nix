@@ -25,7 +25,7 @@ in {
 
     # AI
     copilot-node-server
-    nodejs # TODO maybe I don't need this anymore
+    nodejs
     aider-chat
     # khoj
 
