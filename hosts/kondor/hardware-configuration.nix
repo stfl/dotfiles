@@ -19,8 +19,6 @@
     nixos-hardware.nixosModules.common-gpu-amd
   ];
 
-  boot.initrd.availableKernelModules = ["nvme" "ahci" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "sr_mod"];
-
   fileSystems."/" = {
     device = "/dev/disk/by-label/nixos";
     fsType = "ext4";
@@ -29,19 +27,30 @@
   fileSystems."/boot" = {
     device = "/dev/disk/by-label/BOOT";
     fsType = "vfat";
+    options = ["fmask=0077" "dmask=0077"];
   };
 
   swapDevices = [];
 
-  # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
-  # (the default) this is the recommended approach. When using systemd-networkd it's
-  # still possible to use this option, but it's recommended to use it in conjunction
-  # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
-  networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.enp39s0.useDHCP = lib.mkDefault true;
-  # networking.interfaces.wlo1.useDHCP = lib.mkDefault true;
+  boot = {
+    initrd.availableKernelModules = ["nvme" "ahci" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "sr_mod"];
 
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+    # kernelPackages = pkgs.linuxPackages_latest;
+    kernelPackages = pkgs.linuxPackages_zen;
+    kernelParams = [];
+
+    loader = {
+      systemd-boot = {
+        enable = true;
+        configurationLimit = 20;
+        memtest86.enable = true;
+      };
+      efi.canTouchEfiVariables = false;
+      timeout = 5;
+    };
+  };
+
+  nixpkgs.hostPlatform = "x86_64-linux";
 
   # Extra Radeon stuff
   systemd.tmpfiles.rules = [
@@ -52,7 +61,30 @@
   #   rocmPackages.clr.icd
   # ];
 
-  # environment.systemPackages = with pkgs; [
-  #   clinfo
-  # ];
+  powerManagement = {
+    enable = true;
+    # cpuFreqGovernor = "ondemand";
+    powertop.enable = true;
+  };
+
+  environment.systemPackages = with pkgs; [
+    powertop
+  ];
+
+  hardware = {
+    enableAllFirmware = true;
+    cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+
+    graphics = {
+      enable = true;
+      extraPackages = with pkgs; [
+        vaapiVdpau
+      ];
+    };
+
+    bluetooth = {
+      enable = true;
+      powerOnBoot = true;
+    };
+  };
 }
