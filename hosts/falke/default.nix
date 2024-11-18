@@ -14,7 +14,6 @@
     ../../modules/switch.nix
     ../../modules/desktop.nix
     ../../modules/autosuspend.nix
-    ../../modules/ledger.nix
 
     # Customers
     ../../modules/projects/pulswerk.nix
