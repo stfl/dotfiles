@@ -6,11 +6,12 @@
 
   users.users."${USER}".extraGroups = ["libvirtd"];
 
-  # TODO home-manager config - this would be nice
-  # dconf.settings = {
-  #   "org/virt-manager/virt-manager/connections" = {
-  #     autoconnect = ["qemu:///system"];
-  #     uris = ["qemu:///system"];
-  #   };
-  # };
+  home-manager.users.${USER} = {pkgs, ...}: {
+    dconf.settings = {
+      "org/virt-manager/virt-manager/connections" = {
+        autoconnect = ["qemu:///system"];
+        uris = ["qemu:///system"];
+      };
+    };
+  };
 }
