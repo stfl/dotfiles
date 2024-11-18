@@ -21,6 +21,7 @@ in {
     ../../modules/wireguard.nix
     ../../modules/3datax.nix
     ../../modules/autosuspend.nix
+    ../../modules/ledger.nix
   ];
 
   networking.hostName = "falke";
@@ -72,8 +73,6 @@ in {
 
   # ErgoDox EZ
   hardware.keyboard.zsa.enable = true;
-
-  hardware.ledger.enable = true;
 
   programs.zsh.enable = true;
 

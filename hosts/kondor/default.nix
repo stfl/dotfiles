@@ -17,6 +17,7 @@ in {
     ../../modules/steam.nix
     ../../modules/virt.nix
     ../../modules/desktop.nix
+    ../../modules/ledger.nix
   ];
 
   # Bootloader.
@@ -109,8 +110,6 @@ in {
 
   # ErgoDox EZ
   hardware.keyboard.zsa.enable = true;
-
-  hardware.ledger.enable = true;
 
   programs.zsh.enable = true;
 
