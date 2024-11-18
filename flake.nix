@@ -87,14 +87,7 @@
           ./modules/iso.nix
         ];
       };
-      nixos-vm = lib.nixosSystem {
-        inherit system;
-        specialArgs = inputs;
-        modules = [
-          ./modules
-          ./hosts/nixos-vm
-        ];
-      };
+
       kondor = lib.nixosSystem {
         inherit system;
         specialArgs = inputs;
@@ -103,6 +96,7 @@
           ./hosts/kondor
         ];
       };
+
       falke = lib.nixosSystem {
         inherit system;
         specialArgs = inputs;
@@ -111,6 +105,7 @@
           ./hosts/falke
         ];
       };
+
       pirol = lib.nixosSystem {
         inherit system;
         specialArgs = inputs;
