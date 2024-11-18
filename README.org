@@ -1,10 +1,7 @@
-#+title: My nix home-manager config
+#+title: My NixOS configuration
 #+PROPERTY: header-args:bash :noeval
 
-#+begin_src bash
-nix run . -- build --flake .
-#+end_src
-
+Build the standalone home-manager config:
 #+begin_src bash
 nix run . -- switch -b backup --flake .
 #+end_src
@@ -367,7 +364,7 @@ This could possibly be overwritten by passing =--user-data-dir= to Brave.
 * nixos-rebuild
 
 #+begin_src bash :noeval
-nixos-rebuild switch --flake ".#"
+sudo nixos-rebuild switch --flake ".#"
 #+end_src
 
 ** on target-host
@@ -501,5 +498,11 @@ nix build .#iso
 
 #+begin_src bash
 sudo dd if=results/iso/*.iso of=/dev/sda bs=4M status=progress && sync
+#+end_src
+
+* Push currne system to Cachix
+
+#+begin_src bash
+nix path-info -r /run/current-system | cachix push stfl-dotfiles
 #+end_src
 
