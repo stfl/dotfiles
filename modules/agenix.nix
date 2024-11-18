@@ -1,9 +1,6 @@
 {
-  config,
-  pkgs,
-  lib,
   agenix,
-  system,
+  pkgs,
   ...
 }: {
   imports = [
@@ -11,6 +8,6 @@
   ];
 
   environment.systemPackages = [
-    agenix.packages."${system}".default
+    agenix.packages.${pkgs.system}.default
   ];
 }
