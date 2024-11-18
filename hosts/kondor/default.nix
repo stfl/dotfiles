@@ -18,6 +18,9 @@ in {
     ../../modules/virt.nix
     ../../modules/desktop.nix
     ../../modules/ledger.nix
+
+    # Customers
+    ../../modules/projects/pulswerk.nix
   ];
 
   networking.hostName = "kondor";
