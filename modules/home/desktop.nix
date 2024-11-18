@@ -80,7 +80,7 @@ in {
     symbola
     dejavu_fonts
     hicolor-icon-theme
-    nerdfonts
+    (nerdfonts.override {fonts = ["NerdFontsSymbolsOnly"];})
   ];
 
   fonts.fontconfig.enable = true;
