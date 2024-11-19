@@ -129,9 +129,28 @@ in {
     # };
   };
 
+  home.pointerCursor = {
+    package = pkgs.vanilla-dmz;
+    name = "Vanilla-DMZ";
+    gtk.enable = true;
+  };
   gtk = {
     enable = true;
-    # font = TODO;
+    theme = {
+      name = "Adwaita";
+      package = pkgs.gnome.gnome-themes-extra;
+    };
+
+    iconTheme = {
+      name = "Adwaita";
+      package = pkgs.adwaita-icon-theme;
+    };
+
+    font = {
+      name = "Source Code Pro";
+      package =
+        pkgs.source-code-pro;
+    };
 
     gtk3.bookmarks = [
       "file://${config.home.homeDirectory} Home"
