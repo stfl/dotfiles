@@ -21,12 +21,7 @@ in {
     mime.enable = true;
     userDirs = {
       enable = true;
-      desktop = "Desktop";
-      documents = "Documents";
-      download = "Downloads";
-      music = "Music";
-      pictures = "Pictures";
-      videos = "Videos";
+      createDirectories = true;
       extraConfig = {
         XDG_SCREENSHOTS_DIR = "${config.home.homeDirectory}/Screenshots";
       };
@@ -137,7 +132,17 @@ in {
   gtk = {
     enable = true;
     # font = TODO;
+
+    gtk3.bookmarks = [
+      "file://${config.home.homeDirectory} Home"
+      "file://${config.xdg.userDirs.download}"
+      "file://${config.xdg.userDirs.documents}"
+      "file://${config.xdg.userDirs.music}"
+      "file://${config.xdg.userDirs.pictures}"
+      "file://${config.xdg.userDirs.videos}"
+    ];
   };
+
   qt = {
     enable = true;
     platformTheme.name = "gtk";
