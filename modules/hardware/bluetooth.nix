@@ -1,10 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  USER,
-  ...
-}: {
+{USER, ...}: {
   hardware.bluetooth = {
     enable = true;
     powerOnBoot = true;
