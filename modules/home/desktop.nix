@@ -72,7 +72,6 @@ in {
     noto-fonts
     noto-fonts-emoji
     julia-mono
-    symbola
     dejavu_fonts
     hicolor-icon-theme
     (nerdfonts.override {fonts = ["NerdFontsSymbolsOnly"];})
@@ -134,6 +133,7 @@ in {
     name = "Vanilla-DMZ";
     gtk.enable = true;
   };
+
   gtk = {
     enable = true;
     theme = {
@@ -147,9 +147,9 @@ in {
     };
 
     font = {
-      name = "Source Code Pro";
+      name = "Noto Sans";
       package =
-        pkgs.source-code-pro;
+        pkgs.noto-fonts;
     };
 
     gtk3.bookmarks = [
