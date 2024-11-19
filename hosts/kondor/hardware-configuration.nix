@@ -50,36 +50,34 @@
     };
   };
 
-  nixpkgs.hostPlatform = "x86_64-linux";
-
-  # Extra Radeon stuff
-  systemd.tmpfiles.rules = [
-    # "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"
-  ];
-
-  # hardware.opengl.extraPackages = with pkgs; [
-  #   rocmPackages.clr.icd
-  # ];
+  nixpkgs.hostPlatform = pkgs.system;
 
   powerManagement = {
     enable = true;
     # cpuFreqGovernor = "ondemand";
-    powertop.enable = true;
+    powertop.enable = false;
   };
 
   environment.systemPackages = with pkgs; [
     powertop
   ];
 
-  hardware = {
-    enableAllFirmware = true;
-    cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.enableAllFirmware = true;
 
-    graphics = {
-      enable = true;
-      extraPackages = with pkgs; [
-        vaapiVdpau
+  # AMD GPU
+  hardware.graphics.extraPackages = with pkgs; [vaapiVdpau rocmPackages.clr.icd];
+
+  # Extra Radeon ROCm stuff
+  systemd.tmpfiles.rules = let
+    rocmEnv = pkgs.symlinkJoin {
+      name = "rocm-combined";
+      paths = with pkgs.rocmPackages; [
+        rocblas
+        hipblas
+        clr
       ];
     };
-  };
+  in [
+    "L+    /opt/rocm   -    -    -     -    ${rocmEnv}"
+  ];
 }
