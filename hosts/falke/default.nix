@@ -7,6 +7,9 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ../../modules/hardware/bluetooth.nix
+    ../../modules/hardware/zsa.nix
+
     home-manager.nixosModules.default
 
     ../../modules
@@ -31,7 +34,6 @@
       "wheel"
       "wireshark"
       "docker"
-      "plugdev" # for zsa
     ];
     initialPassword = "nixos";
     shell = pkgs.zsh;
@@ -65,11 +67,6 @@
     LC_TELEPHONE = "de_AT.utf8";
     LC_TIME = "de_AT.utf8";
   };
-
-  # ErgoDox EZ
-  hardware.keyboard.zsa.enable = true;
-
-  programs.zsh.enable = true;
 
   programs.wireshark = {
     enable = true;
@@ -109,10 +106,6 @@
     viAlias = true;
     vimAlias = true;
   };
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  programs.mtr.enable = true;
 
   programs.gnupg.agent = {
     enable = true;

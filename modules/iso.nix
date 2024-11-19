@@ -8,7 +8,7 @@
     };
   };
   systemd.services.sshd.wantedBy = pkgs.lib.mkForce ["multi-user.target"];
-  networking.firewall.allowedTCPPorts = [22];
+  # networking.firewall.allowedTCPPorts = [];
 
   # users.users.root.initialPassword = "nixos";
   users.users.root.openssh.authorizedKeys.keys = [
@@ -24,6 +24,7 @@
     htop
     killall
     rsync
-    mtr
   ];
+
+  programs.mtr.enable = true;
 }

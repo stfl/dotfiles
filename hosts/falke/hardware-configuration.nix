@@ -54,7 +54,8 @@
     powertop.enable = true;
   };
 
-  services.throttled.enable = false; # i7-13700H is not supported
+  # this was enabled in nixos-hardware but i7-13700H is not supported
+  services.throttled.enable = false;
 
   hardware = {
     enableAllFirmware = true;
@@ -65,11 +66,6 @@
       extraPackages = with pkgs; [
         vaapiVdpau
       ];
-    };
-
-    bluetooth = {
-      enable = true;
-      powerOnBoot = true;
     };
   };
 }

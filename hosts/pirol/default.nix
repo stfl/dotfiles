@@ -7,6 +7,10 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ../../modules/hardware/bluetooth.nix
+    ../../modules/hardware/zsa.nix
+    ../../modules/hardware/ledger.nix
+
     home-manager.nixosModules.default
 
     ../../modules
@@ -14,7 +18,6 @@
     # ../../modules/switch.nix
     ../../modules/desktop.nix
     ../../modules/autosuspend.nix
-    ../../modules/ledger.nix
   ];
 
   networking.hostName = "pirol";
@@ -62,11 +65,6 @@
     LC_TIME = "de_AT.utf8";
   };
 
-  # ErgoDox EZ
-  hardware.keyboard.zsa.enable = true;
-
-  programs.zsh.enable = true;
-
   programs.wireshark = {
     enable = true;
     package = pkgs.wireshark; # install GUI wireshark
@@ -86,10 +84,6 @@
     vimAlias = true;
   };
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  programs.mtr.enable = true;
-
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
@@ -98,9 +92,9 @@
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
-  networking.firewall.enable = false;
-  networking.firewall.allowedTCPPorts = [22];
-  # networking.firewall.allowedUDPPorts = [ ... ];
+  networking.firewall.enable = true;
+  # networking.firewall.allowedTCPPorts = [];
+  # networking.firewall.allowedUDPPorts = [];
 
   services.syncthing = {
     enable = true;

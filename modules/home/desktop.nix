@@ -568,9 +568,6 @@ in {
   # TODO contribute upstream
   systemd.user.services.swayosd.Install.WantedBy = ["sway-session.target"];
 
-  # enable forwarding pause/play/.. buttons for bluetooth headsets to media players
-  services.mpris-proxy.enable = true;
-
   # fix auto-reloading kanshi service
   # TODO contribute upstream
   systemd.user.services.kanshi = lib.mkIf config.services.kanshi.enable {

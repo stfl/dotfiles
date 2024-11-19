@@ -21,8 +21,6 @@
   xdg.portal.wlr.enable = true;
   xdg.portal.config.common.default = "*"; # use the first available portal
 
-  services.blueman.enable = lib.mkIf config.hardware.bluetooth.enable true;
-
   hardware.pulseaudio.enable = false;
   services.pipewire = {
     enable = true;

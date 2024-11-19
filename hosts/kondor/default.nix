@@ -7,13 +7,16 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ../../modules/hardware/bluetooth.nix
+    ../../modules/hardware/zsa.nix
+    ../../modules/hardware/ledger.nix
+
     home-manager.nixosModules.default
 
     ../../modules
     ../../modules/steam.nix
     ../../modules/virtualization.nix
     ../../modules/desktop.nix
-    ../../modules/ledger.nix
 
     # Customers
     ../../modules/projects/pulswerk.nix
@@ -61,16 +64,10 @@
       "networkmanager"
       "wheel"
       "docker"
-      "plugdev" # for zsa
     ];
     initialPassword = "nixos";
     shell = pkgs.zsh;
   };
-
-  # ErgoDox EZ
-  hardware.keyboard.zsa.enable = true;
-
-  programs.zsh.enable = true;
 
   # system-wide neovim
   programs.neovim = {
@@ -78,10 +75,6 @@
     viAlias = true;
     vimAlias = true;
   };
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  programs.mtr.enable = true;
 
   programs.gnupg.agent = {
     enable = true;
@@ -91,11 +84,7 @@
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  networking.firewall.enable = false;
+  networking.firewall.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
@@ -132,7 +121,6 @@
   # ];
   # fonts.fontDir.enable = true;
 
-  # Suspend-then-hibernate everywhere
   services.logind = {
     extraConfig = ''
       HandlePowerKey=suspend

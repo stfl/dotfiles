@@ -59,7 +59,8 @@
     htop
     killall
     rsync
-    mtr
     cachix
   ];
+
+  programs.mtr.enable = true;
 }
