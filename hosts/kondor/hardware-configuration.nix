@@ -31,7 +31,7 @@
     initrd.availableKernelModules = ["nvme" "ahci" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "sr_mod"];
 
     # kernelPackages = pkgs.linuxPackages_latest;
-    kernelPackages = pkgs.linuxPackages_zen;
+    # kernelPackages = pkgs.linuxPackages_zen;
     kernelParams = [];
 
     loader = {
@@ -59,20 +59,20 @@
   # AMD GPU
   hardware.graphics.extraPackages = with pkgs; [
     vaapiVdpau
-    rocmPackages.clr.icd
+    # rocmPackages.clr.icd
   ];
 
   # Extra Radeon ROCm stuff
-  systemd.tmpfiles.rules = let
-    rocmEnv = pkgs.symlinkJoin {
-      name = "rocm-combined";
-      paths = with pkgs.rocmPackages; [
-        rocblas
-        hipblas
-        clr
-      ];
-    };
-  in [
-    "L+    /opt/rocm   -    -    -     -    ${rocmEnv}"
-  ];
+  # systemd.tmpfiles.rules = let
+  #   rocmEnv = pkgs.symlinkJoin {
+  #     name = "rocm-combined";
+  #     paths = with pkgs.rocmPackages; [
+  #       rocblas
+  #       hipblas
+  #       clr
+  #     ];
+  #   };
+  # in [
+  #   "L+    /opt/rocm   -    -    -     -    ${rocmEnv}"
+  # ];
 }
