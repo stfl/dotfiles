@@ -18,8 +18,9 @@
     ../../modules/virtualization.nix
     ../../modules/desktop.nix
 
-    # Customers
+    # Customers and Projects
     ../../modules/projects/pulswerk.nix
+    ../../modules/projects/oebb.nix
   ];
 
   networking.hostName = "kondor";
