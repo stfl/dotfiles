@@ -24,17 +24,6 @@ in {
     nvtopPackages.intel
   ];
 
-  programs.git.includes = [
-    {
-      # apply updated git configuration for every repo inside ~/work/proxmox/<repo>
-      condition = "gitdir:${config.home.homeDirectory}/work/3datax/";
-      contents = {
-        init.defaultBranch = "master";
-        user.email = "stefan.lendl@3datax.com";
-      };
-    }
-  ];
-
   programs.waybar.settings.mainBar = {
     temperature.hwmon-path = "/sys/class/hwmon/hwmon4/temp1_input";
   };
