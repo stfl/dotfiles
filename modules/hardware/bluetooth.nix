@@ -26,7 +26,7 @@
     };
   };
 
-  home-manager.users.${USER} = {pkgs, ...}: {
+  home-manager.users.${USER} = {...}: {
     # enable forwarding pause/play/.. buttons for bluetooth headsets to media players
     services.mpris-proxy.enable = true;
   };
