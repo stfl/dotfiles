@@ -32,9 +32,12 @@ with lib; {
     unzip
     p7zip
 
+    # various system monitor
     htop
     btop
-    diskonaut
+    zenith # in rust
+    s-tui # shows termperature and fan speed
+    diskonaut # disk usage
 
     # --- keyring
     gpg-tui

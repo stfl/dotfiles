@@ -77,10 +77,8 @@
     wget
     dig
     git
-    htop
     killall
     rsync
-    powertop
 
     ccls
 
@@ -88,7 +86,6 @@
 
     dmidecode
     lm_sensors
-    s-tui
     batmon
 
     tcpdump
