@@ -147,17 +147,24 @@ with lib; {
 
   programs.ssh = {
     enable = true;
-    package = pkgs.openssh;
-    forwardAgent = false;
+    # package = pkgs.openssh;   // only needed if ssh-client from the system is not desired
+    forwardAgent = true;
     addKeysToAgent = "yes";
     controlMaster = "auto";
     controlPersist = "10m";
+    hashKnownHosts = true;
+    compression = true;
     serverAliveInterval = 10; # seconds
     serverAliveCountMax = 10;
     includes = [
       "${config.home.homeDirectory}/.ssh/config.d/*"
       "${config.home.homeDirectory}/.ssh/config-extra.d/*"
     ];
+    matchBlocks."github.com" = {
+      user = "git";
+      identityFile = ["${config.home.homeDirectory}/.ssh/id_ed25519"];
+      identitiesOnly = true;
+    };
   };
   home.file.".ssh/config.d.ln/" = {
     recursive = true;
@@ -294,6 +301,7 @@ with lib; {
 
     shellAliases = {
       x = "exit";
+      g = "git";
       ip = "ip --color=auto";
       ipp = "ip -br addr";
       ipa = "ip -br addr";
