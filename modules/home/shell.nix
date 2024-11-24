@@ -26,7 +26,6 @@ with lib; {
     jq
     tldr
     httpie
-    feh
 
     # yazi # file browser
 

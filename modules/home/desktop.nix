@@ -44,7 +44,8 @@ in {
 
     # -- communication
     (nixGL signal-desktop)
-    (nixGL discord)
+    # (nixGL discord)
+    transmission_4-gtk
 
     libnotify
     xwaylandvideobridge
@@ -60,10 +61,11 @@ in {
     # -- sway and GUI applications
     sway-contrib.grimshot # screenshot tool
     qalculate-gtk
-    pcmanfm
-    transmission_4-gtk
 
-    zenith # system monitor
+    pcmanfm
+    # xfce.ristretto
+    # imagemagick
+    gimp
 
     # -- fonts
     symbola
