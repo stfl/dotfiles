@@ -1,12 +1,35 @@
 {
   config,
   pkgs,
+  USER,
   ...
 }: {
   imports = [
     ../wireguard.nix
     ../agenix.nix
   ];
+
+  home-manager.users.${USER} = {
+    pkgs,
+    config,
+    ...
+  }: {
+    home.packages = with pkgs; [
+      poetry
+      pyright
+    ];
+  };
+
+  networking.extraHosts = ''
+    127.0.0.1 gebaut.pulswerk.local
+    127.0.0.1 sustaindock-staging.dokku.pulswerk.local
+  '';
+
+  # ssh -v -L 127.0.0.1:8881:gebaut.pulswerk.local:80 \
+  #        -L 127.0.0.1:8882:127.0.0.1:80 \
+  #     dokku.pulswerk.local
+
+  # NOTE Access gebaut morphdock staging via http://gebaut.pulswerk.local:8881/anmelden.htm
 
   age.secrets.wg-pulswerk-private.file = ../../secrets/wg-pulswerk-private.age;
   age.secrets.wg-pulswerk-preshared.file = ../../secrets/wg-pulswerk-preshared.age;

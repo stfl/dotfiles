@@ -41,9 +41,6 @@ with lib; {
     gpg-tui
     xplr # tui file explorer used in gpg-tui
     git-crypt
-
-    # -- python
-    poetry
   ];
 
   programs.fd = {
