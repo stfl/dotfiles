@@ -42,7 +42,6 @@ with lib; {
     # --- keyring
     gpg-tui
     xplr # tui file explorer used in gpg-tui
-    git-crypt
   ];
 
   programs.fd = {
