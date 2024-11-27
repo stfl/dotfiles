@@ -41,7 +41,7 @@ in {
     zip
 
     typst
-    typst-lsp
+    tinymist
     tree-sitter-grammars.tree-sitter-typst # TODO all grammers may be installed already?
 
     # -- spelling
