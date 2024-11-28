@@ -22,26 +22,33 @@ window#waybar {
     background:#2e3440;
 }
 
-#workspaces button {
-    color: #d8dee9;
-    padding-left: 4px;
-    padding-right: 4px;
-}
-
 .window-shell {
     font-size: 80%;
 }
 
-#workspaces button.focused {
+/* #workspaces button         = inactive_workspace */
+/* #workspaces button.focused = focused_workspace */
+/* #workspaces button.visible = active_workspace */
+/* #workspaces button.urgent  = urgent_workspace */
+
+#workspaces button {
     color: #d8dee9;
-    border-style: solid;
+    border: 1px solid transparent;
     padding-left: 4px;
     padding-right: 4px;
+}
+
+#workspaces button.focused {
     background-color: #4c566a;
 }
 
+#workspaces button.visible:not(.focused) {
+    border: 1px solid #78849c;
+}
+
+
 #mode {
-    color: #a3be8c;
+    background-color: #a3be8c;
 }
 
 #battery, #cpu, #memory,#idle_inhibitor, #temperature,#custom-keyboard-layout, #backlight, #network, #pulseaudio, #mode, #tray, #window,#custom-launcher,#custom-power,#custom-pacman, #custom-network_traffic {
