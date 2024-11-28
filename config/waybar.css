@@ -165,7 +165,8 @@ window#waybar {
 }
 
 #systemd-failed-units {
-    padding: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
 }
 
 #systemd-failed-units.degraded {
