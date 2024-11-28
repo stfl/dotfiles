@@ -49,6 +49,7 @@ window#waybar {
 
 #mode {
     background-color: #a3be8c;
+    margin-bottom: 3px;
 }
 
 #battery, #cpu, #memory,#idle_inhibitor, #temperature,#custom-keyboard-layout, #backlight, #network, #pulseaudio, #mode, #tray, #window,#custom-launcher,#custom-power,#custom-pacman, #custom-network_traffic {
@@ -162,6 +163,11 @@ window#waybar {
     border-style: hidden;
     margin-top:1px;
 }
-#mode{
-    margin-bottom:3px;
+
+#systemd-failed-units {
+    padding: 4px;
+}
+
+#systemd-failed-units.degraded {
+    border: 2px solid #bf616a;
 }

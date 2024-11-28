@@ -463,6 +463,7 @@ in {
         modules-center = ["clock"];
         modules-right = [
           "tray"
+          "systemd-failed-units"
           "idle_inhibitor"
           # "cava"
           "pulseaudio"
@@ -581,6 +582,10 @@ in {
         clock = {
           tooltip-format = "<big>{:%Y %B}</big>\n<tt>{calendar}</tt>";
           format = "{:%a  %F  %H:%M}";
+        };
+        systemd-failed-units = {
+          format = "✗ {nr_failed}";
+          hide-on-ok = true;
         };
       };
     };
