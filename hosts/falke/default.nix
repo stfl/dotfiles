@@ -9,6 +9,7 @@
     ./hardware-configuration.nix
     ../../modules/hardware/bluetooth.nix
     ../../modules/hardware/zsa.nix
+    ../../modules/hardware/ledger.nix
 
     home-manager.nixosModules.default
 
