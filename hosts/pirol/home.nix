@@ -13,7 +13,6 @@
 in {
   imports = [
     ../../modules/home
-    ../../modules/home/desktop.nix
     ../../modules/home/emacs.nix
     ../../modules/home/pass.nix
     ../../modules/home/dj.nix

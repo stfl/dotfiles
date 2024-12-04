@@ -2,8 +2,13 @@
   config,
   lib,
   pkgs,
+  USER,
   ...
 }: {
+  home-manager.users.${USER} = {
+    imports = [./home/desktop.nix];
+  };
+
   services.gvfs.enable = true;
   services.udisks2.enable = true;
   services.printing.enable = true;
