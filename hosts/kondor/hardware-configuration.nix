@@ -62,6 +62,9 @@
     # rocmPackages.clr.icd
   ];
 
+  # installs ltunify : https://github.com/Lekensteyn/ltunify
+  hardware.logitech.wireless.enable = true;
+
   # Extra Radeon ROCm stuff
   # systemd.tmpfiles.rules = let
   #   rocmEnv = pkgs.symlinkJoin {
