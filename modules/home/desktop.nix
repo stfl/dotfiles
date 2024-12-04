@@ -76,7 +76,7 @@ in {
     settings = {
       scrolling.history = 100000;
       font = {
-        normal.family = "Source Code Pro";
+        normal.family = "Sauce Code Pro Nerd Font";
         size = 11.0;
       };
       colors = {
@@ -226,7 +226,7 @@ in {
         followMouse = "yes";
       };
       fonts = {
-        names = ["Source Code Pro"];
+        names = ["Sauce Code Pro Nerd Font"];
         # style = "Bold Semi-Condensed";
         size = 11.0;
       };
@@ -414,7 +414,7 @@ in {
     borderColor = "#4C7899FF";
     defaultTimeout = 30000; # ms
     # ignoreTimeout = true;
-    font = "JetBrains Mono 10";
+    font = "JetBrains Mono Nerd Font Mono 10";
     borderRadius = 7;
     padding = "8";
     width = 400;
