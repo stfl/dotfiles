@@ -34,14 +34,14 @@
   age.secrets.wg-pulswerk-private.file = ../../secrets/wg-pulswerk-private.age;
   age.secrets.wg-pulswerk-preshared.file = ../../secrets/wg-pulswerk-preshared.age;
 
-  networking.wg-quick.interfaces.pulswerk0 = {
+  networking.wg-quick.interfaces.pulswerk0 = {name, ...}: {
     address = ["192.168.25.3/32"];
     privateKeyFile = config.age.secrets.wg-pulswerk-private.path;
 
     # enable split DNS via systemd-resolved
     postUp = ''
-      ${pkgs.systemd}/bin/resolvectl dns pulswerk0 192.168.22.13
-      ${pkgs.systemd}/bin/resolvectl domain pulswerk0 \~pulswerk.local
+      ${pkgs.systemd}/bin/resolvectl dns ${name} 192.168.22.13
+      ${pkgs.systemd}/bin/resolvectl domain ${name} \~pulswerk.local
     '';
 
     peers = [
@@ -63,13 +63,13 @@
   age.secrets.wg-hei-private.file = ../../secrets/wg-hei-private.age;
   age.secrets.wg-hei-preshared.file = ../../secrets/wg-hei-preshared.age;
 
-  networking.wg-quick.interfaces.hei0 = {
+  networking.wg-quick.interfaces.hei0 = {name, ...}: {
     address = ["192.168.41.11/32"];
     privateKeyFile = config.age.secrets.wg-hei-private.path;
 
     postUp = ''
-      ${pkgs.systemd}/bin/resolvectl dns hei0 192.168.40.3
-      ${pkgs.systemd}/bin/resolvectl domain hei0 \~hei.local
+      ${pkgs.systemd}/bin/resolvectl dns ${name} 192.168.40.3
+      ${pkgs.systemd}/bin/resolvectl domain ${name} \~hei.local
     '';
 
     peers = [
