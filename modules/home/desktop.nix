@@ -68,18 +68,7 @@ in {
     gimp
 
     # -- fonts
-    symbola
-    jetbrains-mono
-    source-code-pro
-    noto-fonts
-    noto-fonts-emoji
-    julia-mono
-    dejavu_fonts
-    hicolor-icon-theme
-    nerd-fonts.symbols-only
   ];
-
-  fonts.fontconfig.enable = true;
 
   programs.alacritty = {
     enable = true;

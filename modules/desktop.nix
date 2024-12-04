@@ -57,4 +57,18 @@
   #     },
   #   }
   # '';
+
+  fonts = {
+    packages = with pkgs; [
+      symbola
+      noto-fonts
+      noto-fonts-color-emoji
+      dejavu_fonts
+      nerd-fonts.jetbrains-mono
+      nerd-fonts.sauce-code-pro
+      nerd-fonts.symbols-only
+    ];
+    fontDir.enable = true;
+    fontconfig.enable = true;
+  };
 }
