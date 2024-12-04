@@ -76,7 +76,7 @@ in {
     julia-mono
     dejavu_fonts
     hicolor-icon-theme
-    (nerdfonts.override {fonts = ["NerdFontsSymbolsOnly"];})
+    nerd-fonts.symbols-only
   ];
 
   fonts.fontconfig.enable = true;
