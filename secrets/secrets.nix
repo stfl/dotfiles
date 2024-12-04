@@ -10,4 +10,5 @@ in {
   "wg-hei-private.age".publicKeys = [key falke kondor];
   "wg-hei-preshared.age".publicKeys = [key falke kondor];
   "3datax-ssh-config.age".publicKeys = [key falke];
+  "wg-digirail-private.age".publicKeys = [key kondor];
 }
