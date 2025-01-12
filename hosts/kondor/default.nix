@@ -16,6 +16,7 @@
     ../../modules
     ../../modules/steam.nix
     ../../modules/virtualization.nix
+    ../../modules/docker.nix
     ../../modules/desktop.nix
     ../../modules/wireshark.nix
     ../../modules/networkmanager.nix
@@ -71,7 +72,6 @@
     description = "Stefan";
     extraGroups = [
       "wheel"
-      "docker"
     ];
     initialPassword = "nixos";
     shell = pkgs.zsh;
@@ -107,8 +107,6 @@
     configDir = "/home/${USER}/.config/syncthing";
     guiAddress = "127.0.0.1:8384";
   };
-
-  virtualisation.docker.enable = true;
 
   # fonts.packages = with pkgs; [
   #   noto-fonts

@@ -16,6 +16,7 @@
     ../../modules
     ../../modules/virtualization.nix
     ../../modules/networkmanager.nix
+    ../../modules/docker.nix
     # ../../modules/switch.nix
     ../../modules/desktop.nix
     ../../modules/autosuspend.nix
@@ -85,8 +86,6 @@
     configDir = "/home/${USER}/.config/syncthing";
     guiAddress = "127.0.0.1:8384";
   };
-
-  virtualisation.docker.enable = true;
 
   # fonts.packages = with pkgs; [
   #   noto-fonts
