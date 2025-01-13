@@ -25,6 +25,10 @@
 
   networking.hostName = "kondor";
 
+  # random, machine-unique 32bit hostId
+  # when using ZFS, ensure that a pool isn’t accidentally imported on a wrong machine.
+  # head -c 8 /etc/machine-id
+  networking.hostId = "9d041828";
   environment.systemPackages = with pkgs; [
     lshw
     pciutils

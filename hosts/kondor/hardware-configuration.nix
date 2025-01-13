@@ -2,6 +2,7 @@
   pkgs,
   modulesPath,
   nixos-hardware,
+  USER,
   ...
 }: {
   imports = [
@@ -12,6 +13,7 @@
     nixos-hardware.nixosModules.common-cpu-amd-pstate
     nixos-hardware.nixosModules.common-cpu-amd-zenpower
     nixos-hardware.nixosModules.common-gpu-amd
+    ../../modules/hardware/zfs.nix
   ];
 
   fileSystems."/" = {
@@ -32,7 +34,7 @@
 
     # kernelPackages = pkgs.linuxPackages_latest;
     # kernelPackages = pkgs.linuxPackages_zen;
-    kernelParams = [];
+    kernelParams = ["zfs.zfs_arc_max=17179869184"]; # 16GiB ARC
 
     loader = {
       systemd-boot = {
