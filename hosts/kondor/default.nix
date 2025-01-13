@@ -31,7 +31,14 @@
   # when using ZFS, ensure that a pool isn’t accidentally imported on a wrong machine.
   # head -c 8 /etc/machine-id
   networking.hostId = "9d041828";
+
+  nixpkgs.hostPlatform = "x86_64-linux";
+
   environment.systemPackages = with pkgs; [
+    stremio
+
+    speedtest-cli
+
     lshw
     pciutils
   ];

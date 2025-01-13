@@ -29,7 +29,6 @@
     extraGroups = [
       "wheel"
       "docker"
-      "plugdev" # for zsa
     ];
     initialPassword = "nixos";
     shell = pkgs.zsh;

@@ -4,7 +4,7 @@
   programs.virt-manager.enable = true;
   security.polkit.enable = true;
 
-  users.users."${USER}".extraGroups = ["libvirtd"];
+  users.users.${USER}.extraGroups = ["libvirtd"];
 
   home-manager.users.${USER} = {pkgs, ...}: {
     dconf.settings = {
