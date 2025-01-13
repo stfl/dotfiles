@@ -31,7 +31,6 @@ in {
 
     ripgrep
     fd
-    pinentry-emacs
     zstd
     editorconfig-core-c
     sqlite
