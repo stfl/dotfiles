@@ -18,6 +18,7 @@ with lib; {
     nvd # diffing nix derivations
     nix-diff
     nix-zsh-completions
+    just
 
     git-absorb
 
