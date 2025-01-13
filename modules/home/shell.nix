@@ -537,4 +537,11 @@ with lib; {
     # extraPackages = [];
     # https://github.com/nix-community/home-manager/blob/master/modules/programs/bat.nix
   };
+
+  xdg.configFile."sqlite3/sqliterc".text = ''
+    .mode column
+    .headers on
+    .separator ROW "\n"
+    .nullvalue NULL
+  '';
 }
