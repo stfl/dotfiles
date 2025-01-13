@@ -43,42 +43,9 @@
     lib = nixpkgs.lib;
     system = "x86_64-linux";
     USER = "stefan";
-
-    mkStandaloneHomeConfig = username: homeModule: system:
-      home-manager.lib.homeManagerConfiguration {
-        pkgs = import nixpkgs {
-          system = "${system}";
-          config = {
-            allowUnfree = true;
-            permittedInsecurePackages = [
-              "freeimage-unstable-2021-11-01"
-            ];
-          };
-        };
-        modules = [
-          {
-            home = {
-              inherit username;
-              homeDirectory = "/home/${username}";
-              stateVersion = "23.11";
-            };
-          }
-          {
-            nixpkgs.overlays = [
-              nixgl.overlay
-              emacs-overlay.overlays.default
-            ];
-          }
-          ./modules/home/common.nix
-          homeModule
-        ];
-      };
   in rec {
     defaultPackage.x86_64-linux = home-manager.defaultPackage.x86_64-linux;
-    homeConfigurations = {
-      "stefan@amsel" = mkStandaloneHomeConfig "stefan" ./hosts/amsel/home.nix "${system}";
-      "slendl@leah" = mkStandaloneHomeConfig "slendl" ./hosts/leah/home.nix "${system}";
-    };
+    homeConfigurations = {};
 
     nixosConfigurations = {
       iso = lib.nixosSystem {
