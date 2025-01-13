@@ -41,8 +41,6 @@
     imports = [./home.nix];
   };
 
-  nix.settings.trusted-users = ["root" "${USER}"];
-
   # Set your time zone.
   time.timeZone = "Europe/Vienna";
 

@@ -107,8 +107,6 @@
     imports = [./home.nix];
   };
 
-  nix.settings.trusted-users = ["root" "${USER}"];
-
   services.syncthing = {
     enable = true;
     user = "${USER}";

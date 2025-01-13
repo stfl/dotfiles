@@ -1,6 +1,7 @@
 {
   pkgs,
   emacs-overlay,
+  USER,
   ...
 }: {
   nix = {
@@ -23,6 +24,7 @@
         "stfl-dotfiles.cachix.org-1:ey4Zr5BgT0cUbmMZ+pWlmA51e795UfMvv37/L2ATp0s="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       ];
+      trusted-users = ["root" "${USER}"];
     };
   };
 
