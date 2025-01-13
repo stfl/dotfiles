@@ -17,6 +17,7 @@
     ../../modules/steam.nix
     ../../modules/virtualization.nix
     ../../modules/desktop.nix
+    ../../modules/wireshark.nix
     ../../modules/networkmanager.nix
 
     # Customers and Projects

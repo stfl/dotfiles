@@ -28,7 +28,6 @@
     description = "Stefan";
     extraGroups = [
       "wheel"
-      "wireshark"
       "docker"
       "plugdev" # for zsa
     ];
@@ -61,11 +60,6 @@
     LC_PAPER = "de_AT.utf8";
     LC_TELEPHONE = "de_AT.utf8";
     LC_TIME = "de_AT.utf8";
-  };
-
-  programs.wireshark = {
-    enable = true;
-    package = pkgs.wireshark; # install GUI wireshark
   };
 
   environment.systemPackages = with pkgs; [
