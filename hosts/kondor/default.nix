@@ -17,6 +17,7 @@
     ../../modules/steam.nix
     ../../modules/virtualization.nix
     ../../modules/desktop.nix
+    ../../modules/networkmanager.nix
 
     # Customers and Projects
     ../../modules/projects/pulswerk.nix
@@ -34,14 +35,9 @@
     pciutils
   ];
 
-  # networking.wireless.enable = true; # Enables wireless support via wpa_supplicant. (not compatible with NetworkManager)
-
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Enable networking
-  networking.networkmanager.enable = true;
 
   # Set your time zone.
   time.timeZone = "Europe/Vienna";
@@ -66,7 +62,6 @@
     isNormalUser = true;
     description = "Stefan";
     extraGroups = [
-      "networkmanager"
       "wheel"
       "docker"
     ];

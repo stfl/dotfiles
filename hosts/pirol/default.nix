@@ -15,6 +15,7 @@
 
     ../../modules
     ../../modules/virtualization.nix
+    ../../modules/networkmanager.nix
     # ../../modules/switch.nix
     ../../modules/desktop.nix
     ../../modules/autosuspend.nix
@@ -26,7 +27,6 @@
     isNormalUser = true;
     description = "Stefan";
     extraGroups = [
-      "networkmanager"
       "wheel"
       "wireshark"
       "docker"
@@ -44,8 +44,6 @@
   };
 
   nix.settings.trusted-users = ["root" "${USER}"];
-
-  networking.networkmanager.enable = true;
 
   # Set your time zone.
   time.timeZone = "Europe/Vienna";
