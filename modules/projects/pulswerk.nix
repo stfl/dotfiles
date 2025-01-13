@@ -20,10 +20,11 @@
     ];
   };
 
-  networking.extraHosts = ''
-    127.0.0.1 gebaut.pulswerk.local
-    127.0.0.1 sustaindock-staging.dokku.pulswerk.local
-  '';
+  # NOTE: not actually needed
+  # networking.extraHosts = ''
+  #   127.0.0.1 gebaut.pulswerk.local
+  #   127.0.0.1 sustaindock-staging.dokku.pulswerk.local
+  # '';
 
   # ssh -v -L 127.0.0.1:8881:gebaut.pulswerk.local:80 \
   #        -L 127.0.0.1:8882:127.0.0.1:80 \
@@ -55,7 +56,7 @@
           # "::/0"
         ];
         endpoint = "wien.pulswerk.at:51820";
-        # persistentKeepalive = 25;
+        persistentKeepalive = 25;
       }
     ];
   };
