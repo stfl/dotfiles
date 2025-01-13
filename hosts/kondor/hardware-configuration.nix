@@ -16,15 +16,30 @@
     ../../modules/hardware/zfs.nix
   ];
 
-  fileSystems."/" = {
-    device = "/dev/disk/by-label/nixos";
-    fsType = "ext4";
-  };
-
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-label/BOOT";
-    fsType = "vfat";
-    options = ["fmask=0077" "dmask=0077"];
+  fileSystems = {
+    "/" = {
+      device = "/dev/disk/by-label/nixos";
+      fsType = "ext4";
+    };
+    "/boot" = {
+      device = "/dev/disk/by-label/BOOT";
+      fsType = "vfat";
+      options = ["fmask=0077" "dmask=0077"];
+    };
+    "/feather" = {
+      label = "FEATHER";
+      fsType = "btrfs";
+      options = ["compress=zstd"];
+    };
+    "/feather/Pictures" = {
+      label = "FEATHER";
+      fsType = "btrfs";
+      options = ["subvol=Pictures,compress=zstd"];
+    };
+    "/home/${USER}/Pictures" = {
+      device = "/feather/Pictures";
+      options = ["bind"];
+    };
   };
 
   swapDevices = [];
@@ -46,8 +61,6 @@
       timeout = 5;
     };
   };
-
-  nixpkgs.hostPlatform = "x86_64-linux";
 
   powerManagement = {
     enable = true;
