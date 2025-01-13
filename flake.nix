@@ -96,12 +96,6 @@
         modules = [./hosts/kondor];
       };
 
-      falke = lib.nixosSystem {
-        inherit system;
-        specialArgs = inputs // {inherit USER;};
-        modules = [./hosts/falke];
-      };
-
       pirol = lib.nixosSystem {
         inherit system;
         specialArgs = inputs // {inherit USER;};
