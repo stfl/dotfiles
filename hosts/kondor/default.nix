@@ -77,13 +77,6 @@
     shell = pkgs.zsh;
   };
 
-  # system-wide neovim
-  programs.neovim = {
-    enable = true;
-    viAlias = true;
-    vimAlias = true;
-  };
-
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;

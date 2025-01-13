@@ -62,4 +62,11 @@
   ];
 
   programs.mtr.enable = true;
+
+  # system-wide neovim
+  programs.neovim = {
+    enable = true;
+    viAlias = true;
+    vimAlias = true;
+  };
 }
