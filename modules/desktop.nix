@@ -21,7 +21,14 @@
     qt5.qtwayland
     wayland-utils
     wlr-protocols
+
+    pcmanfm
+    gimp
+    loupe
   ];
+
+  # Xfce D-Bus thumbnailer service
+  services.tumbler.enable = true;
 
   xdg.portal.wlr.enable = true;
   xdg.portal.config.common.default = "*"; # use the first available portal

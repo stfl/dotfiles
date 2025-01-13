@@ -62,11 +62,6 @@ in {
     sway-contrib.grimshot # screenshot tool
     qalculate-gtk
 
-    pcmanfm
-    # xfce.ristretto
-    # imagemagick
-    gimp
-
     # -- fonts
   ];
 
