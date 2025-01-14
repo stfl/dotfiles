@@ -180,7 +180,7 @@ in {
   };
 
   networking.nftables = {
-    enable = true;
+    enable = false;
     ruleset = ''
       table inet wg-wg0 {
         chain preraw {
@@ -201,7 +201,7 @@ in {
   };
 
   # this could possibly be simplified by setting either
-  # networking.firewall.checkReversePath = "loose";
+  networking.firewall.checkReversePath = "loose";
   # networking.firewall.checkReversePath = false;
 
   # TODO maybe disable IPv6 globally
