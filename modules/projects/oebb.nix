@@ -141,6 +141,7 @@ in {
       address = ["192.168.63.2/32"];
       DHCP = "no";
       dns = ["192.168.63.1"];
+      domains = ["~digiattack.net"];
       # linkConfig.ActivationPolicy = "manual";
       networkConfig = {
         Description = "Wireguard network config for ÖBB Digirail";
