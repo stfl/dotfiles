@@ -1,4 +1,8 @@
-{USER, ...}: {
+{
+  lib,
+  USER,
+  ...
+}: {
   # Disable wireless support via wpa_supplicant. (not compatible with NetworkManager)
   networking.wireless.enable = false;
 
@@ -11,5 +15,13 @@
 
     # TODO what is the package and path?
     # programs.waybar.settings.mainBar.network.on-click = "nm-connection-editor";
+  };
+
+  services.resolved = {
+    enable = lib.mkDefault true;
+    fallbackDns = [
+      "8.8.8.8"
+      "2001:4860:4860::8844"
+    ];
   };
 }
