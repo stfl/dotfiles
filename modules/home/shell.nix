@@ -34,7 +34,6 @@ with lib; {
     p7zip
 
     # various system monitor
-    htop
     btop
     zenith # in rust
     s-tui # shows termperature and fan speed

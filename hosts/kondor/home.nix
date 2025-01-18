@@ -10,7 +10,6 @@ with lib; let
   home_output = "HannStar Display Corp HC284UFB Unknown";
 in {
   imports = [
-    ../../modules/home
     ../../modules/home/emacs.nix
     ../../modules/home/pass.nix
   ];

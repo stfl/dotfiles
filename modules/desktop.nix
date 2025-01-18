@@ -83,4 +83,10 @@
     fontDir.enable = true;
     fontconfig.enable = true;
   };
+
+  # get completion for system packages
+  environment.pathsToLink = [
+    "/share/xdg-desktop-portal"
+    "/share/applications"
+  ];
 }

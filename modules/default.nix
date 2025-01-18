@@ -4,6 +4,10 @@
   USER,
   ...
 }: {
+  imports = [
+    ./shell.nix
+  ];
+
   nix = {
     package = pkgs.nixVersions.stable;
     extraOptions = "experimental-features = nix-command flakes";
@@ -41,32 +45,5 @@
     useUserPackages = true;
     useGlobalPkgs = true;
     backupFileExtension = "backup";
-  };
-
-  # get completion for system packages
-  environment.pathsToLink = [
-    "/share/zsh"
-    "/share/xdg-desktop-portal"
-    "/share/applications"
-  ];
-
-  environment.systemPackages = with pkgs; [
-    wget
-    dig
-    git
-    neovim
-    htop
-    killall
-    rsync
-    cachix
-  ];
-
-  programs.mtr.enable = true;
-
-  # system-wide neovim
-  programs.neovim = {
-    enable = true;
-    viAlias = true;
-    vimAlias = true;
   };
 }

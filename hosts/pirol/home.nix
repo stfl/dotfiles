@@ -12,7 +12,6 @@
   # builtin_output = "eDP-1";
 in {
   imports = [
-    ../../modules/home
     ../../modules/home/emacs.nix
     ../../modules/home/pass.nix
     ../../modules/home/dj.nix
