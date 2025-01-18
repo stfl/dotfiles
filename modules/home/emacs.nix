@@ -102,10 +102,10 @@ in {
   };
 
   systemd.user.services.git-sync-org = {
-    Unit.Requires = ["gpg-agent-ssh.socket"];
+    Unit.Requires = ["ssh-agent.service"];
     Install.WantedBy = mkForce ["sway-session.target"];
     Service = {
-      Environment = ["SSH_AUTH_SOCK=${config.systemd.user.sockets.gpg-agent-ssh.Socket.ListenStream}"];
+      Environment = ["SSH_AUTH_SOCK=/run/user/1000/ssh-agent"];
       WorkingDirectory = "${config.home.homeDirectory}/.org";
       ExecStartPre = "${pkgs.git-sync}/bin/git-sync -n -s";
       Restart = mkForce "on-failure";
@@ -122,10 +122,10 @@ in {
   };
 
   systemd.user.services.git-sync-doomemacs = {
-    Unit.Requires = ["gpg-agent-ssh.socket"];
+    Unit.Requires = ["ssh-agent.service"];
     Install.WantedBy = mkForce ["sway-session.target"];
     Service = {
-      Environment = ["SSH_AUTH_SOCK=${config.systemd.user.sockets.gpg-agent-ssh.Socket.ListenStream}"];
+      Environment = ["SSH_AUTH_SOCK=/run/user/1000/ssh-agent"];
       WorkingDirectory = "${config.xdg.configHome}/doom";
       ExecStartPre = "${pkgs.git-sync}/bin/git-sync -n -s";
       Restart = mkForce "on-failure";

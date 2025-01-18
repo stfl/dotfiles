@@ -87,11 +87,12 @@ in rec {
     enable = true;
     enableExtraSocket = true;
     enableZshIntegration = true;
-    enableSshSupport = true;
     pinentryPackage = pkgs.pinentry-gtk2;
     defaultCacheTtl = 64800; # 18 hours
     defaultCacheTtlSsh = 64800;
     maxCacheTtl = 64800;
     maxCacheTtlSsh = 64800;
   };
+
+  services.ssh-agent.enable = true;
 }
