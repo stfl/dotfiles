@@ -162,7 +162,7 @@ with lib; {
     ];
     matchBlocks."github.com" = {
       user = "git";
-      identityFile = ["${config.home.homeDirectory}/.ssh/id_ed25519"];
+      identityFile = ["${config.home.homeDirectory}/.ssh/id_ed25519_stfl"];
       identitiesOnly = true;
     };
   };
