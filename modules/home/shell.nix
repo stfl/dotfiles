@@ -38,10 +38,6 @@ with lib; {
     zenith # in rust
     s-tui # shows termperature and fan speed
     diskonaut # disk usage
-
-    # --- keyring
-    gpg-tui
-    xplr # tui file explorer used in gpg-tui
   ];
 
   programs.fd = {

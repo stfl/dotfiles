@@ -34,6 +34,10 @@ in rec {
     wofi-pass
     sequoia-sq
     pass-git-helper
+
+    # --- keyring
+    gpg-tui
+    xplr # tui file explorer used in gpg-tui
   ];
 
   programs.password-store = {
@@ -92,6 +96,9 @@ in rec {
     defaultCacheTtlSsh = 64800;
     maxCacheTtl = 64800;
     maxCacheTtlSsh = 64800;
+    extraConfig = ''
+      no-allow-external-cache
+    '';
   };
 
   services.ssh-agent.enable = true;
