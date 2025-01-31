@@ -33,7 +33,7 @@
   xdg.portal.wlr.enable = true;
   xdg.portal.config.common.default = "*"; # use the first available portal
 
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
