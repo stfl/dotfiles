@@ -17,6 +17,10 @@ in {
     ../agenix.nix
   ];
 
+  environment.systemPackages = with pkgs; [
+    keepassxc
+  ];
+
   # networking.firewall.checkReversePath = "loose";
   # networking.firewall.checkReversePath = false;
 
@@ -46,15 +50,7 @@ in {
   #   ];
   # };
 
-  home-manager.users.${USER} = {
-    pkgs,
-    config,
-    ...
-  }: {
-    home.packages = with pkgs; [
-      act
-    ];
-
+  home-manager.users.${USER} = {config, ...}: {
     programs.git.aliases = {
       # digirail alias to apply config for individual commands:
       # `git digirail -- clone git@github.com`
