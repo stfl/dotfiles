@@ -20,6 +20,11 @@
 
   programs.mtr.enable = true;
 
+  programs.zsh = {
+    enable = true;
+    enableBashCompletion = true;
+  };
+
   # system-wide neovim
   programs.neovim = {
     enable = true;
