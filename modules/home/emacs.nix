@@ -33,7 +33,7 @@ in {
     fd
     zstd
     editorconfig-core-c
-    sqlite
+    sqlite-interactive
     age
 
     pandoc
