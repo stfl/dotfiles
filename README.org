@@ -485,8 +485,11 @@ agenix -e <name-of-secret>.age
 - Put the auto-generated ssh host public key ~/etc/ssh/ssh_host_ed25519_key.pub~
   into secrets.nix
   
-- run ~agenix --rekey~ while another private key that allows decrypting all
-  relevant keys is available.
+- rekey with another private key that allows decrypting all relevant keys is available.
+
+#+begin_src bash
+agenix --rekey -i ~/.ssh/id_ed25519_stfl
+#+end_src
 
 * Create a custom iso
 
