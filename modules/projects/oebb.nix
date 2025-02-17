@@ -75,6 +75,23 @@ in {
       identityFile = ["${config.home.homeDirectory}/.ssh/id_ed25519"]; # the host local identity file
       identitiesOnly = true;
     };
+
+    programs.ssh.matchBlocks = {
+      "digirail-lab1 dr-lab1" = {
+        hostname = "192.168.99.10";
+        user = "root";
+        identityFile = ["${config.home.homeDirectory}/.ssh/id_ed25519_stfl"]; # TODO create a project specific identity file
+        identitiesOnly = true;
+        port = 13048;
+      };
+      "digirail-lab2 dr-lab2" = {
+        hostname = "192.168.99.11";
+        user = "root";
+        identityFile = ["${config.home.homeDirectory}/.ssh/id_ed25519_stfl"]; # TODO create a project specific identity file
+        identitiesOnly = true;
+        port = 13048;
+      };
+    };
   };
 
   # the private key must be readable by the systemd-network user
