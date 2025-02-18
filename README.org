@@ -509,3 +509,16 @@ sudo dd if=results/iso/*.iso of=/dev/sda bs=4M status=progress && sync
 nix path-info -r /run/current-system | cachix push stfl-dotfiles
 #+end_src
 
+* Citrix Workspace
+
+Download the corresponding version from
+https://www.citrix.com/downloads/workspace-app/
+
+Add the file to the nix store via
+
+#+begin_src bash
+nix-prefetch-url file://${PWD}/packages/citrix/linuxx64-24.8.0.98.tar.gz
+#+end_src
+
+Afterwards citrix_workspace can be installed.
+

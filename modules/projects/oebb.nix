@@ -19,6 +19,7 @@ in {
 
   environment.systemPackages = with pkgs; [
     keepassxc
+    citrix_workspace
   ];
 
   # networking.firewall.checkReversePath = "loose";
