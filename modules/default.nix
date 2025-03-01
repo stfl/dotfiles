@@ -10,7 +10,6 @@
 
   nix = {
     package = pkgs.nixVersions.stable;
-    extraOptions = "experimental-features = nix-command flakes";
     gc = {
       automatic = true;
       dates = "weekly";
@@ -18,6 +17,8 @@
     };
     settings = {
       auto-optimise-store = true;
+      experimental-features = "nix-command flakes";
+      download-buffer-size = 268435456; # 256 MiB
       substituters = [
         "https://stfl-dotfiles.cachix.org"
         "https://nix-community.cachix.org"
