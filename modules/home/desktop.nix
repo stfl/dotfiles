@@ -48,7 +48,6 @@ in {
     transmission_4-gtk
 
     libnotify
-    xwaylandvideobridge
     wdisplays
     wl-mirror
     kanshi # install the binary in addition to the service for debugging configs
