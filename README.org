@@ -522,3 +522,10 @@ nix-prefetch-url file://${PWD}/packages/citrix/linuxx64-24.8.0.98.tar.gz
 
 Afterwards citrix_workspace can be installed.
 
+* Stremio + Torentio
+:PROPERTIES:
+:ID:       55ae4a58-0b99-4595-98c7-0c3a047018ea
+:END:
+
+https://torrentio.strem.fun/providers=yts,eztv,rarbg,1337x,thepiratebay,kickasstorrents,torrentgalaxy,magnetdl,horriblesubs,nyaasi,tokyotosho,anidex%7Clanguage=german%7Cqualityfilter=threed,480p,scr,cam,unknown%7Climit=10/configure
+
