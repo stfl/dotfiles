@@ -32,5 +32,5 @@
     vimAlias = true;
   };
 
-  environment.pathsToLink = ["/share/zsh"];
+  environment.pathsToLink = ["/share/zsh" "/share/fish"];
 }

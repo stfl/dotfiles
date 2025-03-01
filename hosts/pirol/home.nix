@@ -20,7 +20,10 @@ in {
 
   home.packages = with pkgs; [
     nvtopPackages.intel
+    oh-my-fish
   ];
+
+  programs.fish.enable = true;
 
   # programs.waybar.settings.mainBar = {
   #   temperature.hwmon-path = "/sys/class/hwmon/hwmon4/temp1_input";

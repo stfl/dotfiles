@@ -36,7 +36,10 @@
     ];
     initialPassword = "nixos";
     shell = pkgs.zsh;
+    # shell = pkgs.fish;
   };
+
+  programs.fish.enable = true;
 
   system.stateVersion = "24.11"; # Did you read the comment?
 
@@ -68,6 +71,8 @@
     lm_sensors
     s-tui
     batmon
+
+    oh-my-fish
   ];
 
   # Enable the OpenSSH daemon.
