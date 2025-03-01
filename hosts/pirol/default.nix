@@ -20,6 +20,9 @@
     # ../../modules/switch.nix
     ../../modules/desktop.nix
     ../../modules/autosuspend.nix
+
+    # Customers and Projects
+    ../../modules/projects/oebb.nix
   ];
 
   networking.hostName = "pirol";
