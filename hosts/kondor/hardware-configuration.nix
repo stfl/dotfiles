@@ -62,6 +62,10 @@
     };
   };
 
+  # Logitech Unify connector
+  # installs ltunify : https://github.com/Lekensteyn/ltunify
+  hardware.logitech.wireless.enable = true;
+
   powerManagement = {
     enable = true;
     # cpuFreqGovernor = "ondemand";
@@ -77,8 +81,6 @@
     # rocmPackages.clr.icd
   ];
 
-  # installs ltunify : https://github.com/Lekensteyn/ltunify
-  hardware.logitech.wireless.enable = true;
 
   # Extra Radeon ROCm stuff
   # systemd.tmpfiles.rules = let
