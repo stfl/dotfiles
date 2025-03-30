@@ -47,6 +47,8 @@
   boot = {
     initrd.availableKernelModules = ["nvme" "ahci" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "sr_mod"];
 
+    initrd.kernelModules = ["amdgpu"];
+
     # kernelPackages = pkgs.linuxPackages_latest;
     # kernelPackages = pkgs.linuxPackages_zen;
     kernelParams = ["zfs.zfs_arc_max=17179869184"]; # 16GiB ARC
@@ -71,16 +73,25 @@
     # cpuFreqGovernor = "ondemand";
     powertop.enable = false;
   };
-  environment.systemPackages = [pkgs.powertop];
+  environment.systemPackages = with pkgs; [
+    powertop
+    clinfo
+  ];
 
   hardware.enableAllFirmware = true;
 
   # AMD GPU
+  hardware.opengl.driSupport32Bit = true;
+
   hardware.graphics.extraPackages = with pkgs; [
     vaapiVdpau
+    amdvlk
     # rocmPackages.clr.icd
   ];
 
+  hardware.graphics.extraPackages32 = with pkgs; [
+    driversi686Linux.amdvlk
+  ];
 
   # Extra Radeon ROCm stuff
   # systemd.tmpfiles.rules = let
