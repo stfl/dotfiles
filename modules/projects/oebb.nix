@@ -90,7 +90,7 @@ in {
         port = 13048;
       };
       "digirail-lab2 dr-lab2" = {
-        hostname = "192.168.99.11";
+        hostname = "192.168.99.114";
         user = "root";
         identityFile = ["${config.home.homeDirectory}/.ssh/id_ed25519_stfl"]; # TODO create a project specific identity file
         identitiesOnly = true;
