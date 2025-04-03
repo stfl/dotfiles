@@ -20,6 +20,7 @@
     ../../modules/desktop.nix
     ../../modules/wireshark.nix
     ../../modules/networkmanager.nix
+    ../../modules/cursor.nix
 
     # Customers and Projects
     ../../modules/projects/pulswerk.nix

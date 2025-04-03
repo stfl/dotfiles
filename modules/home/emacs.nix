@@ -26,7 +26,7 @@ in {
     # AI
     copilot-node-server
     nodejs
-    aider-chat
+    aider-chat #-full
     # khoj
 
     ripgrep
@@ -44,6 +44,11 @@ in {
     typstyle
     typst-live
     tree-sitter-grammars.tree-sitter-typst # TODO all grammers may be installed already?
+
+    rust-analyzer
+
+    # some emacs dependecies like magit need python
+    python3Full
 
     # -- spelling
     # languagetool
