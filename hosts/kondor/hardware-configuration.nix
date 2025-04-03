@@ -81,17 +81,19 @@
   hardware.enableAllFirmware = true;
 
   # AMD GPU
-  hardware.opengl.driSupport32Bit = true;
+  hardware.graphics = {
+    enable32Bit = true;
+    extraPackages = with pkgs; [
+      vaapiVdpau
+      amdvlk
+      # rocmPackages.clr.icd
+    ];
+    extraPackages32 = with pkgs; [
+      driversi686Linux.amdvlk
+    ];
+  };
 
-  hardware.graphics.extraPackages = with pkgs; [
-    vaapiVdpau
-    amdvlk
-    # rocmPackages.clr.icd
-  ];
-
-  hardware.graphics.extraPackages32 = with pkgs; [
-    driversi686Linux.amdvlk
-  ];
+  # systemd.tmpfiles.rules = ["L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"];
 
   # Extra Radeon ROCm stuff
   # systemd.tmpfiles.rules = let
