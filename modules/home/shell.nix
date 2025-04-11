@@ -300,6 +300,7 @@ with lib; {
       ipp = "ip -br addr";
       ipa = "ip -br addr";
       ipl = "ip -br link";
+      df = "df -h";
       "--" = "cd -";
       "1" = "cd -1";
       "2" = "cd -2";
