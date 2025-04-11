@@ -242,6 +242,7 @@ in {
         {title = "VM .+ \('.+'\).*";} # TODO not working
         {title = ".*noVNC.*";}
         {title = ".*Proxmox Console.*";}
+        {title = "Bluetooth Devices";}
       ];
       bars = []; # disable default bars -> use waybar
       keybindings = let
