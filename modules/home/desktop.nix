@@ -236,7 +236,7 @@ in {
       # gaps = {}; TODO
       floating.criteria = [
         {title = "Removable medium is inserted";}
-        {title = "Steam - Update News";}
+        {class = "steam";} # all steam windows -> "Steam" itself is has floating disabled see extraConfig below
         {class = "Pavucontrol";}
         {title = "Volume Control";}
         {title = "VM .+ \('.+'\).*";} # TODO not working
@@ -244,6 +244,7 @@ in {
         {title = ".*Proxmox Console.*";}
         {title = "Bluetooth Devices";}
       ];
+
       bars = []; # disable default bars -> use waybar
       keybindings = let
         cfg = config.wayland.windowManager.sway;
@@ -320,6 +321,7 @@ in {
           "${modifier}+Shift+p" = "exec --no-startup-id ${getExe pkgs.sway-contrib.grimshot} --notify save active";
           "${modifier}+Ctrl+p" = "exec --no-startup-id ${getExe pkgs.sway-contrib.grimshot} --notify save output";
         };
+
       seat = {
         "*" = {
           hide_cursor = "when-typing enable";
@@ -345,6 +347,10 @@ in {
         } # TODO this does not automatically restart on hm switch
       ];
     };
+    extraConfig = ''
+      # disable floating criteria again for main "Steam" window
+      for_window [title="^Steam$"] floating disable
+    '';
   };
 
   programs.wofi = {
