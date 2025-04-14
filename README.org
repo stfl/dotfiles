@@ -1,55 +1,16 @@
 #+title: My NixOS configuration
 #+PROPERTY: header-args:bash :noeval
 
-Build the standalone home-manager config:
 #+begin_src bash
-nix run . -- switch -b backup --flake .
+just switch
 #+end_src
 
 * Update
 
-#+begin_src bash
-nix flake update
-nix run . -- build --flake .
-nvd diff /nix/var/nix/profiles/per-user/${USER}/home-manager result
-
-read "Continue? [Enter] → Yes, [Ctrl]+[C] → No."
-nix run . -- switch -b backup --flake .
-#+end_src
-
-** Break down
-
-Update the flake
-#+begin_src bash
-nix flake update
-#+end_src
-
-Build the new generation
+update the flake (does not switcht yet)
 
 #+begin_src bash
-nix run . -- build --flake .
-#+end_src
-
-And compare the new version to the currently installed generation
-#+begin_src bash
-nvd diff result /nix/var/nix/profiles/per-user/${USER}/home-manager
-#+end_src
-
-Compare current-generation with X generation
-#+begin_src bash
-BASE_VERSION=265
-nvd diff /nix/var/nix/profiles/per-user/${USER}/home-manager{,-${BASE_VERSION}-link}
-#+end_src
-
-Compare two generations:
-#+begin_src bash
-nvd diff /nix/var/nix/profiles/per-user/${USER}/home-manager-{265,267}-link
-#+end_src
-
-Read the news
-
-#+begin_src bash
-nix run . -- news --flake .
+just update
 #+end_src
 
 * Setup nix on Debian 12
