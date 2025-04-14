@@ -43,7 +43,7 @@ in {
     (nixGL firefox)
 
     # -- communication
-    (nixGL signal-desktop)
+    (nixGL signal-desktop-bin)
     # (nixGL discord)
     transmission_4-gtk
 
