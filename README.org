@@ -498,7 +498,7 @@ gamescope --adaptive-sync --hdr-enabled --rt --steam -- \
 
 * Kanshi
 
-#+begin_src bash :eval :results silent
+#+begin_src sh :results silent verbatim
 swaymsg -t get_outputs
 #+end_src
 

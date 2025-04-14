@@ -27,17 +27,19 @@ in {
           output.transform = "normal";
           output.alias = "hannstar";
           output.scale = 1.0;
-          # output.resolution =  TODO
+          output.status = "enable";
         }
         {
           output.criteria = home_beamer_output;
           output.alias = "beamer";
           output.scale = 1.4;
+          output.status = "enable";
         }
         {
           output.criteria = home_receiver_output;
           output.alias = "receiver";
           output.scale = 1.4;
+          output.status = "disable";
         }
       ]
       ++ (
@@ -87,7 +89,6 @@ in {
             }
             {
               criteria = "$receiver";
-              position = "3840,0";
             }
           ];
         }
