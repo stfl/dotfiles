@@ -523,3 +523,15 @@ Afterwards citrix_workspace can be installed.
 
 https://torrentio.strem.fun/providers=yts,eztv,rarbg,1337x,thepiratebay,kickasstorrents,torrentgalaxy,magnetdl,horriblesubs,nyaasi,tokyotosho,anidex%7Clanguage=german%7Cqualityfilter=threed,480p,scr,cam,unknown%7Climit=10/configure
 
+* Steam
+
+https://wiki.nixos.org/wiki/Steam
+
+starting steam within gamescope
+
+#+begin_src bash
+export AMD_VULKAN_ICD="RADV"
+gamescope --adaptive-sync --hdr-enabled --rt --steam -- \
+    steam -pipewire-dmabuf -tenfoot
+#+end_src
+

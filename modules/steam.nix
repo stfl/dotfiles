@@ -2,25 +2,39 @@
   config,
   lib,
   pkgs,
+  USER,
   ...
 }: {
-  programs.steam = {
-    enable = true;
-    # gameScopeSession.enable = true;
-    extraPackages = with pkgs; [
-      # gamescope
-      # gamemode
-      mangohud
-      steamtinkerlaunch
-      # openssl_1_1
-    ];
+  programs = {
+    gamescope = {
+      enable = true;
+      capSysNice = true;
+    };
+    steam = {
+      enable = true;
+      gamescopeSession.enable = true;
+      extraPackages = with pkgs; [
+        gamescope-wsi
+        # gamescope
+        # gamemode
+        mangohud
+        steamtinkerlaunch
+
+        xorg.libXcursor
+        xorg.libXi
+        xorg.libXinerama
+        xorg.libXScrnSaver
+        libpng
+        libpulseaudio
+        libvorbis
+        stdenv.cc.cc.lib
+        libkrb5
+        keyutils
+      ];
+    };
   };
 
-  programs.gamemode.enable = true;
-  # programs.gamemode.settings.general.inhibit_screensaver = 0;
-
-  # packages = with pkgs; [
-  # win64
-  # wine64Packages.waylandFull
-  # ];
+  home-manager.users.${USER} = {
+    programs.mangohud.enable = true;
+  };
 }
