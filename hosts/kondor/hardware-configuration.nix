@@ -14,6 +14,27 @@
     nixos-hardware.nixosModules.common-cpu-amd-zenpower
     nixos-hardware.nixosModules.common-gpu-amd
     ../../modules/hardware/zfs.nix
+
+    ({pkgs, ...}: {
+      # LACT - Linux AMDGPU Controller
+      # This application allows you to overclock, undervolt, set fans curves of AMD GPUs on a Linux system.
+      environment.systemPackages = with pkgs; [lact];
+      systemd.packages = with pkgs; [lact];
+      systemd.services.lactd.wantedBy = ["multi-user.target"];
+    })
+
+    # ({pkgs, ...}: {
+    #   # AMD's open-source Vulkan driver amdvlkk
+    #   hardware.graphics = {
+    #     extraPackages = with pkgs; [
+    #       amdvlk
+    #     ];
+
+    #     extraPackages32 = with pkgs; [
+    #       driversi686Linux.amdvlk
+    #     ];
+    #   };
+    # })
   ];
 
   fileSystems = {
@@ -85,11 +106,6 @@
     enable32Bit = true;
     extraPackages = with pkgs; [
       vaapiVdpau
-      amdvlk
-      # rocmPackages.clr.icd
-    ];
-    extraPackages32 = with pkgs; [
-      driversi686Linux.amdvlk
     ];
   };
 
