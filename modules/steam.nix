@@ -1,6 +1,4 @@
 {
-  config,
-  lib,
   pkgs,
   USER,
   ...
@@ -9,6 +7,11 @@
     gamescope = {
       enable = true;
       capSysNice = true;
+    };
+    gamemode = {
+      enable = true;
+      enableRenice = true;
+      settings.general.renice = 10;
     };
     steam = {
       enable = true;
@@ -33,6 +36,8 @@
       ];
     };
   };
+
+  users.users.${USER}.extraGroups = ["gamemode"];
 
   home-manager.users.${USER} = {
     programs.mangohud.enable = true;
