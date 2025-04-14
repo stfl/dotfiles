@@ -6,7 +6,7 @@
 }:
 with lib; let
   home_beamer_output = "Sanyo Electric Co.,Ltd. SANYO Z3000 0x01010101";
-  home_receiver_output = "Yamaha Corporation RX-V765 Unknown";
+  home_receiver_output = "Yamaha Corporation RX-V4A Unknown";
   home_output = "HannStar Display Corp HC284UFB Unknown";
 in {
   imports = [
@@ -26,7 +26,7 @@ in {
           output.criteria = home_output;
           output.transform = "normal";
           output.alias = "hannstar";
-          output.scale = 1.2;
+          output.scale = 1.0;
           # output.resolution =  TODO
         }
         {
@@ -61,7 +61,7 @@ in {
           profile.outputs = [
             {
               criteria = "$hannstar";
-              position = "1920,0";
+              position = "0,0";
             }
           ];
         }
@@ -70,11 +70,11 @@ in {
           profile.outputs = [
             {
               criteria = "$hannstar";
-              position = "1920,0";
+              position = "0,0";
             }
             {
               criteria = "$beamer";
-              position = "5122,0";
+              position = "3840,0";
             }
           ];
         }
@@ -83,11 +83,11 @@ in {
           profile.outputs = [
             {
               criteria = "$hannstar";
-              position = "1920,0";
+              position = "0,0";
             }
             {
               criteria = "$receiver";
-              position = "5122,0";
+              position = "3840,0";
             }
           ];
         }

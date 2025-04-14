@@ -496,3 +496,9 @@ gamescope --adaptive-sync --hdr-enabled --rt --steam -- \
     steam -pipewire-dmabuf -tenfoot
 #+end_src
 
+* Kanshi
+
+#+begin_src bash :eval :results silent
+swaymsg -t get_outputs
+#+end_src
+
