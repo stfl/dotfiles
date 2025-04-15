@@ -11,6 +11,7 @@ with lib; let
     then "${getExe pkgs.swaylock}"
     else "/usr/bin/swaylock"; # don't use nix' swaylock bin, because it does not work
   TERMINAL = "${getExe config.programs.alacritty.package}";
+  calculator-pkg = pkgs.qalculate-gtk;
 in {
   imports = [
     ./nixgl-option.nix
@@ -59,7 +60,7 @@ in {
 
     # -- sway and GUI applications
     sway-contrib.grimshot # screenshot tool
-    qalculate-gtk
+    calculator-pkg
 
     # -- fonts
   ];
@@ -243,6 +244,7 @@ in {
         {title = ".*noVNC.*";}
         {title = ".*Proxmox Console.*";}
         {title = "Bluetooth Devices";}
+        {app_id = "qalculate-gtk";}
       ];
 
       bars = []; # disable default bars -> use waybar
@@ -320,6 +322,8 @@ in {
           "${modifier}+Mod1+p" = "exec --no-startup-id ${getExe pkgs.sway-contrib.grimshot} --notify save area";
           "${modifier}+Shift+p" = "exec --no-startup-id ${getExe pkgs.sway-contrib.grimshot} --notify save active";
           "${modifier}+Ctrl+p" = "exec --no-startup-id ${getExe pkgs.sway-contrib.grimshot} --notify save output";
+
+          "${modifier}+z" = "exec --no-startup-id ${getExe calculator-pkg}";
         };
 
       seat = {
