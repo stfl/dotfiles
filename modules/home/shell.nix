@@ -16,6 +16,7 @@ with lib; {
   home.packages = with pkgs; [
     nvd # diffing nix derivations
     nix-diff
+    nix-tree
     nix-zsh-completions
     just
 
