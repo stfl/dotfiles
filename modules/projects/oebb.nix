@@ -96,6 +96,11 @@ in {
         identitiesOnly = true;
         port = 13048;
       };
+      "b2btest.oebb.at" = {
+        user = "DigiRailBox";
+        # password in password-store
+        # extraOptions.controlMaster = "no";
+      };
     };
   };
 
