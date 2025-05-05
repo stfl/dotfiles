@@ -1,5 +1,4 @@
-just := just_executable() + " --justfile=" + justfile()
-
+default: switch
 switch:
     sudo nixos-rebuild switch --flake '.#' --show-trace
 
@@ -9,9 +8,9 @@ build:
 diff:
     nvd diff /nix/var/nix/profiles/system result
 
-update:
+build-update: flake build
+
+flake:
     nix flake update
-    {{ just }} build
-    {{ just }} diff
-    # read "Continue? [Enter] → Yes, [Ctrl]+[C] → No."
-    # {{ just }} switch
+
+update: build-update && diff
