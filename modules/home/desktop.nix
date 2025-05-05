@@ -413,26 +413,28 @@ in {
 
   services.mako = {
     enable = true;
-    anchor = "top-center";
-    backgroundColor = "#285577FF";
-    borderColor = "#4C7899FF";
-    defaultTimeout = 30000; # ms
-    # ignoreTimeout = true;
-    font = "JetBrains Mono Nerd Font Mono 10";
-    borderRadius = 7;
-    padding = "8";
-    width = 400;
-    extraConfig = ''
-      outer-margin=40
-
-      [urgency=low]
-      border-size=0
-
-      [urgency=high]
-      background-color=#bf616a
-      border-color=#bf616a
-      default-timeout=0
-    '';
+    settings = {
+      anchor = "top-center";
+      backgroundColor = "#285577FF";
+      borderColor = "#4C7899FF";
+      defaultTimeout = 30000; # ms
+      # ignoreTimeout = true;
+      font = "JetBrains Mono Nerd Font Mono 10";
+      borderRadius = 7;
+      padding = "8";
+      width = 400;
+      outer-margin = 40;
+    };
+    criteria = {
+      "urgency=low" = {
+        border-size = 0;
+      };
+      "urgency=high" = {
+        background-color = "#BF616A";
+        border-color = "#BF616A";
+        default-timeout = 0;
+      };
+    };
   };
 
   programs.waybar = {

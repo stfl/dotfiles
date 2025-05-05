@@ -2,7 +2,6 @@
   pkgs,
   lib,
   config,
-  options,
   ...
 }:
 with lib; {
@@ -313,7 +312,8 @@ with lib; {
       "9" = "cd -9";
     };
 
-    initExtra = ''
+    # Use Order to set the location in .zshrc
+    initContent = lib.mkOrder 1000 ''
       # Directory convenience functions
       setopt auto_pushd
       setopt pushd_ignore_dups
@@ -512,7 +512,12 @@ with lib; {
 
   programs.lsd = {
     enable = true;
-    enableAliases = true;
+    settings = {
+      date = "relative";
+      ignore-globs = [
+        ".git"
+      ];
+    };
   };
 
   programs.zoxide = {

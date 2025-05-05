@@ -26,7 +26,7 @@ in {
     # AI
     copilot-node-server
     nodejs
-    aider-chat-full
+    aider-chat
     # khoj
 
     ripgrep
