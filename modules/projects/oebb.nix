@@ -77,7 +77,7 @@ in {
     programs.ssh.matchBlocks."${github-host}" = {
       hostname = "github.com";
       user = "git";
-      identityFile = ["${config.home.homeDirectory}/.ssh/id_ed25519"]; # the host local identity file
+      identityFile = ["${config.home.homeDirectory}/.ssh/id_ed25519_oebb"];
       identitiesOnly = true;
     };
 
@@ -85,21 +85,21 @@ in {
       "digirail-lab1 dr-lab1" = {
         hostname = "192.168.99.10";
         user = "root";
-        identityFile = ["${config.home.homeDirectory}/.ssh/id_ed25519_stfl"]; # TODO create a project specific identity file
+        identityFile = ["${config.home.homeDirectory}/.ssh/id_ed25519_oebb"];
         identitiesOnly = true;
         port = 13048;
       };
       "digirail-lab2 dr-lab2" = {
         hostname = "192.168.99.114";
         user = "root";
-        identityFile = ["${config.home.homeDirectory}/.ssh/id_ed25519_stfl"]; # TODO create a project specific identity file
+        identityFile = ["${config.home.homeDirectory}/.ssh/id_ed25519_oebb"];
         identitiesOnly = true;
         port = 13048;
       };
       "b2btest.oebb.at" = {
         user = "DigiRailBox";
+        identityFile = ["${config.home.homeDirectory}/.ssh/id_ed25519_sterling"];
         # password in password-store
-        # extraOptions.controlMaster = "no";
       };
     };
   };
