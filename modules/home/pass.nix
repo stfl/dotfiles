@@ -91,7 +91,7 @@ in rec {
     enable = true;
     enableExtraSocket = true;
     enableZshIntegration = true;
-    pinentryPackage = pkgs.pinentry-gtk2;
+    pinentry.package = pkgs.pinentry-gtk2;
     defaultCacheTtl = 64800; # 18 hours
     defaultCacheTtlSsh = 64800;
     maxCacheTtl = 64800;
