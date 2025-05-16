@@ -1,0 +1,62 @@
+#+title: README
+#+PROPERTY: header-args:bash :noeval
+
+* Partitioning
+
+Based on: [[https://openzfs.github.io/openzfs-docs/Getting%20Started/NixOS/Root%20on%20ZFS.html][NixOS Root on ZFS]]
+
+#+begin_src bash
+DISK='/dev/disk/by-id/nvme-Micron_7450_MTFDKBG3T8TFR_24534DBF1741'
+MNT=$(mktemp -d)
+#+end_src
+
+
+The script in [[https://openzfs.github.io/openzfs-docs/Getting%20Started/NixOS/Root%20on%20ZFS.html][NixOS Root on ZFS]] didn't work because the alignment from the back of the disk did not work properly.
+
+#+begin_src bash
+blkdiscard -f "${disk}" || true
+
+parted --script --align=optimal "${DISK}" -- \
+    unit GiB \
+    mklabel gpt \
+    mkpart EFI 1MiB 4GiB \
+    mkpart rpool 4GiB 3511GiB \
+    mkpart swap 3511GiB -"${RESERVE}"GiB \
+    set 1 esp on
+
+partprobe "${DISK}"
+#+end_src
+
+* ZFS
+
+create a pool
+
+#+begin_src bash
+zpool create \
+    -o ashift=12 \
+    -o autotrim=on \
+    -R "${MNT}" \
+    -O acltype=posixacl \
+    -O canmount=off \
+    -O dnodesize=auto \
+    -O normalization=formD \
+    -O relatime=on \
+    -O xattr=sa \
+    -O mountpoint=none \
+    rpool \
+    "${DISK}-part2"
+#+end_src
+
+#+begin_src bash
+zfs set compression=zstd rpool
+zfs create -o canmount=noauto -o mountpoint=legacy rpool/roo
+zfs create -o mountpoint=legacy rpool/home
+#+end_src
+
+create a large empty dataset to ensure the pool does not fill up too much and
+degrade performance
+
+#+begin_src bash
+zfs create -o refreservation=400G -o canmount=off -o mountpoint=none rpool/reserved
+#+end_src
+
