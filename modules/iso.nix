@@ -24,6 +24,8 @@
     htop
     killall
     rsync
+
+    parted
   ];
 
   programs.mtr.enable = true;
