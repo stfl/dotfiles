@@ -5,7 +5,7 @@
   ...
 }: {
   boot.supportedFilesystems = ["zfs"];
-  boot.zfs.forceImportRoot = lib.mkDefault false;
+  # boot.zfs.forceImportRoot = lib.mkDefault false;
 
   environment.systemPackages = with pkgs; [
     zfs
@@ -17,5 +17,5 @@
   };
 
   # allow zfs export over nfs
-  services.nfs.server.enable = true;
+  # services.nfs.server.enable = lib.mkDefalt false;
 }
