@@ -88,6 +88,9 @@ in {
         identityFile = ["${config.home.homeDirectory}/.ssh/id_ed25519_oebb"];
         identitiesOnly = true;
         port = 13048;
+        setEnv = {
+          TERM = "screen-256color";
+        };
       };
       "digirail-lab2 dr-lab2" = {
         hostname = "192.168.99.114";
@@ -95,11 +98,13 @@ in {
         identityFile = ["${config.home.homeDirectory}/.ssh/id_ed25519_oebb"];
         identitiesOnly = true;
         port = 13048;
+        setEnv = {
+          TERM = "screen-256color";
+        };
       };
       "b2btest.oebb.at" = {
         user = "DigiRailBox";
         identityFile = ["${config.home.homeDirectory}/.ssh/id_ed25519_sterling"];
-        # password in password-store
       };
     };
   };
