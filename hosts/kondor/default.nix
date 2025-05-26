@@ -83,6 +83,17 @@
 
   networking.firewall.enable = true;
 
+  # networking.nameservers = ["100.100.100.100" "8.8.8.8" "1.1.1.1"];
+
+  services.tailscale = {
+    enable = true;
+    openFirewall = true;
+    # If you want to use tailscale with a specific user, set the user here.
+    # user = "${USER}";
+    # If you want to use tailscale with a specific auth key, set it here.
+    # authKey = "your-auth-key";
+  };
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
