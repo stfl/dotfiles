@@ -10,7 +10,6 @@ DISK='/dev/disk/by-id/nvme-Micron_7450_MTFDKBG3T8TFR_24534DBF1741'
 MNT=$(mktemp -d)
 #+end_src
 
-
 The script in [[https://openzfs.github.io/openzfs-docs/Getting%20Started/NixOS/Root%20on%20ZFS.html][NixOS Root on ZFS]] didn't work because the alignment from the back of the disk did not work properly.
 
 #+begin_src bash
@@ -47,10 +46,19 @@ zpool create \
     "${DISK}-part2"
 #+end_src
 
+set options
+
 #+begin_src bash
 zfs set compression=zstd rpool
-zfs create -o canmount=noauto -o mountpoint=legacy rpool/roo
+#+end_src
+
+create datasets
+
+#+begin_src bash
+zfs create -o canmount=noauto -o mountpoint=legacy rpool/root
 zfs create -o mountpoint=legacy rpool/home
+zfs create -o mountpoint=legacy rpool/nix
+zfs create -o mountpoint=legacy rpool/var
 #+end_src
 
 create a large empty dataset to ensure the pool does not fill up too much and
@@ -59,4 +67,21 @@ degrade performance
 #+begin_src bash
 zfs create -o refreservation=400G -o canmount=off -o mountpoint=none rpool/reserved
 #+end_src
+
+* SWAP
+
+We previously named the partition ~swap~ so can now use the label
+
+#+begin_src bash
+SWAP=/dev/disk/by-partlabel/swap
+mkswap -L swap $SWAP
+swapon $SWAP
+#+end_src
+
+* TODO Boot
+
+- [ ] mkfs.fat ...
+- [ ] partition label [BOOT1]
+- [ ] re-partition Viper NVMe [4GiB BOOT2] + rest ext4
+- [ ] duplicate BOOT1 -> BOOT2 in nixos-switch
 

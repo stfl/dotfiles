@@ -38,40 +38,55 @@
   ];
 
   fileSystems = {
-    "/" = {
-      device = "/dev/disk/by-label/nixos";
-      fsType = "ext4";
-    };
     "/boot" = {
       device = "/dev/disk/by-label/BOOT";
       fsType = "vfat";
       options = ["fmask=0077" "dmask=0077"];
     };
-    "/feather" = {
-      label = "FEATHER";
-      fsType = "btrfs";
-      options = ["compress=zstd"];
+
+    "/" = {
+      device = "/dev/disk/by-label/nixos";
+      fsType = "ext4";
     };
-    "/feather/Pictures" = {
-      label = "FEATHER";
-      fsType = "btrfs";
-      options = ["subvol=Pictures,compress=zstd"];
+
+    "/nix" = {
+      device = "rpool/nix";
+      fsType = "zfs";
     };
-    "/home/${USER}/Pictures" = {
-      device = "/feather/Pictures";
-      options = ["bind"];
+
+    "/home" = {
+      device = "rpool/home";
+      fsType = "zfs";
     };
+
+    # TODO
+    # "/" = {
+    #   device = "rpool/root";
+    #   fsType = "zfs";
+    #   # the zfsutil option is needed when mounting zfs datasets without "legacy" mountpoints
+    #   # options = ["zfsutil"];
+    # };
+
+    # TODO
+    # fileSystems."/var" = {
+    #   device = "rpool/var";
+    #   fsType = "zfs";
+    #   # options = ["zfsutil"];
+    # };
   };
 
-  swapDevices = [];
+  swapDevices = [
+    {
+      device = "/dev/disk/by-partlabel/swap";
+      randomEncryption = true;
+    }
+  ];
 
   boot = {
     initrd.availableKernelModules = ["nvme" "ahci" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "sr_mod"];
 
     initrd.kernelModules = ["amdgpu"];
 
-    # kernelPackages = pkgs.linuxPackages_latest;
-    # kernelPackages = pkgs.linuxPackages_zen;
     kernelParams = ["zfs.zfs_arc_max=17179869184"]; # 16GiB ARC
 
     loader = {
@@ -80,7 +95,7 @@
         configurationLimit = 20;
         memtest86.enable = true;
       };
-      efi.canTouchEfiVariables = false;
+      efi.canTouchEfiVariables = true;
       timeout = 5;
     };
   };
