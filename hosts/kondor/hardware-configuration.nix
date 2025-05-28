@@ -84,7 +84,7 @@
 
   boot = {
     initrd.availableKernelModules = ["nvme" "ahci" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "sr_mod"];
-    initrd.kernelModules = ["amdgpu"];
+    initrd.kernelModules = [];
 
     kernelModules = [
       "btintel" # Bluetooth driver for Intel AX200 802.11ax
@@ -106,31 +106,8 @@
   # Logitech Unify connector
   # installs ltunify : https://github.com/Lekensteyn/ltunify
   hardware.logitech.wireless.enable = true;
-
   hardware.enableAllFirmware = true;
 
-  # AMD GPU
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = true;
-    extraPackages = with pkgs; [
-      vaapiVdpau
-    ];
-  };
-
-  # systemd.tmpfiles.rules = ["L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"];
-
-  # Extra Radeon ROCm stuff
-  # systemd.tmpfiles.rules = let
-  #   rocmEnv = pkgs.symlinkJoin {
-  #     name = "rocm-combined";
-  #     paths = with pkgs.rocmPackages; [
-  #       rocblas
-  #       hipblas
-  #       clr
-  #     ];
-  #   };
-  # in [
-  #   "L+    /opt/rocm   -    -    -     -    ${rocmEnv}"
-  # ];
+  hardware.graphics.extraPackages = with pkgs; [vaapiVdpau];
+  hardware.amdgpu.opencl.enable = true;
 }
