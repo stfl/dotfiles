@@ -84,8 +84,11 @@
 
   boot = {
     initrd.availableKernelModules = ["nvme" "ahci" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "sr_mod"];
-
     initrd.kernelModules = ["amdgpu"];
+
+    kernelModules = [
+      "btintel" # Bluetooth driver for Intel AX200 802.11ax
+    ];
 
     kernelParams = ["zfs.zfs_arc_max=17179869184"]; # 16GiB ARC
 
