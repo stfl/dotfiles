@@ -424,8 +424,8 @@ in {
       padding = "8";
       width = 400;
       outer-margin = 40;
-    };
-    criteria = {
+
+      # criteria settings
       "urgency=low" = {
         border-size = 0;
       };
