@@ -52,11 +52,7 @@
     };
   };
 
-  powerManagement = {
-    enable = true;
-    # cpuFreqGovernor = "ondemand";
-    powertop.enable = true;
-  };
+  powerManagement.powertop.enable = true;
 
   nixpkgs.hostPlatform = "x86_64-linux";
 
@@ -66,6 +62,7 @@
 
     graphics = {
       enable = true;
+      enable32Bit = true;
       extraPackages = with pkgs; [
         vaapiVdpau
       ];

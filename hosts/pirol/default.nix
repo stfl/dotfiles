@@ -7,6 +7,8 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+
+    ../../modules/hardware
     ../../modules/hardware/bluetooth.nix
     ../../modules/hardware/zsa.nix
     ../../modules/hardware/ledger.nix
@@ -32,7 +34,6 @@
     description = "Stefan";
     extraGroups = [
       "wheel"
-      "docker"
     ];
     initialPassword = "nixos";
     shell = pkgs.zsh;
@@ -67,11 +68,6 @@
   };
 
   environment.systemPackages = with pkgs; [
-    dmidecode
-    lm_sensors
-    s-tui
-    batmon
-
     oh-my-fish
   ];
 

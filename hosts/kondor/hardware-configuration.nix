@@ -104,20 +104,11 @@
   # installs ltunify : https://github.com/Lekensteyn/ltunify
   hardware.logitech.wireless.enable = true;
 
-  powerManagement = {
-    enable = true;
-    # cpuFreqGovernor = "ondemand";
-    powertop.enable = false;
-  };
-  environment.systemPackages = with pkgs; [
-    powertop
-    clinfo
-  ];
-
   hardware.enableAllFirmware = true;
 
   # AMD GPU
   hardware.graphics = {
+    enable = true;
     enable32Bit = true;
     extraPackages = with pkgs; [
       vaapiVdpau
