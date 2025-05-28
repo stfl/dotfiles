@@ -29,6 +29,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.darwin.follows = "";
     };
+    # home-manager fancontrol module
+    fancontrol-gui = {
+      url = "github:Maldela/fancontrol-gui";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -38,6 +43,7 @@
     emacs-overlay,
     agenix,
     nixos-hardware,
+    fancontrol-gui,
     ...
   } @ inputs: let
     lib = nixpkgs.lib;
