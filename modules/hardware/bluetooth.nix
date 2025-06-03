@@ -4,16 +4,16 @@
   ...
 }: {
   hardware.bluetooth = {
-    enable = true;
-    powerOnBoot = true;
-    settings.Policy.AutoEnable = "true";
+    enable = lib.mkDefault true;
+    # hsphfpd.enable = lib.mkDefault true;  # NOTE conficts with wireplumber
+    powerOnBoot = lib.mkDefault true;
+    settings.Policy.AutoEnable = lib.mkDefault "true";
     settings = {
       General = {
-        Enable = "Source,Sink,Media,Socket";
-        ControllerMode = "bredr";
-        FastConnectable = true;
-        Experimental = true;
-        # KernelExperimental = true;
+        ControllerMode = lib.mkDefault "dual";
+        FastConnectable = lib.mkDefault false; # uses more power
+        Experimental = lib.mkDefault true;
+        KernelExperimental = lib.mkDefault true;
       };
     };
   };
