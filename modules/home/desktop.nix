@@ -606,6 +606,12 @@ in {
     };
   };
 
+  services.espanso = {
+    enable = lib.mkDefault true;
+    # configs = {};
+    # matches = {};
+  };
+
   # programs.cava = {
   #   enable = true;
   #   settings = {
