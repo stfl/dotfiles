@@ -133,9 +133,7 @@ in {
       };
       # See also man systemd.netdev (also contains info on the permissions of the key files)
       wireguardConfig = {
-        # Don't use a file from the Nix store as these are world readable. Must be readable by the systemd-network user
         PrivateKeyFile = config.age.secrets.wg-digirail-private.path;
-        # ListenPort = 9918;
         FirewallMark = wgFwMark;
         RouteTable = "off";
       };
@@ -145,16 +143,12 @@ in {
           PublicKey = "fD02JAuwSfjKIotk0kVBrVXVUETRwUL0aPpp4iGlPj0=";
 
           AllowedIPs = [
+            # "192.168.99.0/24"
+            # "192.168.63.1/32"
+            # "192.168.63.2/32"
             "0.0.0.0/0"
-            # "::/0"
+            #   # "::/0"
           ];
-          # AllowedIPs = [
-          #   "192.168.99.0/24"
-          #   "192.168.63.1/32"
-          #   "192.168.63.2/32"
-          #   "0.0.0.0/0"
-          #   # "::/0"
-          # ];
           Endpoint = "80.121.253.230:51820";
           PersistentKeepalive = 25;
         }
@@ -162,15 +156,17 @@ in {
     };
 
     networks."10-wg-digirail0" = {
+      linkConfig.ActivationPolicy = "manual";
+
       # See also man systemd.network
       name = "wg-digirail0";
       matchConfig.Name = "wg-digirail0";
+
       # IP addresses the client interface will have
       address = ["192.168.63.2/32"];
       DHCP = "no";
       dns = ["192.168.63.1"];
       domains = ["~digiattack.net"];
-      # linkConfig.ActivationPolicy = "manual";
       networkConfig = {
         Description = "Wireguard network config for ÖBB Digirail";
         DNSOverTLS = "opportunistic";
@@ -230,8 +226,5 @@ in {
   };
 
   # this could possibly be simplified by setting either
-  networking.firewall.checkReversePath = "loose";
-  # networking.firewall.checkReversePath = false;
-
-  # TODO maybe disable IPv6 globally
+  networking.firewall.checkReversePath = lib.mkForce "loose";
 }
