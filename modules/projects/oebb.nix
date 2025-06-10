@@ -83,7 +83,7 @@ in {
     };
 
     programs.ssh.matchBlocks = {
-      "digirail-lab1 dr-lab1" = {
+      "digirail-lab1 drb-lab1" = {
         hostname = "192.168.99.10";
         user = "root";
         identityFile = ["${config.home.homeDirectory}/.ssh/id_ed25519_oebb"];
@@ -93,8 +93,18 @@ in {
           TERM = "screen-256color";
         };
       };
-      "digirail-lab2 dr-lab2" = {
+      "digirail-lab2 drb-lab2" = {
         hostname = "192.168.99.114";
+        user = "root";
+        identityFile = ["${config.home.homeDirectory}/.ssh/id_ed25519_oebb"];
+        identitiesOnly = true;
+        port = 13048;
+        setEnv = {
+          TERM = "screen-256color";
+        };
+      };
+      "digirail-home2 drb-home2" = {
+        hostname = "192.168.0.140";
         user = "root";
         identityFile = ["${config.home.homeDirectory}/.ssh/id_ed25519_oebb"];
         identitiesOnly = true;
