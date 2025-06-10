@@ -24,6 +24,7 @@ in {
   environment.systemPackages = with pkgs; [
     keepassxc
     citrix_workspace
+    teams-for-linux
   ];
 
   # networking.firewall.checkReversePath = "loose";
