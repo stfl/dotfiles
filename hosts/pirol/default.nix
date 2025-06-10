@@ -78,6 +78,11 @@
   # networking.firewall.allowedTCPPorts = [];
   # networking.firewall.allowedUDPPorts = [];
 
+  services.tailscale = {
+    enable = true;
+    openFirewall = true;
+  };
+
   services.syncthing = {
     enable = true;
     user = "${USER}";
