@@ -127,8 +127,9 @@
   services.logind = {
     extraConfig = ''
       HandlePowerKey=suspend
-      IdleAction=suspend
-      IdleActionSec=2h
+
+      # IdleAction=suspend
+      # IdleActionSec=2h
     '';
   };
 }
