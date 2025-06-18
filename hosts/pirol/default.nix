@@ -19,6 +19,8 @@
     ../../modules/virtualization.nix
     ../../modules/networkmanager.nix
     ../../modules/docker.nix
+    ../../modules/steam.nix
+    ../../modules/docker.nix
     # ../../modules/switch.nix
     ../../modules/desktop.nix
     ../../modules/autosuspend.nix
