@@ -29,6 +29,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.darwin.follows = "";
     };
+    fenix = {
+      url = "github:nix-community/fenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # home-manager fancontrol module
     fancontrol-gui = {
       url = "github:Maldela/fancontrol-gui";
@@ -41,6 +45,7 @@
     home-manager,
     nixgl,
     emacs-overlay,
+    fenix,
     agenix,
     nixos-hardware,
     fancontrol-gui,
@@ -50,7 +55,8 @@
     system = "x86_64-linux";
     USER = "stefan";
   in rec {
-    defaultPackage.x86_64-linux = home-manager.defaultPackage.x86_64-linux;
+    # defaultPackage.x86_64-linux = home-manager.defaultPackage.x86_64-linux;
+    packages.x86_64-linux.default = fenix.packages.x86_64-linux.default.toolchain;
     homeConfigurations = {};
 
     nixosConfigurations = {
@@ -72,7 +78,22 @@
       pirol = lib.nixosSystem {
         inherit system;
         specialArgs = inputs // {inherit USER;};
-        modules = [./hosts/pirol];
+        modules = [
+          ./hosts/pirol
+          # ({pkgs, ...}: {
+          #   nixpkgs.overlays = [fenix.overlays.default];
+          #   environment.systemPackages = with pkgs; [
+          #     (pkgs.fenix.complete.withComponents [
+          #       "cargo"
+          #       "clippy"
+          #       "rust-src"
+          #       "rustc"
+          #       "rustfmt"
+          #     ])
+          #     rust-analyzer-nightly
+          #   ];
+          # })
+        ];
       };
     };
 

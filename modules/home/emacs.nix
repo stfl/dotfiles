@@ -45,9 +45,6 @@ in {
     typst-live
     tree-sitter-grammars.tree-sitter-typst # TODO all grammers may be installed already?
 
-    rust-analyzer
-    cargo-nextest
-
     # some emacs dependecies like magit need python
     python3Full
 

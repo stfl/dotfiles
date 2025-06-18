@@ -22,7 +22,10 @@
     ../../modules/desktop.nix
     ../../modules/wireshark.nix
     ../../modules/networkmanager.nix
-    ../../modules/cursor.nix
+    # ../../modules/cursor.nix
+
+    # Development
+    ../../modules/rust.nix
 
     # Customers and Projects
     ../../modules/projects/pulswerk.nix
