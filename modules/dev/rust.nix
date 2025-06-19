@@ -14,9 +14,12 @@
       "rustfmt"
     ])
     rust-analyzer-nightly
-    cargo-nextest
 
-    lld
+    cargo-nextest
+    cargo-binutils
+
+    llvmPackages.bintools
+    clang
     gcc
     glibc
     binutils
@@ -24,7 +27,7 @@
 
   home-manager.users.${USER}.home.file.".cargo/config.toml".text = ''
     [target.x86_64-unknown-linux-gnu]
-    # In NixOS using the linker=.. flag directly does not work.
+    linker = "clang"
     rustflags = ["-Clink-arg=-fuse-ld=lld"]
   '';
 })
