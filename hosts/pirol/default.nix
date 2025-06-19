@@ -26,7 +26,7 @@
     ../../modules/autosuspend.nix
 
     # Development
-    ../../modules/rust.nix
+    ../../modules/dev/rust.nix
 
     # Customers and Projects
     ../../modules/projects/oebb.nix
