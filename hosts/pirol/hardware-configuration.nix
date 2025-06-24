@@ -25,6 +25,7 @@
     options = ["fmask=0077" "dmask=0077"];
   };
 
+  # SWAP is already in the LUKS encrypted partition
   swapDevices = [{device = "/dev/disk/by-label/SWAP";}];
 
   boot = {
@@ -36,7 +37,9 @@
 
     kernelModules = ["kvm-intel"];
     extraModulePackages = [];
-    # kernelParams = ["mitigations=auto"];
+
+    # Disable Intel GPU mitigations
+    kernelParams = ["i915.mitigations=off"];
 
     resumeDevice = "/dev/disk/by-label/SWAP";
 
