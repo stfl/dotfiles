@@ -26,6 +26,8 @@
 
   services.blueman.enable = lib.mkDefault true;
 
+  # home-manager.users.${USER}.dconf.settings."org/blueman/general".notification-daemon = true;
+
   # enable bluetooth codec preferences
   # https://nixos.wiki/wiki/PipeWire#Bluetooth_Configuration
   # services.pipewire.wireplumber.extraConfig.bluetoothEnhancements = {
@@ -39,8 +41,6 @@
   #   };
   # };
 
-  home-manager.users.${USER} = {...}: {
-    # enable forwarding pause/play/.. buttons for bluetooth headsets to media players
-    services.mpris-proxy.enable = true;
-  };
+  # enable forwarding pause/play/.. buttons for bluetooth headsets to media players
+  home-manager.users.${USER}.services.mpris-proxy.enable = true;
 }
