@@ -44,6 +44,8 @@
   environment.systemPackages = with pkgs; [
     stremio
     speedtest-cli
+
+    rustdesk-flutter
   ];
 
   # Configure network proxy if necessary
