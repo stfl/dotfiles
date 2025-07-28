@@ -1,5 +1,5 @@
 {
-  description = "My Home Manager Flake";
+  description = "NixOS configuration for my machines";
 
   inputs = {
     nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1";
