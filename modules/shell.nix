@@ -16,6 +16,7 @@
     killall
     rsync
     cachix
+    fh
   ];
 
   programs.mtr.enable = true;

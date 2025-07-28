@@ -2,19 +2,13 @@
   description = "My Home Manager Flake";
 
   inputs = {
-    nixpkgs = {
-      url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    };
-    home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1";
+    home-manager.url = "https://flakehub.com/f/nix-community/home-manager/0.1";
     systems.url = "github:nix-systems/x86_64-linux";
-    flake-utils = {
-      url = "github:numtide/flake-utils";
-      inputs.systems.follows = "systems";
-    };
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    flake-utils.url = "https://flakehub.com/f/numtide/flake-utils/*";
+    nixos-hardware.url = "https://flakehub.com/f/NixOS/nixos-hardware/*";
+    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
+    fenix.url = "https://flakehub.com/f/nix-community/fenix/*";
     nixgl = {
       url = "github:guibou/nixGL";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -28,13 +22,11 @@
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.darwin.follows = "";
+      inputs.home-manager.follows = "home-manager";
+      inputs.systems.follows = "systems";
     };
-    fenix = {
-      url = "github:nix-community/fenix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    # home-manager fancontrol module
     fancontrol-gui = {
+      # home-manager fancontrol module
       url = "github:Maldela/fancontrol-gui";
       inputs.nixpkgs.follows = "nixpkgs";
     };
@@ -43,6 +35,7 @@
   outputs = {
     nixpkgs,
     home-manager,
+    determinate,
     nixgl,
     emacs-overlay,
     fenix,
@@ -72,13 +65,16 @@
       kondor = lib.nixosSystem {
         inherit system;
         specialArgs = inputs // {inherit USER;};
-        modules = [./hosts/kondor];
+        modules = [
+          ./hosts/kondor
+        ];
       };
 
       pirol = lib.nixosSystem {
         inherit system;
         specialArgs = inputs // {inherit USER;};
         modules = [
+          determinate.nixosModules.default
           ./hosts/pirol
           # ({pkgs, ...}: {
           #   nixpkgs.overlays = [fenix.overlays.default];
