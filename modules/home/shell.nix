@@ -136,6 +136,7 @@ with lib; {
       };
       format.signOff = true;
       lfs."https://github.com".locksverify = false; # github does not support lfs locksverify and git-sync complains about it
+      github.user = "stfl";
     };
   };
 

@@ -66,10 +66,13 @@ in {
     programs.git.includes = [
       {
         condition = "gitdir:${config.home.homeDirectory}/work/oebb/";
-        contents.user.email = "stefan-digirailbox@stfl.dev";
-        contents.url."git@${github-host}:" = {
-          insteadOf = "git@github.com:";
-          pushInsteadOf = "git@github.com:";
+        contents = {
+          user.email = "stefan-digirailbox@stfl.dev";
+          url."git@${github-host}:" = {
+            insteadOf = "git@github.com:";
+            pushInsteadOf = "git@github.com:";
+          };
+          github.user = "stefan-digirailbox";
         };
       }
     ];
