@@ -609,7 +609,34 @@ in {
   services.espanso = {
     enable = lib.mkDefault true;
     # configs = {};
-    # matches = {};
+    matches = {
+      base = {
+        matches = [
+          {
+            trigger = ":now";
+            replace = "It's {{currentdate}} {{currenttime}}";
+          }
+          {
+            trigger = ":date";
+            replace = "{{currentdate}}";
+          }
+        ];
+      };
+      global_vars = {
+        global_vars = [
+          {
+            name = "currentdate";
+            type = "date";
+            params = {format = "%F";};
+          }
+          {
+            name = "currenttime";
+            type = "date";
+            params = {format = "%R";};
+          }
+        ];
+      };
+    };
   };
 
   # programs.cava = {
