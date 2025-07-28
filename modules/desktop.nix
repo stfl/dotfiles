@@ -26,7 +26,6 @@
 
     pcmanfm
     gimp
-    loupe
   ];
 
   # Xfce D-Bus thumbnailer service
