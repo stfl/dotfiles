@@ -7,18 +7,8 @@
   imports = [
     ../wireguard.nix
     ../agenix.nix
+    ../dev/python.nix
   ];
-
-  home-manager.users.${USER} = {
-    pkgs,
-    config,
-    ...
-  }: {
-    home.packages = with pkgs; [
-      poetry
-      pyright
-    ];
-  };
 
   # NOTE: not actually needed
   # networking.extraHosts = ''

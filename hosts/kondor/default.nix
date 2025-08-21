@@ -25,7 +25,7 @@
     # ../../modules/cursor.nix
 
     # Development
-    ../../modules/dev/rust.nix
+    ../../modules/dev
 
     # Customers and Projects
     ../../modules/projects/pulswerk.nix

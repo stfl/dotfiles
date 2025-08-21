@@ -264,7 +264,7 @@ with lib; {
       strategy = ["history"];
     };
     defaultKeymap = "viins";
-    dotDir = ".config/zsh";
+    dotDir = "${config.xdg.configHome}/zsh";
     history = {
       append = true;
       # expireDuplicatesFirst = true;
