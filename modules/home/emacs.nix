@@ -4,9 +4,11 @@
   pkgs,
   ...
 }:
-with lib; let
-  emacs-pkg = pkgs.emacs-unstable-pgtk;
-in {
+with lib;
+let
+  emacs-pkg = pkgs.emacs-pgtk;
+in
+{
   home.sessionVariables = {
     EDITOR = "${emacs-pkg}/bin/emacsclient";
     LSP_USE_PLISTS = "true"; # for emacs lsp-mode
