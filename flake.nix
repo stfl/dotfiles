@@ -74,7 +74,6 @@
         inherit system;
         specialArgs = inputs // {inherit USER;};
         modules = [
-          determinate.nixosModules.default
           ./hosts/pirol
           # ({pkgs, ...}: {
           #   nixpkgs.overlays = [fenix.overlays.default];
