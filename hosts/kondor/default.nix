@@ -3,7 +3,8 @@
   home-manager,
   USER,
   ...
-}: {
+}:
+{
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -108,7 +109,7 @@
 
   home-manager.users.${USER} = {
     home.stateVersion = "24.05";
-    imports = [./home.nix];
+    imports = [ ./home.nix ];
   };
 
   services.syncthing = {
@@ -129,12 +130,9 @@
   # ];
   # fonts.fontDir.enable = true;
 
-  services.logind = {
-    extraConfig = ''
-      HandlePowerKey=suspend
-
-      # IdleAction=suspend
-      # IdleActionSec=2h
-    '';
+  services.logind.settings.Login = {
+    HandlePowerKey = "suspend";
+    # IdleAction="suspend";
+    # IdleActionSec="4h";
   };
 }

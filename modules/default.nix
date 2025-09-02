@@ -40,6 +40,7 @@
       permittedInsecurePackages = [
         "libxml2-2.13.8"
         "libsoup-2.74.3"
+        "qtwebengine-5.15.19"
       ];
     };
     overlays = [

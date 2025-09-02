@@ -3,7 +3,8 @@
   home-manager,
   USER,
   ...
-}: {
+}:
+{
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -51,7 +52,7 @@
 
   home-manager.users.${USER} = {
     home.stateVersion = "24.11";
-    imports = [./home.nix];
+    imports = [ ./home.nix ];
   };
 
   # Set your time zone.
@@ -107,13 +108,11 @@
   # fonts.fontDir.enable = true;
 
   # Suspend-then-hibernate everywhere
-  services.logind = {
-    lidSwitch = "suspend-then-hibernate";
-    extraConfig = ''
-      HandlePowerKey=suspend-then-hibernate
-      IdleAction=suspend-then-hibernate
-      IdleActionSec=30m
-    '';
+  services.logind.settings.Login = {
+    HandleLidSwitch = "suspend-then-hibernate";
+    HandlePowerKey = "suspend-then-hibernate";
+    IdleAction = "suspend-then-hibernate";
+    IdleActionSec = "30m";
   };
 
   systemd.sleep.extraConfig = "HibernateDelaySec=1h";
