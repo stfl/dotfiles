@@ -30,6 +30,7 @@ in
     copilot-language-server
     nodejs
     aider-chat
+    claude-code
     # khoj
 
     ripgrep
