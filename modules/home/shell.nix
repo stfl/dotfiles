@@ -4,7 +4,8 @@
   config,
   ...
 }:
-with lib; {
+with lib;
+{
   home.sessionVariables = {
     PAGER = "less -FR --mouse";
   };
@@ -95,7 +96,11 @@ with lib; {
     lfs.enable = true;
     userName = "Stefan Lendl";
     userEmail = "git@stfl.dev";
-    ignores = ["*~" "*.swp" "my-patches"];
+    ignores = [
+      "*~"
+      "*.swp"
+      "my-patches"
+    ];
     difftastic = {
       enable = false; # TODO unfortunatly, this breaks things in magit
       background = "dark";
@@ -142,23 +147,26 @@ with lib; {
 
   programs.ssh = {
     enable = true;
-    # package = pkgs.openssh;   // only needed if ssh-client from the system is not desired
-    forwardAgent = true;
-    addKeysToAgent = "yes";
-    controlMaster = "auto";
-    controlPersist = "10m";
-    hashKnownHosts = true;
-    compression = true;
-    serverAliveInterval = 10; # seconds
-    serverAliveCountMax = 10;
     includes = [
       "${config.home.homeDirectory}/.ssh/config.d/*"
       "${config.home.homeDirectory}/.ssh/config-extra.d/*"
     ];
-    matchBlocks."github.com" = {
-      user = "git";
-      identityFile = ["${config.home.homeDirectory}/.ssh/id_ed25519_stfl"];
-      identitiesOnly = true;
+    matchBlocks = {
+      "*" = {
+        forwardAgent = true;
+        addKeysToAgent = "yes";
+        controlMaster = "auto";
+        controlPersist = "10m";
+        hashKnownHosts = true;
+        compression = true;
+        serverAliveInterval = 10; # seconds
+        serverAliveCountMax = 10;
+      };
+      "github.com" = {
+        user = "git";
+        identityFile = [ "${config.home.homeDirectory}/.ssh/id_ed25519_stfl" ];
+        identitiesOnly = true;
+      };
     };
   };
   home.file.".ssh/config.d.ln/" = {
@@ -167,7 +175,7 @@ with lib; {
     onChange = ''${getExe pkgs.rsync} -rL --chown "stefan:users" --del ~/.ssh/config.d.ln/ ~/.ssh/config.d/'';
   };
 
-  home.activation.createSshConfigExtraDir = lib.hm.dag.entryAfter ["writeBoundary"] ''
+  home.activation.createSshConfigExtraDir = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     run mkdir -p ${config.home.homeDirectory}/.ssh/config-extra.d/
   '';
 
@@ -261,7 +269,7 @@ with lib; {
     autosuggestion = {
       enable = true;
       highlight = "fg=#78888a";
-      strategy = ["history"];
+      strategy = [ "history" ];
     };
     defaultKeymap = "viins";
     dotDir = "${config.xdg.configHome}/zsh";
@@ -520,10 +528,10 @@ with lib; {
     enableBashIntegration = true;
     enableZshIntegration = true;
     changeDirWidgetCommand = "fd --type d"; # ALT-C
-    changeDirWidgetOptions = ["--preview 'tree -C {} | head -200'"];
+    changeDirWidgetOptions = [ "--preview 'tree -C {} | head -200'" ];
     defaultCommand = "fd --type f";
     fileWidgetCommand = "fd --type f"; # CTRL-T
-    fileWidgetOptions = ["--preview 'head {}'"];
+    fileWidgetOptions = [ "--preview 'head {}'" ];
     tmux.enableShellIntegration = false;
   };
 
