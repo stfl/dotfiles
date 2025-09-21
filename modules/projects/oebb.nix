@@ -24,6 +24,8 @@ in {
   environment.systemPackages = with pkgs; [
     keepassxc
     citrix_workspace
+
+    cargo-bitbake
   ];
 
   # networking.firewall.checkReversePath = "loose";
@@ -80,7 +82,7 @@ in {
     programs.ssh.matchBlocks."${github-host}" = {
       hostname = "github.com";
       user = "git";
-      identityFile = ["${config.home.homeDirectory}/.ssh/id_ed25519_oebb"];
+      identityFile = ["~/.ssh/id_ed25519_oebb"];
       identitiesOnly = true;
     };
 
@@ -88,7 +90,7 @@ in {
       "digirail-lab1 drb-lab1" = {
         hostname = "192.168.99.10";
         user = "root";
-        identityFile = ["${config.home.homeDirectory}/.ssh/id_ed25519_oebb"];
+        identityFile = ["~/.ssh/id_ed25519_oebb"];
         identitiesOnly = true;
         port = 13048;
         setEnv = {
@@ -98,7 +100,7 @@ in {
       "digirail-lab2 drb-lab2" = {
         hostname = "192.168.99.114";
         user = "root";
-        identityFile = ["${config.home.homeDirectory}/.ssh/id_ed25519_oebb"];
+        identityFile = ["~/.ssh/id_ed25519_oebb"];
         identitiesOnly = true;
         port = 13048;
         setEnv = {
@@ -108,7 +110,7 @@ in {
       "digirail-home2 drb-home2" = {
         hostname = "192.168.0.140";
         user = "root";
-        identityFile = ["${config.home.homeDirectory}/.ssh/id_ed25519_oebb"];
+        identityFile = ["~/.ssh/id_ed25519_oebb"];
         identitiesOnly = true;
         port = 13048;
         setEnv = {
@@ -117,7 +119,7 @@ in {
       };
       "b2btest.oebb.at" = {
         user = "DigiRailBox";
-        identityFile = ["${config.home.homeDirectory}/.ssh/id_ed25519_sterling"];
+        identityFile = ["~/.ssh/id_ed25519_sterling"];
       };
     };
   };
