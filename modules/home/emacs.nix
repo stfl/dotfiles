@@ -46,7 +46,7 @@ in
     bitbake-language-server
 
     # some emacs dependecies like magit need python
-    python3Full
+    python3
 
     # -- spelling
     # languagetool
