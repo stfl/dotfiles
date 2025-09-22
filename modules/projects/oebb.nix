@@ -23,7 +23,7 @@ in {
 
   environment.systemPackages = with pkgs; [
     keepassxc
-    citrix_workspace
+    # citrix_workspace # FIXME depends on qtwebengine which is flagged as insecure
 
     cargo-bitbake
   ];
