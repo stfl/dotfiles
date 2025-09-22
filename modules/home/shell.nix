@@ -147,6 +147,7 @@ with lib;
 
   programs.ssh = {
     enable = true;
+    enableDefaultConfig = false;
     includes = [
       "${config.home.homeDirectory}/.ssh/config.d/*"
       "${config.home.homeDirectory}/.ssh/config-extra.d/*"
