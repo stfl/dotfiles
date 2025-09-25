@@ -4,7 +4,8 @@
   pkgs,
   USER,
   ...
-}: let
+}:
+let
   github-host = "digirail.github.com";
 
   citrix_workspace = pkgs.citrix_workspace_24_08_0.overrideAttrs (_: {
@@ -15,7 +16,8 @@
   # don't need to touch this.
   wgFwMark = 4242;
   wgTable = 4000;
-in {
+in
+{
   imports = [
     ../wireguard.nix
     ../agenix.nix
@@ -57,73 +59,75 @@ in {
   #   ];
   # };
 
-  home-manager.users.${USER} = {config, ...}: {
-    programs.git.aliases = {
-      # digirail alias to apply config for individual commands:
-      # `git digirail -- clone git@github.com`
-      #  -> automatically rewrites to a git clone git@digirail.github.com
-      digirail = "!sh -c 'git -c url.git@${github-host}:.insteadOf=git@github.com: -c url.git@${github-host}:.pushInsteadOf=git@github.com: \"$@\"'";
-    };
+  home-manager.users.${USER} =
+    { config, ... }:
+    {
+      programs.git.aliases = {
+        # digirail alias to apply config for individual commands:
+        # `git digirail -- clone git@github.com`
+        #  -> automatically rewrites to a git clone git@digirail.github.com
+        digirail = "!sh -c 'git -c url.git@${github-host}:.insteadOf=git@github.com: -c url.git@${github-host}:.pushInsteadOf=git@github.com: \"$@\"'";
+      };
 
-    programs.git.includes = [
-      {
-        condition = "gitdir:${config.home.homeDirectory}/work/oebb/";
-        contents = {
-          user.email = "stefan-digirailbox@stfl.dev";
-          url."git@${github-host}:" = {
-            insteadOf = "git@github.com:";
-            pushInsteadOf = "git@github.com:";
+      programs.git.includes = [
+        {
+          condition = "gitdir:${config.home.homeDirectory}/work/oebb/";
+          contents = {
+            user.email = "stefan-digirailbox@stfl.dev";
+            url."git@${github-host}:" = {
+              insteadOf = "git@github.com:";
+              pushInsteadOf = "git@github.com:";
+            };
+            github.user = "stefan-digirailbox";
           };
-          github.user = "stefan-digirailbox";
-        };
-      }
-    ];
+        }
+      ];
 
-    programs.ssh.matchBlocks."${github-host}" = {
-      hostname = "github.com";
-      user = "git";
-      identityFile = ["~/.ssh/id_ed25519_oebb"];
-      identitiesOnly = true;
-    };
+      programs.ssh.matchBlocks."${github-host}" = {
+        hostname = "github.com";
+        user = "git";
+        identityFile = [ "~/.ssh/id_ed25519_oebb" ];
+        identitiesOnly = true;
+      };
 
-    programs.ssh.matchBlocks = {
-      "digirail-lab1 drb-lab1" = {
-        hostname = "192.168.99.10";
-        user = "root";
-        identityFile = ["~/.ssh/id_ed25519_oebb"];
-        identitiesOnly = true;
-        port = 13048;
-        setEnv = {
-          TERM = "screen-256color";
+      programs.ssh.matchBlocks = {
+        "digirail-lab1 drb-lab1" = {
+          hostname = "192.168.99.10";
+          user = "root";
+          identityFile = [ "~/.ssh/id_ed25519_oebb" ];
+          identitiesOnly = true;
+          port = 13048;
+          setEnv = {
+            TERM = "screen-256color";
+          };
         };
-      };
-      "digirail-lab2 drb-lab2" = {
-        hostname = "192.168.99.114";
-        user = "root";
-        identityFile = ["~/.ssh/id_ed25519_oebb"];
-        identitiesOnly = true;
-        port = 13048;
-        setEnv = {
-          TERM = "screen-256color";
+        "digirail-lab2 drb-lab2" = {
+          hostname = "192.168.99.114";
+          user = "root";
+          identityFile = [ "~/.ssh/id_ed25519_oebb" ];
+          identitiesOnly = true;
+          port = 13048;
+          setEnv = {
+            TERM = "screen-256color";
+          };
         };
-      };
-      "digirail-home2 drb-home2" = {
-        hostname = "192.168.0.140";
-        user = "root";
-        identityFile = ["~/.ssh/id_ed25519_oebb"];
-        identitiesOnly = true;
-        checkHostIP = false;
-        port = 13048;
-        setEnv = {
-          TERM = "screen-256color";
+        "digirail-home2 drb-home2" = {
+          hostname = "192.168.0.140";
+          user = "root";
+          identityFile = [ "~/.ssh/id_ed25519_oebb" ];
+          identitiesOnly = true;
+          checkHostIP = false;
+          port = 13048;
+          setEnv = {
+            TERM = "screen-256color";
+          };
         };
-      };
-      "b2btest.oebb.at" = {
-        user = "DigiRailBox";
-        identityFile = ["~/.ssh/id_ed25519_sterling"];
+        "b2btest.oebb.at" = {
+          user = "DigiRailBox";
+          identityFile = [ "~/.ssh/id_ed25519_sterling" ];
+        };
       };
     };
-  };
 
   # the private key must be readable by the systemd-network user
   age.secrets.wg-digirail-private = {
@@ -179,10 +183,10 @@ in {
       matchConfig.Name = "wg-digirail0";
 
       # IP addresses the client interface will have
-      address = ["192.168.63.2/32"];
+      address = [ "192.168.63.2/32" ];
       DHCP = "no";
-      dns = ["192.168.63.1"];
-      domains = ["~digiattack.net"];
+      dns = [ "192.168.63.1" ];
+      domains = [ "~digiattack.net" ];
       networkConfig = {
         Description = "Wireguard network config for ÖBB Digirail";
         DNSOverTLS = "opportunistic";
