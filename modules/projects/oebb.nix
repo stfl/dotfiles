@@ -112,6 +112,7 @@ in {
         user = "root";
         identityFile = ["~/.ssh/id_ed25519_oebb"];
         identitiesOnly = true;
+        checkHostIP = false;
         port = 13048;
         setEnv = {
           TERM = "screen-256color";
