@@ -118,6 +118,9 @@ in
           identitiesOnly = true;
           checkHostIP = false;
           port = 13048;
+          extraOptions = {
+            StrictHostKeyChecking = "no";
+          };
           setEnv = {
             TERM = "screen-256color";
           };
