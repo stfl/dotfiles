@@ -158,7 +158,7 @@ with lib;
         addKeysToAgent = "yes";
         controlMaster = "auto";
         controlPersist = "10m";
-        hashKnownHosts = true;
+        hashKnownHosts = false;
         compression = true;
         serverAliveInterval = 10; # seconds
         serverAliveCountMax = 10;
