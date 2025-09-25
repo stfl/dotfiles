@@ -1,11 +1,11 @@
 {
   pkgs,
-  lib,
   USER,
   ...
-}: {
+}:
+{
   home-manager.users.${USER} = {
-    imports = [./home/shell.nix];
+    imports = [ ./home/shell.nix ];
   };
 
   environment.systemPackages = with pkgs; [
@@ -17,6 +17,7 @@
     rsync
     cachix
     fh
+    parted
   ];
 
   programs.mtr.enable = true;
@@ -33,5 +34,8 @@
     vimAlias = true;
   };
 
-  environment.pathsToLink = ["/share/zsh" "/share/fish"];
+  environment.pathsToLink = [
+    "/share/zsh"
+    "/share/fish"
+  ];
 }
