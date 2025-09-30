@@ -98,7 +98,7 @@ in
           identitiesOnly = true;
           port = 13048;
           setEnv = {
-            TERM = "screen-256color";
+            TERM = "xterm";
           };
         };
         "digirail-lab2 drb-lab2" = {
@@ -108,7 +108,7 @@ in
           identitiesOnly = true;
           port = 13048;
           setEnv = {
-            TERM = "screen-256color";
+            TERM = "xterm";
           };
         };
         "digirail-home2 drb-home2" = {
@@ -122,7 +122,7 @@ in
             StrictHostKeyChecking = "no";
           };
           setEnv = {
-            TERM = "screen-256color";
+            TERM = "xterm";
           };
         };
         "b2btest.oebb.at" = {

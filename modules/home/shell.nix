@@ -162,6 +162,9 @@ with lib;
         compression = true;
         serverAliveInterval = 10; # seconds
         serverAliveCountMax = 10;
+        setEnv = {
+          TERM = "screen-256color";
+        };
       };
       "github.com" = {
         user = "git";
