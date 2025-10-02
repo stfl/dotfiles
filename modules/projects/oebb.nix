@@ -91,31 +91,10 @@ in
       };
 
       programs.ssh.matchBlocks = {
-        "digirail-lab1 drb-lab1" = {
-          hostname = "192.168.99.10";
-          user = "root";
-          identityFile = [ "~/.ssh/id_ed25519_oebb" ];
-          identitiesOnly = true;
-          port = 13048;
-          setEnv = {
-            TERM = "xterm";
-          };
-        };
-        "digirail-lab2 drb-lab2" = {
-          hostname = "192.168.99.114";
-          user = "root";
-          identityFile = [ "~/.ssh/id_ed25519_oebb" ];
-          identitiesOnly = true;
-          port = 13048;
-          setEnv = {
-            TERM = "xterm";
-          };
-        };
-        "digirail-home2 drb-home2" = {
+        "drb-dev digirail-home2 drb-home2" = {
           hostname = "192.168.0.140";
           user = "root";
           identityFile = [ "~/.ssh/id_ed25519_oebb" ];
-          identitiesOnly = true;
           checkHostIP = false;
           port = 13048;
           extraOptions = {
