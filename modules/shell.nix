@@ -18,6 +18,7 @@
     cachix
     fh
     parted
+    pv
   ];
 
   programs.mtr.enable = true;
