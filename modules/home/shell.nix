@@ -23,21 +23,7 @@ with lib;
 
     git-absorb
 
-    # -- terminal tools
-    fd
-    jq
-    tldr
-    httpie
-
-    # yazi # file browser
-
-    unzip
-    p7zip
-
     # various system monitor
-    btop
-    zenith # in rust
-    s-tui # shows termperature and fan speed
   ];
 
   programs.fd = {
