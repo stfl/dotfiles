@@ -18,8 +18,6 @@ in {
     nvtopPackages.amd
   ];
 
-  programs.fancontrol-gui.enable = true;
-
   services.kanshi = {
     enable = true;
     settings =

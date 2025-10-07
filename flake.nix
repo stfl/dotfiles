@@ -25,11 +25,6 @@
       inputs.home-manager.follows = "home-manager";
       inputs.systems.follows = "systems";
     };
-    fancontrol-gui = {
-      # home-manager fancontrol module
-      url = "github:Maldela/fancontrol-gui";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs = {
@@ -41,7 +36,6 @@
     fenix,
     agenix,
     nixos-hardware,
-    fancontrol-gui,
     ...
   } @ inputs: let
     lib = nixpkgs.lib;

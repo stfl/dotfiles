@@ -1,13 +1,11 @@
 {
   pkgs,
-  fancontrol-gui,
   USER,
   ...
 }: {
   home-manager.users.${USER} = {
     imports = [
       ./home/desktop.nix
-      fancontrol-gui.homeManagerModules.default
     ];
   };
 
