@@ -44,6 +44,7 @@
   in rec {
     # defaultPackage.x86_64-linux = home-manager.defaultPackage.x86_64-linux;
     packages.x86_64-linux.default = fenix.packages.x86_64-linux.default.toolchain;
+    formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-tree;
     homeConfigurations = {};
 
     nixosConfigurations = {
