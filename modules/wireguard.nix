@@ -1,5 +1,6 @@
-{pkgs, ...}: {
-  boot.kernelModules = ["wireguard"];
+{ pkgs, ... }:
+{
+  boot.kernelModules = [ "wireguard" ];
 
   environment.systemPackages = with pkgs; [
     wireguard-tools

@@ -1,9 +1,12 @@
-({pkgs, ...}: {
-  environment.systemPackages = with pkgs; [
-    python3
-    poetry
-    uv
-    basedpyright
-    ruff
-  ];
-})
+(
+  { pkgs, ... }:
+  {
+    environment.systemPackages = with pkgs; [
+      python3
+      poetry
+      uv
+      basedpyright
+      ruff
+    ];
+  }
+)

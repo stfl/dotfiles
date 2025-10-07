@@ -3,7 +3,8 @@
   pkgs,
   USER,
   ...
-}: {
+}:
+{
   imports = [
     ../wireguard.nix
     ../agenix.nix
@@ -25,51 +26,58 @@
   age.secrets.wg-pulswerk-private.file = ../../secrets/wg-pulswerk-private.age;
   age.secrets.wg-pulswerk-preshared.file = ../../secrets/wg-pulswerk-preshared.age;
 
-  networking.wg-quick.interfaces.pulswerk0 = {name, ...}: {
-    address = ["192.168.25.3/32"];
-    privateKeyFile = config.age.secrets.wg-pulswerk-private.path;
+  networking.wg-quick.interfaces.pulswerk0 =
+    { name, ... }:
+    {
+      address = [ "192.168.25.3/32" ];
+      privateKeyFile = config.age.secrets.wg-pulswerk-private.path;
 
-    # enable split DNS via systemd-resolved
-    postUp = ''
-      ${pkgs.systemd}/bin/resolvectl dns ${name} 192.168.22.13
-      ${pkgs.systemd}/bin/resolvectl domain ${name} \~pulswerk.local
-    '';
+      # enable split DNS via systemd-resolved
+      postUp = ''
+        ${pkgs.systemd}/bin/resolvectl dns ${name} 192.168.22.13
+        ${pkgs.systemd}/bin/resolvectl domain ${name} \~pulswerk.local
+      '';
 
-    peers = [
-      {
-        publicKey = "Z9Xx5qgdfswnFjbpKutlBnQ8SZVur8Q8nrrsc9HTlTw=";
-        presharedKeyFile = config.age.secrets.wg-pulswerk-preshared.path;
-        allowedIPs = [
-          "192.168.25.3/32"
-          "192.168.22.0/24"
-          # "0.0.0.0/0"
-          # "::/0"
-        ];
-        endpoint = "wien.pulswerk.at:51820";
-        persistentKeepalive = 25;
-      }
-    ];
-  };
+      peers = [
+        {
+          publicKey = "Z9Xx5qgdfswnFjbpKutlBnQ8SZVur8Q8nrrsc9HTlTw=";
+          presharedKeyFile = config.age.secrets.wg-pulswerk-preshared.path;
+          allowedIPs = [
+            "192.168.25.3/32"
+            "192.168.22.0/24"
+            # "0.0.0.0/0"
+            # "::/0"
+          ];
+          endpoint = "wien.pulswerk.at:51820";
+          persistentKeepalive = 25;
+        }
+      ];
+    };
 
   age.secrets.wg-hei-private.file = ../../secrets/wg-hei-private.age;
   age.secrets.wg-hei-preshared.file = ../../secrets/wg-hei-preshared.age;
 
-  networking.wg-quick.interfaces.hei0 = {name, ...}: {
-    address = ["192.168.41.11/32"];
-    privateKeyFile = config.age.secrets.wg-hei-private.path;
+  networking.wg-quick.interfaces.hei0 =
+    { name, ... }:
+    {
+      address = [ "192.168.41.11/32" ];
+      privateKeyFile = config.age.secrets.wg-hei-private.path;
 
-    postUp = ''
-      ${pkgs.systemd}/bin/resolvectl dns ${name} 192.168.40.3
-      ${pkgs.systemd}/bin/resolvectl domain ${name} \~hei.local
-    '';
+      postUp = ''
+        ${pkgs.systemd}/bin/resolvectl dns ${name} 192.168.40.3
+        ${pkgs.systemd}/bin/resolvectl domain ${name} \~hei.local
+      '';
 
-    peers = [
-      {
-        publicKey = "RDmsyH09C/ElDj4vILZdnR2NfKxJI24KhhA3WUnkkEU=";
-        presharedKeyFile = config.age.secrets.wg-hei-preshared.path;
-        allowedIPs = ["192.168.41.11/32" "192.168.40.0/24"];
-        endpoint = "remote.hei.at:51820";
-      }
-    ];
-  };
+      peers = [
+        {
+          publicKey = "RDmsyH09C/ElDj4vILZdnR2NfKxJI24KhhA3WUnkkEU=";
+          presharedKeyFile = config.age.secrets.wg-hei-preshared.path;
+          allowedIPs = [
+            "192.168.41.11/32"
+            "192.168.40.0/24"
+          ];
+          endpoint = "remote.hei.at:51820";
+        }
+      ];
+    };
 }

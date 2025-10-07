@@ -4,7 +4,8 @@
   nixos-hardware,
   USER,
   ...
-}: {
+}:
+{
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
     nixos-hardware.nixosModules.common-hidpi
@@ -15,13 +16,16 @@
     nixos-hardware.nixosModules.common-gpu-amd
     ../../modules/hardware/zfs.nix
 
-    ({pkgs, ...}: {
-      # LACT - Linux AMDGPU Controller
-      # This application allows you to overclock, undervolt, set fans curves of AMD GPUs on a Linux system.
-      environment.systemPackages = with pkgs; [lact];
-      systemd.packages = with pkgs; [lact];
-      systemd.services.lactd.wantedBy = ["multi-user.target"];
-    })
+    (
+      { pkgs, ... }:
+      {
+        # LACT - Linux AMDGPU Controller
+        # This application allows you to overclock, undervolt, set fans curves of AMD GPUs on a Linux system.
+        environment.systemPackages = with pkgs; [ lact ];
+        systemd.packages = with pkgs; [ lact ];
+        systemd.services.lactd.wantedBy = [ "multi-user.target" ];
+      }
+    )
 
     # ({pkgs, ...}: {
     #   # AMD's open-source Vulkan driver amdvlkk
@@ -41,7 +45,10 @@
     "/boot" = {
       device = "/dev/disk/by-label/BOOT";
       fsType = "vfat";
-      options = ["fmask=0077" "dmask=0077"];
+      options = [
+        "fmask=0077"
+        "dmask=0077"
+      ];
     };
 
     "/" = {
@@ -83,14 +90,22 @@
   ];
 
   boot = {
-    initrd.availableKernelModules = ["nvme" "ahci" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "sr_mod"];
-    initrd.kernelModules = [];
+    initrd.availableKernelModules = [
+      "nvme"
+      "ahci"
+      "xhci_pci"
+      "usbhid"
+      "usb_storage"
+      "sd_mod"
+      "sr_mod"
+    ];
+    initrd.kernelModules = [ ];
 
     kernelModules = [
       "btintel" # Bluetooth driver for Intel AX200 802.11ax
     ];
 
-    kernelParams = ["zfs.zfs_arc_max=17179869184"]; # 16GiB ARC
+    kernelParams = [ "zfs.zfs_arc_max=17179869184" ]; # 16GiB ARC
 
     loader = {
       systemd-boot = {
@@ -108,6 +123,6 @@
   hardware.logitech.wireless.enable = true;
   hardware.enableAllFirmware = true;
 
-  hardware.graphics.extraPackages = with pkgs; [vaapiVdpau];
+  hardware.graphics.extraPackages = with pkgs; [ vaapiVdpau ];
   hardware.amdgpu.opencl.enable = true;
 }

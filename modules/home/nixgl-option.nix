@@ -3,7 +3,8 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   options.nixGLPrefix = lib.mkOption {
     type = lib.types.str;
     default = "";

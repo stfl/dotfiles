@@ -3,7 +3,8 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   programs.ns-usbloader.enable = true;
 
   # download hekate from here: this is the release in use

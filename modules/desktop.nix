@@ -2,7 +2,8 @@
   pkgs,
   USER,
   ...
-}: {
+}:
+{
   home-manager.users.${USER} = {
     imports = [
       ./home/desktop.nix

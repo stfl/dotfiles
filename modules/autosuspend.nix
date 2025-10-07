@@ -5,9 +5,11 @@
   ...
 }:
 # based on https://gist.github.com/domenkozar/82886ee82efee623cdc0d19eb81c7fb7
-with lib; let
+with lib;
+let
   cfg = config.services.autoSuspend;
-in {
+in
+{
   options = {
     services.autoSuspend = {
       enable = mkOption {
@@ -54,7 +56,7 @@ in {
       timerConfig.OnBootSec = "1m";
       timerConfig.OnUnitInactiveSec = "1m";
       timerConfig.Unit = "auto-suspend.service";
-      wantedBy = ["timers.target"];
+      wantedBy = [ "timers.target" ];
     };
     systemd.user.services.auto-suspend = {
       description = "battery level notifier";

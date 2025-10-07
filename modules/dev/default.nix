@@ -1,7 +1,10 @@
-({...}: {
-  imports = [
-    ./rust.nix
-    ./python.nix
-    ./typst.nix
-  ];
-})
+(
+  { ... }:
+  {
+    imports = [
+      ./rust.nix
+      ./python.nix
+      ./typst.nix
+    ];
+  }
+)

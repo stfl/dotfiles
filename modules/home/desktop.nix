@@ -4,15 +4,18 @@
   pkgs,
   ...
 }:
-with lib; let
-  nixGL = import ./nixGL.nix {inherit pkgs config;};
+with lib;
+let
+  nixGL = import ./nixGL.nix { inherit pkgs config; };
   swaylock-bin =
-    if (config.targets.genericLinux.enable == false)
-    then "${getExe pkgs.swaylock}"
-    else "/usr/bin/swaylock"; # don't use nix' swaylock bin, because it does not work
+    if (config.targets.genericLinux.enable == false) then
+      "${getExe pkgs.swaylock}"
+    else
+      "/usr/bin/swaylock"; # don't use nix' swaylock bin, because it does not work
   TERMINAL = "${getExe config.programs.alacritty.package}";
   calculator-pkg = pkgs.qalculate-gtk;
-in {
+in
+{
   imports = [
     ./nixgl-option.nix
   ];
@@ -29,7 +32,7 @@ in {
     };
   };
 
-  home.activation.createScreenshotDir = lib.hm.dag.entryAfter ["writeBoundary"] ''
+  home.activation.createScreenshotDir = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     run mkdir -p ${config.xdg.userDirs.extraConfig.XDG_SCREENSHOTS_DIR}
   '';
 
@@ -134,8 +137,7 @@ in {
 
     font = {
       name = "Noto Sans";
-      package =
-        pkgs.noto-fonts;
+      package = pkgs.noto-fonts;
     };
 
     gtk3.bookmarks = [
@@ -221,7 +223,7 @@ in {
         followMouse = "yes";
       };
       fonts = {
-        names = ["Sauce Code Pro Nerd Font"];
+        names = [ "Sauce Code Pro Nerd Font" ];
         # style = "Bold Semi-Condensed";
         size = 11.0;
       };
@@ -236,24 +238,25 @@ in {
       right = "l";
       # gaps = {}; TODO
       floating.criteria = [
-        {title = "Removable medium is inserted";}
-        {class = "steam";} # all steam windows -> "Steam" itself is has floating disabled see extraConfig below
-        {class = "Pavucontrol";}
-        {title = "Volume Control";}
-        {title = "VM .+ \('.+'\).*";} # TODO not working
-        {title = ".*noVNC.*";}
-        {title = ".*Proxmox Console.*";}
-        {title = "Bluetooth Devices";}
-        {app_id = "qalculate-gtk";}
+        { title = "Removable medium is inserted"; }
+        { class = "steam"; } # all steam windows -> "Steam" itself is has floating disabled see extraConfig below
+        { class = "Pavucontrol"; }
+        { title = "Volume Control"; }
+        { title = "VM .+ \('.+'\).*"; } # TODO not working
+        { title = ".*noVNC.*"; }
+        { title = ".*Proxmox Console.*"; }
+        { title = "Bluetooth Devices"; }
+        { app_id = "qalculate-gtk"; }
       ];
 
-      bars = []; # disable default bars -> use waybar
-      keybindings = let
-        cfg = config.wayland.windowManager.sway;
-        modifier = cfg.config.modifier;
-        menu = cfg.config.menu;
-        swayosd_client = "${config.services.swayosd.package}/bin/swayosd-client";
-      in
+      bars = [ ]; # disable default bars -> use waybar
+      keybindings =
+        let
+          cfg = config.wayland.windowManager.sway;
+          modifier = cfg.config.modifier;
+          menu = cfg.config.menu;
+          swayosd_client = "${config.services.swayosd.package}/bin/swayosd-client";
+        in
         lib.mkOptionDefault {
           "${modifier}+Shift+q" = "kill";
           "button2" = "kill";
@@ -319,9 +322,12 @@ in {
           "${modifier}+g" = "exec --no-startup-id ${getExe pkgs.wofi-pass} --autotype";
 
           # Taking screenshots with grimshot
-          "${modifier}+Mod1+p" = "exec --no-startup-id ${getExe pkgs.sway-contrib.grimshot} --notify save area";
-          "${modifier}+Shift+p" = "exec --no-startup-id ${getExe pkgs.sway-contrib.grimshot} --notify save active";
-          "${modifier}+Ctrl+p" = "exec --no-startup-id ${getExe pkgs.sway-contrib.grimshot} --notify save output";
+          "${modifier}+Mod1+p" =
+            "exec --no-startup-id ${getExe pkgs.sway-contrib.grimshot} --notify save area";
+          "${modifier}+Shift+p" =
+            "exec --no-startup-id ${getExe pkgs.sway-contrib.grimshot} --notify save active";
+          "${modifier}+Ctrl+p" =
+            "exec --no-startup-id ${getExe pkgs.sway-contrib.grimshot} --notify save output";
 
           "${modifier}+z" = "exec --no-startup-id ${getExe calculator-pkg}";
         };
@@ -444,145 +450,170 @@ in {
       target = "sway-session.target";
     };
     settings = {
-      mainBar = let
-        swayosd_client = "${config.services.swayosd.package}/bin/swayosd-client";
-      in {
-        layer = "top";
-        position = "top";
-        height = 32;
-        # output = [
-        #   "eDP-1"
-        #   "HDMI-A-1"
-        # ];
-        modules-left = ["sway/workspaces" "sway/scratchpad" "sway/mode" "sway/window"];
-        modules-center = ["clock"];
-        modules-right = [
-          "tray"
-          "systemd-failed-units"
-          "idle_inhibitor"
-          # "cava"
-          "pulseaudio"
-          "backlight"
-          "cpu"
-          "memory"
-          "disk"
-          "temperature"
-          "network"
-          "battery"
-        ];
-        "sway/workspaces" = {
-          disable-scroll = false;
-          all-outputs = true;
-        };
-        "sway/window" = {
-          max-length = 50;
-          format = "<span>{shell} > </span>{title}";
-        };
-        idle_inhibitor = {
-          format = "{icon}";
-          format-icons = {
-            activated = "";
-            deactivated = "";
+      mainBar =
+        let
+          swayosd_client = "${config.services.swayosd.package}/bin/swayosd-client";
+        in
+        {
+          layer = "top";
+          position = "top";
+          height = 32;
+          # output = [
+          #   "eDP-1"
+          #   "HDMI-A-1"
+          # ];
+          modules-left = [
+            "sway/workspaces"
+            "sway/scratchpad"
+            "sway/mode"
+            "sway/window"
+          ];
+          modules-center = [ "clock" ];
+          modules-right = [
+            "tray"
+            "systemd-failed-units"
+            "idle_inhibitor"
+            # "cava"
+            "pulseaudio"
+            "backlight"
+            "cpu"
+            "memory"
+            "disk"
+            "temperature"
+            "network"
+            "battery"
+          ];
+          "sway/workspaces" = {
+            disable-scroll = false;
+            all-outputs = true;
+          };
+          "sway/window" = {
+            max-length = 50;
+            format = "<span>{shell} > </span>{title}";
+          };
+          idle_inhibitor = {
+            format = "{icon}";
+            format-icons = {
+              activated = "";
+              deactivated = "";
+            };
+          };
+          tray = {
+            # "icon-size" = 14;
+            # "spacing" = 5;
+          };
+          memory = {
+            format = "{icon} {: >2}%";
+            format-icons = [
+              "○"
+              "◔"
+              "◑"
+              "◕"
+              "●"
+            ];
+            on-click = "${TERMINAL} -e ${getExe pkgs.btop}";
+            states = {
+              critical = 90;
+            };
+          };
+          temperature = {
+            # "thermal-zone" = 2;
+            critical-threshold = 80;
+            format = " {temperatureC}°C";
+          };
+          backlight = {
+            # // "device" = "acpi_video1";
+            # FIXME minimum backlight 5%
+            format = "{icon} {percent: >3}%";
+            format-icons = [
+              ""
+              ""
+            ];
+            on-scroll-down = "${swayosd_client} --brightness lower";
+            on-scroll-up = "${swayosd_client} --brightness raise";
+            # reverse-scrolling = "true";  # TODO broken
+            reverse-scrolling = true;
+            reverse-mouse-scrolling = false;
+            smooth-scrolling-threshold = 0.1;
+          };
+          network = {
+            # "interface" = "wlp2s0"; // (Optional) To force the use of this interface;
+            # format = "⚠ Disabled";
+            format-wifi = "  {essid}";
+            format-ethernet = " {ifname}: {ipaddr}/{cidr}";
+            format-disconnected = "⚠ Disconnected";
+            format-disabled = "🛪 Disabled";
+          };
+          pulseaudio = {
+            scroll-step = 5;
+            format = "{icon} {volume: >3}%";
+            format-bluetooth = "{icon} {volume: >3}%";
+            format-muted = "󰝟 "; # emoji: 🔇
+            format-icons = {
+              headphones = "";
+              handsfree = "";
+              headset = "";
+              phone = "";
+              portable = "";
+              car = "";
+              default = [
+                ""
+                ""
+              ];
+            };
+            on-click = "${getExe pkgs.pavucontrol}";
+            on-click-right = "${swayosd_client} --output-volume mute-toggle";
+            on-scroll-down = "${swayosd_client} --output-volume lower --max-volume 120";
+            on-scroll-up = "${swayosd_client} --output-volume raise --max-volume 120";
+            reverse-scrolling = true;
+            reverse-mouse-scrolling = false;
+            smooth-scrolling-threshold = 0.1;
+            # scroll-step = 0.5;
+          };
+          battery = {
+            interval = 10;
+            states.warning = 30;
+            states.critical = 10;
+            format = "{capacity}% {icon}";
+            format-icons = [
+              ""
+              ""
+              ""
+              ""
+              ""
+            ];
+            format-charging = "{capacity}% 󱐋{icon}";
+            format-plugged = "{capacity}% ";
+            format-full = "{capacity}% ";
+            tooltip-format = "{timeTo}\nHealth: {health} %\nCycles: {cycles}";
+          };
+          disk = {
+            interval = 60;
+            states = {
+              critical = 90;
+            };
+            format = " {percentage_used}%"; # 🖴   󰒋
+            path = "/";
+          };
+          cpu = {
+            interval = 2;
+            on-click = "${TERMINAL} -e ${getExe pkgs.btop}";
+            states = {
+              normal-load = 60;
+              high-load = 80;
+              critical = 95;
+            };
+            format = " {usage: >4}%"; # ䷑  󰘚 
+          };
+          clock = {
+            tooltip-format = "<big>{:%Y %B}</big>\n<tt>{calendar}</tt>";
+            format = "{:%a  %F  %H:%M}";
+          };
+          systemd-failed-units = {
+            format = "✗ {nr_failed}";
+            hide-on-ok = true;
           };
         };
-        tray = {
-          # "icon-size" = 14;
-          # "spacing" = 5;
-        };
-        memory = {
-          format = "{icon} {: >2}%";
-          format-icons = ["○" "◔" "◑" "◕" "●"];
-          on-click = "${TERMINAL} -e ${getExe pkgs.btop}";
-          states = {
-            critical = 90;
-          };
-        };
-        temperature = {
-          # "thermal-zone" = 2;
-          critical-threshold = 80;
-          format = " {temperatureC}°C";
-        };
-        backlight = {
-          # // "device" = "acpi_video1";
-          # FIXME minimum backlight 5%
-          format = "{icon} {percent: >3}%";
-          format-icons = ["" ""];
-          on-scroll-down = "${swayosd_client} --brightness lower";
-          on-scroll-up = "${swayosd_client} --brightness raise";
-          # reverse-scrolling = "true";  # TODO broken
-          reverse-scrolling = true;
-          reverse-mouse-scrolling = false;
-          smooth-scrolling-threshold = 0.1;
-        };
-        network = {
-          # "interface" = "wlp2s0"; // (Optional) To force the use of this interface;
-          # format = "⚠ Disabled";
-          format-wifi = "  {essid}";
-          format-ethernet = " {ifname}: {ipaddr}/{cidr}";
-          format-disconnected = "⚠ Disconnected";
-          format-disabled = "🛪 Disabled";
-        };
-        pulseaudio = {
-          scroll-step = 5;
-          format = "{icon} {volume: >3}%";
-          format-bluetooth = "{icon} {volume: >3}%";
-          format-muted = "󰝟 "; # emoji: 🔇
-          format-icons = {
-            headphones = "";
-            handsfree = "";
-            headset = "";
-            phone = "";
-            portable = "";
-            car = "";
-            default = ["" ""];
-          };
-          on-click = "${getExe pkgs.pavucontrol}";
-          on-click-right = "${swayosd_client} --output-volume mute-toggle";
-          on-scroll-down = "${swayosd_client} --output-volume lower --max-volume 120";
-          on-scroll-up = "${swayosd_client} --output-volume raise --max-volume 120";
-          reverse-scrolling = true;
-          reverse-mouse-scrolling = false;
-          smooth-scrolling-threshold = 0.1;
-          # scroll-step = 0.5;
-        };
-        battery = {
-          interval = 10;
-          states.warning = 30;
-          states.critical = 10;
-          format = "{capacity}% {icon}";
-          format-icons = ["" "" "" "" ""];
-          format-charging = "{capacity}% 󱐋{icon}";
-          format-plugged = "{capacity}% ";
-          format-full = "{capacity}% ";
-          tooltip-format = "{timeTo}\nHealth: {health} %\nCycles: {cycles}";
-        };
-        disk = {
-          interval = 60;
-          states = {
-            critical = 90;
-          };
-          format = " {percentage_used}%"; # 🖴   󰒋
-          path = "/";
-        };
-        cpu = {
-          interval = 2;
-          on-click = "${TERMINAL} -e ${getExe pkgs.btop}";
-          states = {
-            normal-load = 60;
-            high-load = 80;
-            critical = 95;
-          };
-          format = " {usage: >4}%"; # ䷑  󰘚 
-        };
-        clock = {
-          tooltip-format = "<big>{:%Y %B}</big>\n<tt>{calendar}</tt>";
-          format = "{:%a  %F  %H:%M}";
-        };
-        systemd-failed-units = {
-          format = "✗ {nr_failed}";
-          hide-on-ok = true;
-        };
-      };
     };
     style = ../../config/waybar.css;
   };
@@ -592,7 +623,7 @@ in {
     topMargin = 0.1;
   };
   # TODO contribute upstream
-  systemd.user.services.swayosd.Install.WantedBy = ["sway-session.target"];
+  systemd.user.services.swayosd.Install.WantedBy = [ "sway-session.target" ];
 
   # fix auto-reloading kanshi service
   # TODO contribute upstream
@@ -627,12 +658,16 @@ in {
           {
             name = "currentdate";
             type = "date";
-            params = {format = "%F";};
+            params = {
+              format = "%F";
+            };
           }
           {
             name = "currenttime";
             type = "date";
-            params = {format = "%R";};
+            params = {
+              format = "%R";
+            };
           }
         ];
       };

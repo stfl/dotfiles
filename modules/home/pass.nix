@@ -3,7 +3,8 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   pass-pkg = pkgs.pass-wayland.withExtensions (ext: [
     ext.pass-otp
   ]);
@@ -21,7 +22,10 @@
   PASSWORD_STORE_DIR = config.programs.password-store.settings.PASSWORD_STORE_DIR;
   setupPasswordStore = pkgs.writeShellApplication {
     name = "setup-password-store";
-    runtimeInputs = with pkgs; [openssh git];
+    runtimeInputs = with pkgs; [
+      openssh
+      git
+    ];
     text = ''
       if [ ! -d ${PASSWORD_STORE_DIR} ]; then
          ${pkgs.git}/bin/git clone git@github.com:stfl/password-store.git ${PASSWORD_STORE_DIR}
@@ -29,7 +33,8 @@
       fi
     '';
   };
-in rec {
+in
+rec {
   home.packages = with pkgs; [
     wofi-pass
     sequoia-sq
@@ -47,9 +52,9 @@ in rec {
 
   services.pass-secret-service.enable = true;
 
-  home.activation.setupPasswordStore =
-    lib.hm.dag.entryAfter ["writeBoundary"]
-    "${lib.getExe setupPasswordStore}";
+  home.activation.setupPasswordStore = lib.hm.dag.entryAfter [
+    "writeBoundary"
+  ] "${lib.getExe setupPasswordStore}";
 
   # systemd.user.timers.password-store-sync = {
   #   description = "Sync password-store git repo timer";
@@ -72,7 +77,11 @@ in rec {
 
   programs.browserpass = {
     enable = true;
-    browsers = ["brave" "firefox" "chrome"];
+    browsers = [
+      "brave"
+      "firefox"
+      "chrome"
+    ];
   };
 
   programs.rbw = {

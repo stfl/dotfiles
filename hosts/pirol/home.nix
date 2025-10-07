@@ -3,14 +3,16 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   # office_rotated_output = "Dell Inc. DELL U2518D 3C4YP8AV547L";
   # office_center_output = "Dell Inc. DELL U2518D 3C4YP8AV590L";
   # home_beamer_output = "Sanyo Electric Co.,Ltd. SANYO Z3000 0x01010101";
   # home_receiver_output = "Yamaha Corporation RX-V765 Unknown";
   # home_output = "HannStar Display Corp HC284UFB Unknown";
   # builtin_output = "eDP-1";
-in {
+in
+{
   imports = [
     ../../modules/home/emacs.nix
     ../../modules/home/pass.nix

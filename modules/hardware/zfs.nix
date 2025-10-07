@@ -3,8 +3,9 @@
   lib,
   pkgs,
   ...
-}: {
-  boot.supportedFilesystems = ["zfs"];
+}:
+{
+  boot.supportedFilesystems = [ "zfs" ];
   # boot.zfs.forceImportRoot = lib.mkDefault false;
 
   environment.systemPackages = with pkgs; [
