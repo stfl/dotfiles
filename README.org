@@ -502,3 +502,9 @@ gamescope --adaptive-sync --hdr-enabled --rt --steam -- \
 swaymsg -t get_outputs
 #+end_src
 
+* FlakeHub
+
+#+begin_src bash
+determinate-nixd login
+#+end_src
+
