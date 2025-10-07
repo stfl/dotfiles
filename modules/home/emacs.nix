@@ -24,7 +24,8 @@ in
 
     # -- nix tooling
     nil # lsp
-    alejandra # nix formatter
+    nixfmt-rfc-style # default nix formatter
+    alejandra # alternative formatter
 
     # AI
     copilot-language-server
