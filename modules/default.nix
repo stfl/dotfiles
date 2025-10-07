@@ -20,6 +20,7 @@
       auto-optimise-store = true;
       download-buffer-size = 268435456; # 256 MiB
       lazy-trees = true;
+      eval-cores = 0; # use all available cores
       substituters = [
         "https://install.determinate.systems"
         "https://nix-community.cachix.org"
