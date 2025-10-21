@@ -134,4 +134,9 @@
     # IdleAction="suspend";
     # IdleActionSec="4h";
   };
+
+  services.ollama = {
+    package = pkgs.ollama-rocm;
+    enable = true;
+  };
 }
