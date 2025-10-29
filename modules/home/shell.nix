@@ -114,9 +114,11 @@ with lib;
         # cp    = "cherry-pick";
       };
       core.pager = "less -FR --mouse";
+      core.whitespace = "trailing-space,space-before-tab";
       init.defaultBranch = "main";
       branch.autoSetupMerge = "always";
       branch.autoSetupRebase = "always";
+      merge.conflictStyle = "zdiff3";
       sendEmail = {
         annotate = true;
         confirm = "always";
