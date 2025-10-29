@@ -62,7 +62,7 @@ in
   home-manager.users.${USER} =
     { config, ... }:
     {
-      programs.git.aliases = {
+      programs.git.settings.alias = {
         # digirail alias to apply config for individual commands:
         # `git digirail -- clone git@github.com`
         #  -> automatically rewrites to a git clone git@digirail.github.com

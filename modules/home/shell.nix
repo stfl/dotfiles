@@ -80,42 +80,39 @@ with lib;
   programs.git = {
     enable = true;
     lfs.enable = true;
-    userName = "Stefan Lendl";
-    userEmail = "git@stfl.dev";
     ignores = [
       "*~"
       "*.swp"
       "my-patches"
     ];
-    difftastic = {
-      enable = false; # TODO unfortunatly, this breaks things in magit
-      background = "dark";
-    };
-    aliases = {
-      a = "add";
-      br = "branch";
-      c = "commit";
-      ca = "commit -a";
-      cam = "commit -am";
-      cl = "clone";
-      co = "checkout";
-      d = "diff";
-      # dt    = "difftool";
-      f = "fetch";
-      graph = "log --graph --decorate --oneline --all";
-      gr = "log --graph --all --pretty=format:'%Cred%h%Creset %Cgreen%ad%Creset -%C(bold cyan)%d%Creset %s %C(magenta)<%an>%Creset' --date=short";
-      h = "help";
-      l = "log --topo-order --pretty=format:'%C(bold)Commit:%C(reset) %C(green)%H%C(red)%d%n%C(bold)Author:%C(reset) %C(cyan)%an <%ae>%n%C(bold)Date:%C(reset)   %C(blue)%ai (%ar)%C(reset)%n%+B'";
-      lg = "log --graph --pretty=format:'%Cred%h%Creset %Cgreen%ad%Creset -%C(bold cyan)%d%Creset %s %C(magenta)<%an>%Creset' --date=short";
-      ls = "ls-files";
-      m = "merge";
-      pl = "pull";
-      pu = "push";
-      s = "status";
-      rb = "rebase";
-      # cp    = "cherry-pick";
-    };
-    extraConfig = {
+    settings = {
+      user.name = "Stefan Lendl";
+      user.email = "git@stfl.dev";
+      github.user = "stfl";
+      alias = {
+        a = "add";
+        br = "branch";
+        c = "commit";
+        ca = "commit -a";
+        cam = "commit -am";
+        cl = "clone";
+        co = "checkout";
+        d = "diff";
+        # dt    = "difftool";
+        f = "fetch";
+        graph = "log --graph --decorate --oneline --all";
+        gr = "log --graph --all --pretty=format:'%Cred%h%Creset %Cgreen%ad%Creset -%C(bold cyan)%d%Creset %s %C(magenta)<%an>%Creset' --date=short";
+        h = "help";
+        l = "log --topo-order --pretty=format:'%C(bold)Commit:%C(reset) %C(green)%H%C(red)%d%n%C(bold)Author:%C(reset) %C(cyan)%an <%ae>%n%C(bold)Date:%C(reset)   %C(blue)%ai (%ar)%C(reset)%n%+B'";
+        lg = "log --graph --pretty=format:'%Cred%h%Creset %Cgreen%ad%Creset -%C(bold cyan)%d%Creset %s %C(magenta)<%an>%Creset' --date=short";
+        ls = "ls-files";
+        m = "merge";
+        pl = "pull";
+        pu = "push";
+        s = "status";
+        rb = "rebase";
+        # cp    = "cherry-pick";
+      };
       core.pager = "less -FR --mouse";
       init.defaultBranch = "main";
       branch.autoSetupMerge = "always";
@@ -127,7 +124,6 @@ with lib;
       };
       format.signOff = true;
       lfs."https://github.com".locksverify = false; # github does not support lfs locksverify and git-sync complains about it
-      github.user = "stfl";
     };
   };
 
