@@ -122,6 +122,6 @@
   hardware.logitech.wireless.enable = true;
   hardware.enableAllFirmware = true;
 
-  hardware.graphics.extraPackages = with pkgs; [ vaapiVdpau ];
+  hardware.graphics.extraPackages = with pkgs; [ libva-vdpau-driver ];
   hardware.amdgpu.opencl.enable = true;
 }
