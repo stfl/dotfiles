@@ -46,6 +46,8 @@
     speedtest-cli
 
     rustdesk-flutter
+    act
+    copyparty
   ];
 
   # Configure network proxy if necessary
