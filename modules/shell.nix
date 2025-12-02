@@ -19,7 +19,8 @@
     fh # flakehub client
     parted
     pv
-    dust
+    dust # du alternative
+    ripgrep
     fd
     jq
     procs # ps/pgrep alternative

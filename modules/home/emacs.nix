@@ -19,20 +19,11 @@ in
   ];
 
   home.packages = with pkgs; [
-    # org-protocol
     emacs-lsp-booster
 
     # -- nix tooling
     nil # lsp
-    nixfmt-rfc-style # default nix formatter
-    alejandra # alternative formatter
-
-    # AI
-    copilot-language-server
-    nodejs
-    aider-chat
-    claude-code
-    # khoj
+    alejandra # nix formatter
 
     ripgrep
     fd
