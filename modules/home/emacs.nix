@@ -11,7 +11,6 @@ in
 {
   home.sessionVariables = {
     EDITOR = "${emacs-pkg}/bin/emacsclient";
-    LSP_USE_PLISTS = "true"; # for emacs lsp-mode
   };
 
   home.sessionPath = [
@@ -77,7 +76,7 @@ in
   #   '';
   # };
 
-  programs.git.settings.core.editor = "${emacs-pkg}/bin/emacsclient --no-wait";
+  programs.git.extraConfig.core.editor = "${emacs-pkg}/bin/emacsclient --no-wait";
 
   services.git-sync = {
     enable = true;
