@@ -52,6 +52,9 @@
     copyparty
   ];
 
+  # KDE CD/DVD burner and ripper
+  programs.k3b.enable = true;
+
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
@@ -80,6 +83,7 @@
     description = "Stefan";
     extraGroups = [
       "wheel"
+      "cdrom"
     ];
     initialPassword = "nixos";
     shell = pkgs.zsh;
