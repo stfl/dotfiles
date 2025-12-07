@@ -16,7 +16,7 @@
     gc = {
       automatic = true;
       dates = "weekly";
-      options = "--delete-older-than 30d";
+      options = "--delete-older-than 90d";
     };
     settings = {
       auto-optimise-store = true;
@@ -29,19 +29,14 @@
         "https://cache.nixos.org/"
         "https://hyprland.cachix.org"
       ];
-      trusted-substituters = [
-        "https://hyprland.cachix.org"
-      ];
+      trusted-substituters = ["https://hyprland.cachix.org"];
       trusted-public-keys = [
         "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
         "cache.flakehub.com-3:hJuILl5sVK4iKm86JzgdXW12Y2Hwd5G07qKtHTOcDCM="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
         "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
       ];
-      trusted-users = [
-        "root"
-        "${USER}"
-      ];
+      trusted-users = ["root" "${USER}"];
     };
   };
 
