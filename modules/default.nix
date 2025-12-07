@@ -9,6 +9,7 @@
   imports = [
     ./shell.nix
     determinate.nixosModules.default
+    ./autosuspend.nix
   ];
 
   nix = {

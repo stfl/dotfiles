@@ -24,7 +24,6 @@
     ../../modules/docker.nix
     # ../../modules/switch.nix
     ../../modules/desktop.nix
-    ../../modules/autosuspend.nix
 
     # Development
     ../../modules/dev
