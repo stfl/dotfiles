@@ -42,8 +42,8 @@ in
     # -- spelling
     # languagetool
     # ltex-ls
-    # enchant
-    # (aspellWithDicts (dicts: with dicts; [en en-computers en-science de]))
+    enchant
+    (aspellWithDicts (dicts: with dicts; [en en-computers en-science de]))
   ];
 
   programs.emacs = {
