@@ -202,8 +202,6 @@ in
     enable = true;
     systemd = {
       enable = true;
-      # TODO remove
-      # target = "sway-session.target";
     };
     settings = {
       mainBar =
