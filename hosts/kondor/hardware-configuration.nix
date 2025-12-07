@@ -124,4 +124,11 @@
 
   hardware.graphics.extraPackages = with pkgs; [ libva-vdpau-driver ];
   hardware.amdgpu.opencl.enable = true;
+
+  # disable XHC0 wakeup to prevent accidental wakeups from suspend from USB devices
+  powerManagement.powerUpCommands = ''
+    if grep -q "XHC0.*enabled" /proc/acpi/wakeup; then
+      echo XHC0 > /proc/acpi/wakeup
+    fi
+  '';
 }

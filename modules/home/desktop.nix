@@ -318,6 +318,8 @@ in
           # NOTE using swaylock installed from Debian!
           "${modifier}+Mod1+l" = "exec ${swaylock-bin} -fF";
 
+          "${modifier}+Mod1+Escape" = "exec --no-startup-id ${pkgs.systemd}/bin/systemctl suspend";
+
           # wofi-pass
           "${modifier}+g" = "exec --no-startup-id ${getExe pkgs.wofi-pass} --autotype";
 
