@@ -46,21 +46,7 @@ in
     # (nixGL discord)
     transmission_4-gtk
 
-    libnotify
-    wdisplays
-    wl-mirror
-    kanshi # install the binary in addition to the service for debugging configs
-
-    # -- control Montior and Audio
-    brightnessctl
-    libpulseaudio # pulsectl
-    pavucontrol
-
-    # -- sway and GUI applications
-    sway-contrib.grimshot # screenshot tool
     calculator-pkg
-
-    # -- fonts
   ];
 
   programs.alacritty = {

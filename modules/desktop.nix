@@ -10,6 +10,32 @@
     ];
   };
 
+  environment.sessionVariables = {
+    NIXOS_OZONE_WL = "1";
+    SDL_VIDEODRIVER= "wayland";
+    GDK_BACKEND="wayland";
+
+    _JAVA_AWT_WM_NONREPARENTING= "1";
+    # BEMENU_BACKEND="wayland":
+    CLUTTER_BACKEND="wayland";
+    # ECORE_EVAS_ENGINE="wayland_egl";
+    ELM_ACCEL="gl";
+    ELM_DISPLAY="wl";
+    ELM_ENGINE="wayland_egl";
+
+    # ox wayland environment variable
+    MOZ_DBUS_REMOTE="1";
+    MOZ_ENABLE_WAYLAND="1";
+    MOZ_USE_XINPUT2="1";
+
+    NO_AT_BRIDGE="1";
+    SAL_USE_VCLPLUGIN="gtk3";
+
+    QT_WAYLAND_DISABLE_WINDOWDECORATION="1";
+    QT_QPA_PLATFORM="wayland-egl";
+    QT_QPA_PLATFORMTHEME="qt6ct";
+  };
+
   services.gvfs.enable = true;
   services.udisks2.enable = true;
   services.printing.enable = true;
@@ -24,6 +50,14 @@
 
     pcmanfm
     gimp
+
+    libnotify
+    wdisplays
+    kanshi # install the binary in addition to the service for debugging configs
+
+    brightnessctl
+    libpulseaudio # pulsectl
+    pavucontrol
   ];
 
   # Xfce D-Bus thumbnailer service
