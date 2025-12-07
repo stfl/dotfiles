@@ -24,6 +24,7 @@
     ../../modules/docker.nix
     # ../../modules/switch.nix
     ../../modules/desktop.nix
+    ../../modules/sway.nix
 
     # Development
     ../../modules/dev
