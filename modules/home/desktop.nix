@@ -212,22 +212,11 @@ in
           layer = "top";
           position = "top";
           height = 32;
-          # output = [
-          #   "eDP-1"
-          #   "HDMI-A-1"
-          # ];
-          # modules-left = [
-          #   "sway/workspaces"
-          #   "sway/scratchpad"
-          #   "sway/mode"
-          #   "sway/window"
-          # ];
           modules-center = [ "clock" ];
           modules-right = [
             "tray"
             "systemd-failed-units"
             "idle_inhibitor"
-            # "cava"
             "pulseaudio"
             "backlight"
             "cpu"
@@ -237,14 +226,6 @@ in
             "network"
             "battery"
           ];
-          # "sway/workspaces" = {
-          #   disable-scroll = false;
-          #   all-outputs = true;
-          # };
-          # "sway/window" = {
-          #   max-length = 50;
-          #   format = "<span>{shell} > </span>{title}";
-          # };
           idle_inhibitor = {
             format = "{icon}";
             format-icons = {
@@ -426,17 +407,4 @@ in
       };
     };
   };
-
-  # programs.cava = {
-  #   enable = true;
-  #   settings = {
-  #     general.framerate = 60;
-  #     input.method = "alsa";
-  #     smoothing.noise_reduction = 88;
-  #     color = {
-  #       background = "'#000000'";
-  #       foreground = "'#FFFFFF'";
-  #     };
-  #   };
-  # };
 }
