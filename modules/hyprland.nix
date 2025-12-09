@@ -14,6 +14,7 @@ let
   swaylock-bin = "${getExe pkgs.swaylock}";
   calculator-pkg = pkgs.qalculate-gtk;
   swayosd_client = "${config.services.swayosd.package}/bin/swayosd-client";
+  grimblast = "${getExe pkgs.grimblast}";
 in {
   wayland.windowManager.hyprland = {
     enable = true;
@@ -31,9 +32,30 @@ in {
         [
           # Window management
           "$mod SHIFT, Q, killactive"
+          "$mod, Q, killactive"
+
+          # Vim-style navigation
+          "$mod, H, movefocus, l"
+          "$mod, J, movefocus, d"
+          "$mod, K, movefocus, u"
+          "$mod, L, movefocus, r"
+
+          # Move windows with vim keys
+          "$mod SHIFT, H, movewindow, l"
+          "$mod SHIFT, J, movewindow, d"
+          "$mod SHIFT, K, movewindow, u"
+          "$mod SHIFT, L, movewindow, r"
+
+          "$mod, TAB, cyclenext"
 
           # Application launcher
           "$mod, SPACE, exec, ${getExe pkgs.wofi}"
+
+          # Password manager
+          "$mod, G, exec, ${getExe pkgs.wofi-pass} --autotype"
+
+          # Window switcher
+          "$mod, BACKSPACE, exec, sh -c '${pkgs.hyprland}/bin/hyprctl clients -j | ${pkgs.jq}/bin/jq -r '\"'\"'.[] | \"\\(.address)|\\(.title) [\\(.class)]\"'\"'\"' | ${getExe pkgs.wofi} --dmenu -p \"Switch to:\" | ${pkgs.coreutils}/bin/cut -d\"|\" -f1 | ${pkgs.findutils}/bin/xargs -r -I{} ${pkgs.hyprland}/bin/hyprctl dispatch focuswindow address:{}'"
 
           # Terminal
           "$mod, RETURN, exec, ${TERMINAL}"
@@ -49,8 +71,8 @@ in {
           ", XF86MonBrightnessUp, exec, ${swayosd_client} --brightness raise"
 
           # Split orientation (hyprland uses dwindle layout with togglesplit)
-          "$mod SHIFT, S, togglesplit"
-          "$mod SHIFT, V, togglesplit"
+          # "$mod SHIFT, S, togglesplit"
+          # "$mod SHIFT, V, togglesplit"
           "$mod, A, togglesplit"
 
           # Fullscreen
@@ -59,14 +81,14 @@ in {
           # Layout modes
           "$mod, S, exec, hyprctl keyword general:layout master"
           "$mod, T, exec, hyprctl keyword general:layout dwindle"
-          "$mod, E, togglesplit"
+          # "$mod, E, togglesplit"
 
           # Toggle floating
           "$mod ALT, SPACE, togglefloating"
 
           # Focus parent/child (hyprland doesn't have direct equivalents, using cyclenext)
-          "$mod, O, focusurgentorlast"
-          "$mod, I, cyclenext"
+          # "$mod, O, focusurgentorlast"
+          # "$mod, I, cyclenext"
 
           # Scratchpad (using special workspace in hyprland)
           "$mod, MINUS, togglespecialworkspace, scratch"
@@ -85,13 +107,10 @@ in {
           # Suspend
           "$mod ALT, ESCAPE, exec, ${pkgs.systemd}/bin/systemctl suspend"
 
-          # Password manager
-          "$mod, G, exec, ${getExe pkgs.wofi-pass} --autotype"
-
-          # Screenshots (using grimshot)
-          "$mod ALT, P, exec, ${getExe pkgs.sway-contrib.grimshot} --notify save area"
-          "$mod SHIFT, P, exec, ${getExe pkgs.sway-contrib.grimshot} --notify save active"
-          "$mod CTRL, P, exec, ${getExe pkgs.sway-contrib.grimshot} --notify save output"
+          # Screenshots (using grimblast)
+          "$mod ALT, P, exec, ${grimblast} --notify save area"
+          "$mod SHIFT, P, exec, ${grimblast} --notify save active"
+          "$mod CTRL, P, exec, ${grimblast} --notify save output"
 
           # Calculator
           "$mod, Z, exec, ${getExe calculator-pkg}"
@@ -117,7 +136,7 @@ in {
 
       # Kill with middle mouse button
       bindn = [
-        ", mouse:274, killactive"
+        # ", mouse:274, killactive"  # in sway this is set on the titlebar only
       ];
 
       # Floating window rules
