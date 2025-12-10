@@ -17,7 +17,6 @@
 
 with lib;
 let
-  nixGL = import ./nixGL.nix { inherit pkgs config; };
   swaylock-bin = "${getExe pkgs.swaylock}";
   TERMINAL = "${getExe config.programs.alacritty.package}";
   calculator-pkg = pkgs.qalculate-gtk;
@@ -34,7 +33,6 @@ in
 
     # we need to update the default package because it overrides with
     # extraSessionCommands, extraOptions and wrapperFeatures
-    # package = (nixGL options.wayland.windowManager.sway.package.default);
     systemd = {
       enable = true;
       xdgAutostart = true;
@@ -252,18 +250,18 @@ in
     max-length = 50;
     format = "<span>{shell} > </span>{title}";
   };
-};
 
-  # # fix auto-reloading kanshi service
-  # # TODO contribute upstream
-  # systemd.user.services.kanshi = lib.mkIf config.services.kanshi.enable {
-  #   Service.Restart = "always";
-  #   Unit = {
-  #     X-Restart-Triggers = [
-  #       "${config.xdg.configFile."kanshi/config".source}"
-  #     ];
-  #     X-SwitchMethod = "restart";
-  #   };
-  # };
+  # fix auto-reloading kanshi service
+  # TODO contribute upstream
+  systemd.user.services.kanshi = lib.mkIf config.services.kanshi.enable {
+    Service.Restart = "always";
+    Unit = {
+      X-Restart-Triggers = [
+        "${config.xdg.configFile."kanshi/config".source}"
+      ];
+      X-SwitchMethod = "restart";
+    };
+  };
+};
 
 }

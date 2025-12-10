@@ -355,13 +355,7 @@ in
           };
           memory = {
             format = "{icon} {: >2}%";
-            format-icons = [
-              "○"
-              "◔"
-              "◑"
-              "◕"
-              "●"
-            ];
+            format-icons = ["○" "◔" "◑" "◕" "●"];
             on-click = "${TERMINAL} -e ${getExe pkgs.btop}";
             states = {
               critical = 90;
@@ -376,10 +370,7 @@ in
             # // "device" = "acpi_video1";
             # FIXME minimum backlight 5%
             format = "{icon} {percent: >3}%";
-            format-icons = [
-              ""
-              ""
-            ];
+            format-icons = ["" ""];
             on-scroll-down = "${swayosd_client} --brightness lower";
             on-scroll-up = "${swayosd_client} --brightness raise";
             # reverse-scrolling = "true";  # TODO broken
@@ -389,9 +380,8 @@ in
           };
           network = {
             # "interface" = "wlp2s0"; // (Optional) To force the use of this interface;
-            # format = "⚠ Disabled";
             format-wifi = "  {essid}";
-            format-ethernet = " {ifname}: {ipaddr}/{cidr}";
+            format-ethernet = "  {ifname}: {ipaddr}/{cidr}";
             format-disconnected = "⚠ Disconnected";
             format-disabled = "🛪 Disabled";
           };
@@ -407,10 +397,7 @@ in
               phone = "";
               portable = "";
               car = "";
-              default = [
-                ""
-                ""
-              ];
+              default = ["" ""];
             };
             on-click = "${getExe pkgs.pavucontrol}";
             on-click-right = "${swayosd_client} --output-volume mute-toggle";
@@ -426,13 +413,7 @@ in
             states.warning = 30;
             states.critical = 10;
             format = "{capacity}% {icon}";
-            format-icons = [
-              ""
-              ""
-              ""
-              ""
-              ""
-            ];
+            format-icons = ["" "" "" "" ""];
             format-charging = "{capacity}% 󱐋{icon}";
             format-plugged = "{capacity}% ";
             format-full = "{capacity}% ";

@@ -17,9 +17,6 @@ in
     ../../modules/home/pass.nix
   ];
 
-  # Waybar: Show on all monitors
-  programs.waybar.settings.mainBar.output = [ main_out beamer ];
-
   # Hyprland monitor and workspace configuration (replaces kanshi)
   wayland.windowManager.hyprland.settings = {
     monitor = [

@@ -21,7 +21,6 @@
     ../../modules/virtualization.nix
     ../../modules/docker.nix
     ../../modules/desktop.nix
-    ../../modules/sway.nix
     ../../modules/hyprland.nix
     ../../modules/wireshark.nix
     ../../modules/networkmanager.nix

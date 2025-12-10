@@ -27,6 +27,19 @@ in {
       # variables = ["--all"];
     };
     settings = {
+      input = {
+        kb_layout = "us";
+        kb_variant = "altgr-intl";
+        kb_options = "eurosign:5";
+        touchpad = {
+          natural_scroll = true;
+          disable_while_typing = true;
+          drag_3fg = 1; # enable three-finger drag
+          clickfinger_behavior = true; # Button presses with 1, 2, or 3 fingers will be mapped to LMB, RMB, and MMB
+          middle_button_emulation = true; # Emulate middle button when both left and right buttons are pressed
+          drag_lock = 1;
+        };
+      };
       "$mod" = "SUPER";
       bind =
         [
@@ -175,6 +188,32 @@ in {
   programs.waybar.settings.mainBar."hyprland/workspaces" = {
     disable-scroll = false;
     all-outputs = true;
+    show-special = true;
+    workspace-taskbar = {
+      # Enable the workspace taskbar. Default = false
+      enable = true;
+
+      # If true, the active/focused window will have an 'active' class. Could cause higher CPU usage due to more frequent redraws. Default = false
+      update-active-window = true;
+
+      # Format of the windows in the taskbar. Default = {icon}. Allowed variables: {icon}, {title}
+      format = "{icon} {title:.20}";
+
+      # Icon size in pixels. Default = 16
+      # icon-size = 16;
+
+      # Either the name of an installed icon theme or an array of themes (ordered by priority). If not set, the default icon theme is used.
+      # icon-theme = "some_icon_theme";
+
+      # Orientation of the taskbar (horizontal or "vertical"). Default = "horizontal".
+      # orientation = "horizontal";
+
+      # List of regexes. A window will NOT be shown if its window class or title match one or more items. Default = []
+      # ignore-list = [ "code", "Firefox - .*" ];
+
+      # Command to run when a window is clicked. Default =  (switch to the workspace as usual). Allowed variables: {address}, {button}
+      # on-click-window = "/some/arbitrary/script {address} {button}"
+    };
   };
   programs.waybar.settings.mainBar."hyprland/window" = {
     max-length = 50;
