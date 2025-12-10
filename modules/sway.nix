@@ -252,4 +252,17 @@ in
     format = "<span>{shell} > </span>{title}";
   };
 };
+
+  # # fix auto-reloading kanshi service
+  # # TODO contribute upstream
+  # systemd.user.services.kanshi = lib.mkIf config.services.kanshi.enable {
+  #   Service.Restart = "always";
+  #   Unit = {
+  #     X-Restart-Triggers = [
+  #       "${config.xdg.configFile."kanshi/config".source}"
+  #     ];
+  #     X-SwitchMethod = "restart";
+  #   };
+  # };
+
 }

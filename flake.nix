@@ -9,11 +9,6 @@
     nixos-hardware.url = "https://flakehub.com/f/NixOS/nixos-hardware/*";
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
     fenix.url = "https://flakehub.com/f/nix-community/fenix/*";
-    nixgl = {
-      url = "github:guibou/nixGL";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-utils.follows = "flake-utils";
-    };
     emacs-overlay = {
       url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -32,7 +27,6 @@
       nixpkgs,
       home-manager,
       determinate,
-      nixgl,
       emacs-overlay,
       fenix,
       agenix,
