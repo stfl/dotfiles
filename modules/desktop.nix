@@ -7,9 +7,9 @@
 with lib;
 {
   # Enable GDM for graphical login
-  services.displayManager.gdm = {
+  services.displayManager.sddm = {
     enable = true;
-    wayland = true;
+    wayland.enable = true;
   };
 
   services.gvfs.enable = true;
@@ -21,7 +21,9 @@ with lib;
 
   environment.systemPackages = with pkgs; [
     qt5.qtwayland
+    libsForQt5.qt5ct
     kdePackages.qtwayland
+    kdePackages.qt6ct
     wayland-utils
 
     pcmanfm
@@ -102,7 +104,7 @@ with lib;
 }:
 let
   TERMINAL = "${getExe config.programs.alacritty.package}";
-  calculator-pkg = pkgs.qalculate-gtk;
+  screenshot-dir = "${config.home.homeDirectory}/Screenshots";
 in
 {
 
@@ -113,13 +115,13 @@ in
       enable = true;
       createDirectories = true;
       extraConfig = {
-        XDG_SCREENSHOTS_DIR = "${config.home.homeDirectory}/Screenshots";
+        XDG_SCREENSHOTS_DIR = screenshot-dir;
       };
     };
   };
 
   home.activation.createScreenshotDir = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    run mkdir -p ${config.xdg.userDirs.extraConfig.XDG_SCREENSHOTS_DIR}
+    run mkdir -p ${screenshot-dir}
   '';
 
   home.sessionVariables = {
@@ -136,8 +138,6 @@ in
     signal-desktop-bin
     # discord
     transmission_4-gtk
-
-    calculator-pkg
   ];
 
   programs.alacritty = {
@@ -218,6 +218,7 @@ in
       "file://${config.xdg.userDirs.music}"
       "file://${config.xdg.userDirs.pictures}"
       "file://${config.xdg.userDirs.videos}"
+      "file://${screenshot-dir}"
       "file://${config.home.homeDirectory}/Documents/Finanzielles/Buchhaltung/2025 Buchh. 2025"
       "file://${config.home.homeDirectory}/Documents/Finanzielles/Einreichung%20Versicherung/2025 Vers. 2025"
     ];
@@ -429,6 +430,24 @@ in
     topMargin = 0.1;
   };
   systemd.user.services.swayosd.Install.WantedBy = [ config.wayland.systemd.target ];
+
+  programs.satty = {
+    enable = true;
+    settings = {
+      # https://github.com/Satty-org/Satty?tab=readme-ov-file#configuration-file
+      general = {
+        initial-tool = "arrow";
+        output-filename = "${screenshot-dir}/%Y-%m-%dT%H:%M:%S.png";
+        copy-command = "${pkgs.wl-clipboard}/bin/wl-copy";
+        corner-roundness = 12;
+        early-exit = true;
+        save-after-copy = true;
+      };
+      color-palette = {
+        palette = [ "#00ffff" "#a52a2a" "#dc143c" "#ff1493" "#ffd700" "#008000" ];
+      };
+    };
+  };
 
   services.espanso = {
     enable = lib.mkDefault true;

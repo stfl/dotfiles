@@ -1,21 +1,16 @@
 { config, lib, pkgs, USER, ... }:
+with lib;
 
 {
-  programs.hyprland = {
-    enable = true;
-  };
+  environment.systemPackages = with pkgs; [
+    qalculate-gtk
+  ];
+
+  programs.hyprland.enable = true;
 
   home-manager.users.${USER} =
 { config, lib, pkgs, ... }:
-with lib;
-let
-  TERMINAL = "${getExe config.programs.alacritty.package}";
-  swaylock-bin = "${getExe pkgs.swaylock}";
-  calculator-pkg = pkgs.qalculate-gtk;
-  swayosd_client = "${config.services.swayosd.package}/bin/swayosd-client";
-  grimblast = "${getExe pkgs.grimblast}";
-  hyprctl = "${pkgs.hyprland}/bin/hyprctl";
-in {
+{
   wayland.windowManager.hyprland = {
     enable = true;
     package = null;
@@ -44,9 +39,46 @@ in {
       cursor = {
         hide_on_key_press = true;
       };
+      env = [
+        # https://wiki.hypr.land/Configuring/Environment-variables/
+        "NIXOS_OZONE_WL, 1"
+
+        # Toolkit Backend Variables
+        "GDK_BACKEND,wayland,x11,*" # GTK: Use Wayland if available; if not, try X11 and then any other GDK backend.
+        "SDL_VIDEODRIVER,wayland" # Run SDL2 applications on Wayland. Remove or set to x11 if games that provide older versions of SDL cause compatibility issues
+        "CLUTTER_BACKEND,wayland" # Clutter package already has Wayland enabled, this variable will force Clutter applications to try and use the Wayland backend
+
+        # Qt Variables
+        "QT_AUTO_SCREEN_SCALE_FACTOR,1" # (From the Qt documentation) enables automatic scaling, based on the monitor’s pixel density
+        "QT_QPA_PLATFORM,wayland;xcb" # Tell Qt applications to use the Wayland backend, and fall back to X11 if Wayland is unavailable
+        "QT_WAYLAND_DISABLE_WINDOWDECORATION,1" # Disables window decorations on Qt applications
+        "QT_QPA_PLATFORMTHEME,qt5ct" # Tells Qt based applications to pick your theme from qt5ct, use with Kvantum.
+
+        "_JAVA_AWT_WM_NONREPARENTING,1"
+        # ECORE_EVAS_ENGINE="wayland_egl";
+        "ELM_ACCEL,gl"
+        "ELM_DISPLAY,wl"
+        "ELM_ENGINE,wayland_egl"
+
+        # Firefox/Thunderbird settings
+        "MOZ_DBUS_REMOTE,1"
+        "MOZ_ENABLE_WAYLAND,1"
+        "MOZ_USE_XINPUT2,1"
+
+        "SAL_USE_VCLPLUGIN,gtk3"
+
+        # pass grimblast edit to satty for simple copy/edit workflow
+        "GRIMBLAST_EDITOR,${getExe pkgs.satty} --filename"
+      ];
       "$mod" = "SUPER";
-      bind =
-        [
+      bind = let
+          TERMINAL = getExe config.programs.alacritty.package;
+          swaylock-bin = getExe pkgs.swaylock;
+          calc = getExe pkgs.qalculate-gtk;
+          swayosd = "${config.services.swayosd.package}/bin/swayosd-client";
+          grimblast = getExe pkgs.grimblast;
+          hyprctl = "${pkgs.hyprland}/bin/hyprctl";
+        in [
           # Window management
           "$mod SHIFT, Q, killactive"
           "$mod, Q, killactive"
@@ -78,14 +110,14 @@ in {
           "$mod, RETURN, exec, ${TERMINAL}"
 
           # Audio controls
-          ", XF86AudioLowerVolume, exec, ${swayosd_client} --output-volume lower --max-volume 120"
-          ", XF86AudioRaiseVolume, exec, ${swayosd_client} --output-volume raise --max-volume 120"
-          ", XF86AudioMute, exec, ${swayosd_client} --output-volume mute-toggle"
-          ", XF86AudioMicMute, exec, ${swayosd_client} --input-volume mute-toggle"
+          ", XF86AudioLowerVolume, exec, ${swayosd} --output-volume lower --max-volume 120"
+          ", XF86AudioRaiseVolume, exec, ${swayosd} --output-volume raise --max-volume 120"
+          ", XF86AudioMute, exec, ${swayosd} --output-volume mute-toggle"
+          ", XF86AudioMicMute, exec, ${swayosd} --input-volume mute-toggle"
 
           # Brightness controls
-          ", XF86MonBrightnessDown, exec, ${swayosd_client} --brightness lower"
-          ", XF86MonBrightnessUp, exec, ${swayosd_client} --brightness raise"
+          ", XF86MonBrightnessDown, exec, ${swayosd} --brightness lower"
+          ", XF86MonBrightnessUp, exec, ${swayosd} --brightness raise"
 
           # Split orientation (hyprland uses dwindle layout with togglesplit)
           # "$mod SHIFT, S, togglesplit"
@@ -116,7 +148,7 @@ in {
           "$mod, P, workspace, e-1"
 
           # Reload/restart
-          "$mod SHIFT, R, exec, ${hyprctl} reload"
+          "$mod ALT, R, exec, ${hyprctl} reload"
 
           # Lock screen
           "$mod ALT, L, exec, ${swaylock-bin} -fF"
@@ -125,12 +157,13 @@ in {
           "$mod ALT, ESCAPE, exec, ${pkgs.systemd}/bin/systemctl suspend"
 
           # Screenshots (using grimblast)
-          "$mod ALT, P, exec, ${grimblast} --notify save area"
-          "$mod SHIFT, P, exec, ${grimblast} --notify save active"
-          "$mod CTRL, P, exec, ${grimblast} --notify save output"
+          # "$mod ALT, P, exec, ${grimblast} --notify save area"
+          # "$mod ALT, P, exec, ${grimblast} --cursor --notify --freeze save area - | ${getExe pkgs.satty} --filename -"
+          "$mod ALT, P, exec, ${grimblast} edit area"
+          "$mod SHIFT, P, exec, ${grimblast} edit output"
 
           # Calculator
-          "$mod, Z, exec, ${getExe calculator-pkg}"
+          "$mod, Z, exec, ${calc}"
         ]
       ++ (
         # workspaces
