@@ -3,7 +3,6 @@
 {
   programs.hyprland = {
     enable = true;
-    withUWSM  = true;
   };
 
   home-manager.users.${USER} =
@@ -15,22 +14,24 @@ let
   calculator-pkg = pkgs.qalculate-gtk;
   swayosd_client = "${config.services.swayosd.package}/bin/swayosd-client";
   grimblast = "${getExe pkgs.grimblast}";
+  hyprctl = "${pkgs.hyprland}/bin/hyprctl";
 in {
   wayland.windowManager.hyprland = {
     enable = true;
-    # # set the Hyprland and XDPH packages to null to use the ones from the NixOS module
     package = null;
     portalPackage = null;
     systemd = {
-      enable = false; # conflicts with UWSM
-      # enable = true;
-      # variables = ["--all"];
+      enable = true;
+      enableXdgAutostart = true;
+      variables = [ "--all" ];
     };
     settings = {
+      monitor = [", preferred, auto, 1"]; # monitor fallback configuration
       input = {
         kb_layout = "us";
         kb_variant = "altgr-intl";
         kb_options = "eurosign:5";
+        scroll_method = "2fg";
         touchpad = {
           natural_scroll = true;
           disable_while_typing = true;
@@ -39,6 +40,9 @@ in {
           middle_button_emulation = true; # Emulate middle button when both left and right buttons are pressed
           drag_lock = 1;
         };
+      };
+      cursor = {
+        hide_on_key_press = true;
       };
       "$mod" = "SUPER";
       bind =
@@ -68,7 +72,7 @@ in {
           "$mod, G, exec, ${getExe pkgs.wofi-pass} --autotype"
 
           # Window switcher
-          "$mod, BACKSPACE, exec, sh -c '${pkgs.hyprland}/bin/hyprctl clients -j | ${pkgs.jq}/bin/jq -r '\"'\"'.[] | \"\\(.address)|\\(.title) [\\(.class)]\"'\"'\"' | ${getExe pkgs.wofi} --dmenu -p \"Switch to:\" | ${pkgs.coreutils}/bin/cut -d\"|\" -f1 | ${pkgs.findutils}/bin/xargs -r -I{} ${pkgs.hyprland}/bin/hyprctl dispatch focuswindow address:{}'"
+          "$mod, BACKSPACE, exec, sh -c '${hyprctl} clients -j | ${pkgs.jq}/bin/jq -r '\"'\"'.[] | \"\\(.address)|\\(.title) [\\(.class)]\"'\"'\"' | ${getExe pkgs.wofi} --dmenu -p \"Switch to:\" | ${pkgs.coreutils}/bin/cut -d\"|\" -f1 | ${pkgs.findutils}/bin/xargs -r -I{} ${pkgs.hyprland}/bin/hyprctl dispatch focuswindow address:{}'"
 
           # Terminal
           "$mod, RETURN, exec, ${TERMINAL}"
@@ -92,12 +96,12 @@ in {
           "$mod, F, fullscreen, 0"
 
           # Layout modes
-          "$mod, S, exec, hyprctl keyword general:layout master"
-          "$mod, T, exec, hyprctl keyword general:layout dwindle"
+          "$mod, S, exec, ${hyprctl} keyword general:layout master"
+          "$mod, T, exec, ${hyprctl} keyword general:layout dwindle"
           # "$mod, E, togglesplit"
 
           # Toggle floating
-          "$mod ALT, SPACE, togglefloating"
+          "$mod SHIFT, SPACE, togglefloating"
 
           # Focus parent/child (hyprland doesn't have direct equivalents, using cyclenext)
           # "$mod, O, focusurgentorlast"
@@ -112,7 +116,7 @@ in {
           "$mod, P, workspace, e-1"
 
           # Reload/restart
-          "$mod SHIFT, R, exec, hyprctl reload"
+          "$mod SHIFT, R, exec, ${hyprctl} reload"
 
           # Lock screen
           "$mod ALT, L, exec, ${swaylock-bin} -fF"
