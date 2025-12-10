@@ -76,7 +76,7 @@ in
   #   '';
   # };
 
-  programs.git.extraConfig.core.editor = "${emacs-pkg}/bin/emacsclient --no-wait";
+  programs.git.settings.core.editor = "${emacs-pkg}/bin/emacsclient --no-wait";
 
   services.git-sync = {
     enable = true;
