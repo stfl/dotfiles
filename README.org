@@ -1,297 +1,84 @@
 #+title: My NixOS configuration
 #+PROPERTY: header-args:bash :noeval
 
+* Quick Start
+
+Apply configuration changes:
+
 #+begin_src bash
 just switch
 #+end_src
 
 * Update
 
-update the flake (does not switcht yet)
+Update the flake inputs and rebuild:
 
 #+begin_src bash
 just update
 #+end_src
 
-* Setup nix on Debian 12
-
-add user to sudoers (because it's much more convinient)
-
-#+begin_src bash :noeval
-/sbin/usermod -a -G sudo $USER
-#+end_src
-
-install package ~nix-setup-systemd~
+Or just update flake.lock without rebuilding:
 
 #+begin_src bash
-apt-get -y install nix nix-setup-systemd
+just flake
 #+end_src
 
-Add user to ~nix-users~ group
+* Bootstrap a New NixOS System
 
-#+begin_src bash :noeval
-/sbin/usermod -a -G nix-users $USER
-#+end_src
-
-reboot // logout>login
-
-update global nix config config
-[[file:/sudo::/etc/nix/nix.conf]]
-
-#+begin_src conf :tangle no
-max-jobs = auto
-
-experimental-features = nix-command flakes
-#+end_src
-
-* Bootstrap the config
-
-Install git (which is not present on PVE base install)
-
-#+begin_src bash
-apt-get install -y git
-#+end_src
-
-Clone the repo
+Clone the repo:
 
 #+begin_src bash
 git clone git@github.com:stfl/dotfiles.git ~/.config/dotfiles
-#+end_src
-
-#+begin_src bash :noeval
-nix run . -- switch -b backup --flake .
 #+end_src
 
 ** Setup Emacs
 
 https://github.com/stfl/doom.d#installation
 
-** swaylock
-
-[2023-09-07 Thu] - swaylock from nix does not work with home-manager on Debian with LDAP...
-
-install swaylock from Debian repo
-
-#+begin_src bash
-apt install swaylock
-#+end_src
-
-~UPDATE~ not using LDAP anymore..
-TODO: swaylock requires some pam config..
-
-#+begin_quote
-cat /etc/pam.d/swaylock
-#
-# PAM configuration file for the swaylock screen locker. By default, it includes
-# the 'login' configuration file (see /etc/pam.d/login)
-#
-
-auth include login
-#+end_quote
-
-** TODO set nix installed zsh as default shell
-
-=NOTE= *this will not work on the Workstation at Proxmox with LDAP login because
-the login shell is configured via LDAP*
-
-when trying to set a nix installed shell as default it will cause an error as follows:
-
-#+begin_quote bash
-chsh -s /home/stefan/.nix-profile/bin/zsh
-Password:
-chsh: /home/stefan/.nix-profile/bin/zsh is an invalid shell
-#+end_quote
-
-manually ad ~/home/stefan/.nix-profile/bin/zsh~ to [[file:/etc/passwd]]
-
-Alternatively, add the following to [[file:/etc/shells]] to mark nix installed shells as valid shells.
-
-#+begin_src txt
-/home/stefan/.nix-profile/bin/zsh
-/home/stefan/.nix-profile/bin/bash
-/home/stefan/.nix-profile/bin/fish
-#+end_src
-
-then run this to enabel this shell
-
-#+begin_src bash
-chsh -s /home/stefan/.nix-profile/bin/zsh
-#+end_src
-
-On the Proxmox workstation setting ~~/.nix-profile/bin/zsh~ as the login shell does not work because it is set set via LDAP.
-As a workaround I install zsh via apt, set ~/bin/zsh~ as LDAP Login shell and still set ~programs.zsh.enable = true~ in nix.
-
-/Let's hope the versions and nix config will not diverge too much..../
+* System Configuration
 
 ** Access user journal
 
-Per default, I cannot access the user's own journal ~journalctl --user~. I am fine with granting access to the system's journal.
+Grant user access to system journal:
 
 #+begin_src bash :dir /sudo::
-/sbin/usermod -a -G systemd-journal slendl
+usermod -a -G systemd-journal $USER
 #+end_src
 
 ** Set default boot target to multi-user
+
+For headless systems:
 
 #+begin_src bash :dir /sudo::
 systemctl set-default multi-user.target
 #+end_src
 
-* Install in Debian System
-:PROPERTIES:
-:ID:       ef6f0b51-2c53-4029-839b-8e46b6c96ada
-:END:
+** Hardware: ZSA Keyboards
 
-some packages need to be installed in the Debian System itself for various reasons.
-The following list is very likely outdated!!
+ZSA keyboard support (ErgoDox EZ, Moonlander, Voyager) is configured in ~modules/hardware/zsa.nix~.
 
-for building some things in emacs (vterm, sqlite) I need built tools. I don't
-want to polute my dev environment - which requires Debian build tooling - I need
-to install these from the system.
+The udev rules and plugdev group setup are handled automatically by NixOS.
 
-- build-essential
-- cmake
-- libtool
-- libtool-bin
-- libnotify-bin
+** Docker
 
-starting sway from login shell
+Docker is configured via ~modules/docker.nix~. The module handles:
+- Installing docker and docker-compose
+- Adding the user to the docker group
+- Enabling the docker service
 
-#+begin_src bash
-#+end_src
+** Bashrc for root
 
-Even though I patched the ~wayland.windowManager.sway.package~ with nixGL it does
-not start up properly, so I need to start it with the nixGL wrapper
-
-swaylock does not work (still true?) from nix.. so use swaylock from the system
-
-- swaylock :: [2023-10-03 Tue] swaylock from nix is broken
-- mtr-tiny :: mtr requires root and we cannot install into the system path from home-manager
-
-* Setup ZSA udev rules for ErgoDox EZ
-:PROPERTIES:
-:header-args:bash: :dir /sudo:: :results raw silent
-:END:
-
-I own three ErgoDox EZ (because I love them so much and want them everywhere).
-Installing ~zsh-udev-rules~ with home-manager installs the udev rules in ~~/.nix-profile/lib/udev/...~
-
-I want to direclty install the udev rules in Debian by following the [[https://github.com/zsa/wally/wiki/Linux-install][official tutorial]]
-
-#+begin_src bash
-DEBIAN_FRONTEND=noninteractive
-apt-get install -y libusb-1.0.0-dev
-#+end_src
-
-tangle the following to [[/etc/udev/rules.d/50-zsa.rules]]
-
-#+begin_src conf :tangle /sudo::/etc/udev/rules.d/50-zsa.rules
-# Rules for Oryx web flashing and live training
-KERNEL=="hidraw*", ATTRS{idVendor}=="16c0", MODE="0664", GROUP="plugdev"
-KERNEL=="hidraw*", ATTRS{idVendor}=="3297", MODE="0664", GROUP="plugdev"
-
-# Legacy rules for live training over webusb (Not needed for firmware v21+)
-  # Rule for all ZSA keyboards
-  SUBSYSTEM=="usb", ATTR{idVendor}=="3297", GROUP="plugdev"
-  # Rule for the Moonlander
-  SUBSYSTEM=="usb", ATTR{idVendor}=="3297", ATTR{idProduct}=="1969", GROUP="plugdev"
-  # Rule for the Ergodox EZ
-  SUBSYSTEM=="usb", ATTR{idVendor}=="feed", ATTR{idProduct}=="1307", GROUP="plugdev"
-  # Rule for the Planck EZ
-  SUBSYSTEM=="usb", ATTR{idVendor}=="feed", ATTR{idProduct}=="6060", GROUP="plugdev"
-
-# Wally Flashing rules for the Ergodox EZ
-ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", ENV{ID_MM_DEVICE_IGNORE}="1"
-ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789A]?", ENV{MTP_NO_PROBE}="1"
-SUBSYSTEMS=="usb", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789ABCD]?", MODE:="0666"
-KERNEL=="ttyACM*", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", MODE:="0666"
-
-# Keymapp / Wally Flashing rules for the Moonlander and Planck EZ
-SUBSYSTEMS=="usb", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="df11", MODE:="0666", SYMLINK+="stm32_dfu"
-# Keymapp Flashing rules for the Voyager
-SUBSYSTEMS=="usb", ATTRS{idVendor}=="3297", MODE:="0666", SYMLINK+="ignition_dfu"
-#+end_src
-
-#+begin_src bash
-sudo groupadd plugdev
-sudo usermod -aG plugdev $USER
-#+end_src
-
-* Setup Syncthing
-* Configure logind on Debian 12
-
-I am using i3wm, installed through nix home-manager. System-wide configuration
-like logind to configure PowerKey and so on cannot be managed through
-home-manager and need to be configured separately.
-
-=NOTE= Tangle a single src block with ~C-u~ prefix command or ~SPC u~ in doomemacs.
-- ~SPC u C-c C-v t~
-
-** with hibernate
-
-If hibernate is working use
-
-~/etc/systemd/logind.conf.d/90_config.conf~
-#+begin_src conf :mkdirp yes :tangle /sudo::/etc/systemd/logind.conf.d/90_config.conf
-[Login]
-HandlePowerKey=suspend-then-hibernate
-IdleAction=suspend-then-hibernate
-IdleActionSec=20m
-#+end_src
-
-~/etc/systemd/sleep.conf.d/90_config.conf~
-#+begin_src conf :mkdirp yes :tangle /sudo::/etc/systemd/sleep.conf.d/90_config.conf
-[Sleep]
-HibernateDelaySec=1h
-#+end_src
-
-** without hibernate
-
-~/etc/systemd/logind.conf.d/90_config.conf~
-#+begin_src conf :mkdirp yes :tangle /sudo::/etc/systemd/logind.conf.d/90_config.conf
-[Login]
-HandlePowerKey=suspend
-IdleAction=suspend
-IdleActionSec=20m
-#+end_src
-
-** reload systemd config
-
-#+begin_src bash :dir /sudo:: :results value
-systemctl daemon-reload
-#+end_src
-
-* Docker
-
-Installing Docker via home-manager does not make any sense because it's a system
-component which must be managed by the underlying distro.
-
-Install it directly via apt
-
-#+begin_src bash :dir /sudo::
-apt-get install docker docker-compose -y
-#+end_src
-
-Add unprivileged user ~stefan~ to the ~docker~ group to enable interacting with the docker daemon without sudo.
-
-#+begin_src bash :dir /sudo::
-usermod -a -G docker $USER
-#+end_src
-
-reboot
-
-* Bashrc for root
-
-I am using the system frequently as root, so I want to have a decently
-configured bashrc as root which I want to version as well.
-
-Symlink root's .bashrc to the config file in this repo.
+Symlink root's .bashrc to the versioned config:
 
 #+begin_src bash :dir /sudo:: :results value
 ln /home/slendl/.config/dotfiles/config/bash/.bashrc.root /root/.bashrc -sf
 #+end_src
 
-* password-store
+* Development Tools
+
+** password-store
+
+Trust your password-store GPG key:
 
 #+begin_src bash :noeval
 gpg --edit-key <password-store-key>
@@ -299,13 +86,12 @@ gpg --edit-key <password-store-key>
 > 5 # trust ultimately
 #+end_src
 
-* org-protocol in Brave Brower
+** org-protocol in Brave Browser
 
-[[https://www.reddit.com/r/emacs/comments/icjaie/orgprotocol_users_is_there_a_way_to_disable/][Redit about policy]]
+[[https://www.reddit.com/r/emacs/comments/icjaie/orgprotocol_users_is_there_a_way_to_disable/][Reddit about policy]]
 [[https://support.brave.com/hc/en-us/articles/360039248271-Group-Policy][Brave Doku]]
 
-Install the org-protocol policy system-wide.
-Brave and Chrome do not seem to allow specifying policies in /home
+Install the org-protocol policy system-wide:
 
 #+begin_src json :tangle /sudo::/etc/brave/policies/managed/org-protocol.json :mkdirp t
 {
@@ -318,32 +104,36 @@ Brave and Chrome do not seem to allow specifying policies in /home
 }
 #+end_src
 
-This could possibly be overwritten by passing =--user-data-dir= to Brave.
-
 [[https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/applications/networking/browsers/brave/default.nix#L187C36-L187C51][Brave nix source]]
 
-* nixos-rebuild
+* NixOS Operations
+
+** Building and switching
+
+Local rebuild:
 
 #+begin_src bash :noeval
 sudo nixos-rebuild switch --flake ".#"
 #+end_src
 
-** on target-host
+** Remote deployment
+
+Deploy to a remote host:
 
 #+begin_src bash :noeval
 nixos-rebuild \
     --target-host stefan@192.168.31.217 \
     --use-remote-sudo \
     switch \
-    --flake ".#nixos-vm"
+    --flake ".#hostname"
 #+end_src
 
-* NixOS Setup
+* NixOS Installation
 
-The easiest solution is to do a remote setup. Having the nixos config on an
+The easiest solution is to do a remote setup - have the nixos config on an
 existing machine and connect to the new system via ssh.
 
-On the installation target, I need to change the password, so that ssh will work.
+On the installation target, change the password so that ssh will work:
 
 #+begin_src bash :noeval
 passwd
@@ -351,7 +141,7 @@ passwd
 
 ** Partitioning
 
-Partioning with an ESP and a single large partition with ext4.
+Partitioning with an ESP and a single large partition with ext4:
 
 #+begin_export bash :noeval
 parted /dev/sda -- mklabel gpt
@@ -366,6 +156,8 @@ mkfs.ext4 -L nixos /dev/sda3
 
 ** Setup
 
+Mount partitions:
+
 #+begin_src bash :noeval
 mount /dev/sda3 /mnt
 mkdir -p /mnt/boot
@@ -373,13 +165,13 @@ mount /dev/sda1 /mnt/boot
 swapon /dev/sda2
 #+end_src
 
-generate the hardware-configuration.nix
+Generate the hardware-configuration.nix:
 
 #+begin_src bash :noeval
 nixos-generate-config --root /mnt --dir .
 #+end_src
 
-copy the hardware-configuration to the git repo
+Copy the hardware-configuration to the git repo:
 
 #+begin_src bash
 HOST=kondor
@@ -388,19 +180,17 @@ scp nixos@192.168.11.11:hardware-configuration.nix hosts/$HOST
 cp hosts/nixos-vm/{default,home}.nix hosts/$HOST
 #+end_src
 
-... customize =hardware-configuration.nix, default.nix and home.nix=
+Then customize =hardware-configuration.nix, default.nix and home.nix=
 
 ** Installation
 
-you will need to get the config to the target, because remote nixos-install does
-not exist...
+Get the config to the target (rsync won't work if not available on target):
 
-~THIS DOES NOT WORK, BECAUSE THERE IS NOT rsync ON THE TARGET~
 #+begin_src bash
-rsync -ravh ./ nixos@192.168.11.11:dotfiles/ --exclude /
+rsync -ravh ./ nixos@192.168.11.11:dotfiles/
 #+end_src
 
-On the target, run nixos-install
+On the target, run nixos-install:
 
 #+begin_src bash :noeval
 HOST=kondor
@@ -412,9 +202,9 @@ nixos-install --root /mnt --flake .#$HOST
 :ID:       ef647d22-567a-4a19-8fbd-e0cf897cd69e
 :END:
 
-To repair a [[id:3ac15631-6cd3-4832-90fd-5e1f34de7d7d][NixOS]] installation when booted to a live ISO:
+To repair a NixOS installation when booted to a live ISO:
 
-[[* Mount the partitions]] to ~/mnt~ and enter the special nixos chroot:
+Mount the partitions to ~/mnt~ and enter the special nixos chroot:
 
 #+begin_src bash :noeval
 nixos-enter
@@ -422,10 +212,11 @@ nixos-enter
 
 #+begin_src bash :noeval
 cd /path/to/dotfiles
-nixos-rebuild switch --flake .#nixos-vm
+nixos-rebuild switch --flake .#hostname
 #+end_src
 
-* secrets with agenix
+* Secrets Management with agenix
+
 ** Add a new secret
 
 Modify [[file:secrets/secrets.nix]] and add the new secret file.
@@ -437,39 +228,39 @@ cd secrets
 agenix -e <name-of-secret>.age
 #+end_src
 
-~Emacs~ will open. Close with =SPC b k= to terminate the buffer and return to the shell
+Emacs will open. Close with =SPC b k= to terminate the buffer and return to the shell.
 
 ** Add a new host
 
-- You need to first setup NixOS without agenix.
-  
-- Put the auto-generated ssh host public key ~/etc/ssh/ssh_host_ed25519_key.pub~
-  into secrets.nix
-  
-- rekey with another private key that allows decrypting all relevant keys is available.
+- You need to first setup NixOS without agenix
+- Put the auto-generated ssh host public key ~/etc/ssh/ssh_host_ed25519_key.pub~ into secrets.nix
+- Rekey with another private key that allows decrypting all relevant keys:
 
 #+begin_src bash
 agenix --rekey -i ~/.ssh/id_ed25519_stfl
 #+end_src
 
-* Create a custom iso
+* Create a Custom ISO
 
-edit [[file:modules/iso.nix]]
+Edit [[file:modules/iso.nix]], then build:
 
 #+begin_src bash
 nix build .#iso
 #+end_src
 
+Write to USB:
+
 #+begin_src bash
 sudo dd if=results/iso/*.iso of=/dev/sda bs=4M status=progress && sync
 #+end_src
 
-* Citrix Workspace
+* Application Setup
 
-Download the corresponding version from
-https://www.citrix.com/downloads/workspace-app/
+** Citrix Workspace
 
-Add the file to the nix store via
+Download the corresponding version from https://www.citrix.com/downloads/workspace-app/
+
+Add the file to the nix store:
 
 #+begin_src bash
 nix-prefetch-url file://${PWD}/packages/citrix/linuxx64-24.8.0.98.tar.gz
@@ -477,18 +268,20 @@ nix-prefetch-url file://${PWD}/packages/citrix/linuxx64-24.8.0.98.tar.gz
 
 Afterwards citrix_workspace can be installed.
 
-* Stremio + Torentio
+** Stremio + Torrentio
 :PROPERTIES:
 :ID:       55ae4a58-0b99-4595-98c7-0c3a047018ea
 :END:
 
 https://torrentio.strem.fun/providers=yts,eztv,rarbg,1337x,thepiratebay,kickasstorrents,torrentgalaxy,magnetdl,horriblesubs,nyaasi,tokyotosho,anidex%7Clanguage=german%7Cqualityfilter=threed,480p,scr,cam,unknown%7Climit=10/configure
 
-* Steam
+** Steam
 
 https://wiki.nixos.org/wiki/Steam
 
-starting steam within gamescope
+Steam is configured via ~modules/steam.nix~.
+
+Starting steam within gamescope:
 
 #+begin_src bash
 export AMD_VULKAN_ICD="RADV"
@@ -496,15 +289,22 @@ gamescope --adaptive-sync --hdr-enabled --rt --steam -- \
     steam -pipewire-dmabuf -tenfoot
 #+end_src
 
-* Kanshi
+* Display Configuration
+
+** Kanshi
+
+Get current output information:
 
 #+begin_src sh :results silent verbatim
 swaymsg -t get_outputs
 #+end_src
 
+Display profiles are configured per-host in the home-manager configuration.
+
 * FlakeHub
+
+Login to FlakeHub for faster downloads and cache:
 
 #+begin_src bash
 determinate-nixd login
 #+end_src
-
