@@ -38,6 +38,13 @@ nvd diff /nix/var/nix/profiles/system result
 nix fmt                        # Uses nixfmt-tree (defined in flake.nix)
 ```
 
+### Validate configuration changes
+```bash
+just build                     # Build configuration to validate syntax
+nixos-rebuild build --flake '.#' --show-trace
+```
+This validates the entire NixOS configuration including home-manager and Hyprland settings without applying changes.
+
 ### Build custom ISO
 ```bash
 nix build .#iso
@@ -90,9 +97,8 @@ Host configurations import relevant modules from `modules/` directory:
 
 ### Desktop Environments
 Two wayland compositors are configured:
-- **Sway**: Via `modules/sway.nix` and sway config in home-manager
-- **Hyprland**: Via `modules/hyprland.nix` with UWSM (Universal Wayland Session Manager)
-- Both use kanshi for dynamic display configuration
+- **Sway**: Via `modules/sway.nix` and sway config in home-manager (uses kanshi for display management)
+- **Hyprland**: Via `modules/hyprland.nix` with UWSM (Universal Wayland Session Manager, uses native monitor configuration)
 - Common tools: waybar, swaylock, alacritty terminal
 
 ## Secrets Management with agenix
@@ -131,6 +137,11 @@ agenix --rekey -i ~/.ssh/id_ed25519_stfl
 - **Docker**: System-level installation, user added to docker group
 
 ### Display Configuration
-- Kanshi manages dynamic display profiles in home-manager
-- Get output information: `swaymsg -t get_outputs`
-- Profiles defined per-host in `home.nix` (e.g., home monitor, beamer, receiver)
+- **Sway**: Uses kanshi for dynamic display profile management
+  - Get output information: `swaymsg -t get_outputs`
+  - Profiles defined in `services.kanshi.settings` in `home.nix`
+- **Hyprland**: Uses native monitor configuration
+  - Monitor rules defined in `wayland.windowManager.hyprland.settings.monitor`
+  - Workspace assignments in `wayland.windowManager.hyprland.settings.workspace`
+  - Get output information: `hyprctl monitors`
+  - Per-host configuration in `hosts/${hostname}/home.nix` (e.g., kondor: home monitor, beamer, receiver)

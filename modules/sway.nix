@@ -4,6 +4,7 @@
   environment.systemPackages = with pkgs; [
     wlr-protocols
     wl-mirror
+    kanshi # install the binary in addition to the service for debugging configs
   ];
 
   xdg.portal.wlr.enable = true;

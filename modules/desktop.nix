@@ -58,7 +58,6 @@ with lib;
 
     libnotify
     wdisplays
-    kanshi # install the binary in addition to the service for debugging configs
 
     brightnessctl
     libpulseaudio # pulsectl
