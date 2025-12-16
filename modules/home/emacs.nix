@@ -97,7 +97,7 @@ in
 
   systemd.user.services.git-sync-org = {
     Unit.Requires = [ "ssh-agent.service" ];
-    Install.WantedBy = mkForce [ "sway-session.target" ];
+    Install.WantedBy = mkForce [ config.wayland.systemd.target ];
     Service = {
       Environment = [ "SSH_AUTH_SOCK=/run/user/1000/ssh-agent" ];
       WorkingDirectory = "${config.home.homeDirectory}/.org";
@@ -117,7 +117,7 @@ in
 
   systemd.user.services.git-sync-doomemacs = {
     Unit.Requires = [ "ssh-agent.service" ];
-    Install.WantedBy = mkForce [ "sway-session.target" ];
+    Install.WantedBy = mkForce [ config.wayland.systemd.target ];
     Service = {
       Environment = [ "SSH_AUTH_SOCK=/run/user/1000/ssh-agent" ];
       WorkingDirectory = "${config.xdg.configHome}/doom";
