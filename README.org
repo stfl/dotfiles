@@ -36,7 +36,6 @@ git clone git@github.com:stfl/dotfiles.git ~/.config/dotfiles
 https://github.com/stfl/doom.d#installation
 
 * System Configuration
-
 ** Access user journal
 
 Grant user access to system journal:
@@ -75,7 +74,6 @@ ln /home/slendl/.config/dotfiles/config/bash/.bashrc.root /root/.bashrc -sf
 #+end_src
 
 * Development Tools
-
 ** password-store
 
 Trust your password-store GPG key:
@@ -107,7 +105,6 @@ Install the org-protocol policy system-wide:
 [[https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/applications/networking/browsers/brave/default.nix#L187C36-L187C51][Brave nix source]]
 
 * NixOS Operations
-
 ** Building and switching
 
 Local rebuild:
@@ -216,7 +213,6 @@ nixos-rebuild switch --flake .#hostname
 #+end_src
 
 * Secrets Management with agenix
-
 ** Add a new secret
 
 Modify [[file:secrets/secrets.nix]] and add the new secret file.
@@ -255,7 +251,6 @@ sudo dd if=results/iso/*.iso of=/dev/sda bs=4M status=progress && sync
 #+end_src
 
 * Application Setup
-
 ** Citrix Workspace
 
 Download the corresponding version from https://www.citrix.com/downloads/workspace-app/
@@ -290,7 +285,6 @@ gamescope --adaptive-sync --hdr-enabled --rt --steam -- \
 #+end_src
 
 * Display Configuration
-
 ** Kanshi
 
 Get current output information:
@@ -307,4 +301,11 @@ Login to FlakeHub for faster downloads and cache:
 
 #+begin_src bash
 determinate-nixd login
+#+end_src
+
+* Hyprland
+** Monitors
+
+#+begin_src bash
+hyprctl monitors all
 #+end_src

@@ -6,7 +6,8 @@
 }:
 with lib;
 let
-  main_out = "HannStar Display Corp HC284UFB";
+  # main_out = "HannStar Display Corp HC284UFB";
+  main_out = "Samsung Electronic Complany Odyssey G91F";
   # beamer = "Sanyo Electric Co.,Ltd. SANYO Z3000";
   beamer = "Sanyo Electric Co.Ltd. SANYO Z3000";
   receiver = "Yamaha Corporation RX-V4A";
@@ -17,13 +18,17 @@ in
     ../../modules/home/pass.nix
   ];
 
+  home.packages = with pkgs; [
+    nvtopPackages.amd
+  ];
+
   # Hyprland monitor and workspace configuration (replaces kanshi)
   wayland.windowManager.hyprland.settings = {
     monitor = [
       # Main monitor - primary display
       "desc:${main_out}, preferred, auto, 1"
       # Beamer - positioned to the right of main monitor (1.5 scale - Hyprland doesn't support 1.4)
-      "desc:${beamer}, preferred, 3840x0, 1.5"
+      "desc:${beamer}, preferred, auto-right, 1"
       # Receiver - disabled by default
       "desc:${receiver}, disable"
     ];
@@ -44,7 +49,5 @@ in
     ];
   };
 
-  home.packages = with pkgs; [
-    nvtopPackages.amd
-  ];
+
 }
