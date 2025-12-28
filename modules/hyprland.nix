@@ -271,6 +271,25 @@ with lib;
     };
   };
 
+  services.hyprpaper = {
+    enable = true;
+    settings = {
+      preload = [
+        "${../config/wallpapers/wallpaper_dark_sunset.jpg}"
+      ];
+      wallpaper = [
+        ", ${../config/wallpapers/wallpaper_dark_sunset.jpg}"
+      ];
+      # wallpaper = {
+      #     monitor = "DP-1";
+      #     path = "${../../static/wallpaper_mountains.jpg}";
+      #   # "DP-1,${../../static/wallpaper_mountains.jpg}"
+      # };
+        # "${main_out}" = ../../static/wallpaper_mountains.jpg;
+        # "${beamer}" = "/home/${config.home.username}/Pictures/wallpapers/abstract1k.jpg";
+    };
+  };
+
   # Waybar configuration for hyprland
   programs.waybar.settings.mainBar.modules-left = [
     "hyprland/workspaces"
