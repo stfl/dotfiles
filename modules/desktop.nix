@@ -107,7 +107,6 @@ let
   screenshot-dir = "${config.home.homeDirectory}/Screenshots";
 in
 {
-
   xdg = {
     enable = true;
     mime.enable = true;
@@ -278,12 +277,12 @@ in
     enable = true;
     settings = {
       anchor = "top-center";
-      backgroundColor = "#285577FF";
-      borderColor = "#4C7899FF";
-      defaultTimeout = 30000; # ms
+      background-color = "#285577ff";
+      border-color = "#4c7899ff";
+      default-timeout = 30000; # ms
       # ignoreTimeout = true;
       font = "JetBrains Mono Nerd Font Mono 10";
-      borderRadius = 7;
+      border-radius = 7;
       padding = "8";
       width = 400;
       outer-margin = 40;
