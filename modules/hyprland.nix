@@ -300,6 +300,8 @@ with lib;
     disable-scroll = false;
     all-outputs = true;
     show-special = true;
+    on-scroll-up = "${pkgs.hyprland}/bin/hyprctl dispatch workspace e-1";
+    on-scroll-down = "${pkgs.hyprland}/bin/hyprctl dispatch workspace e+1";
     workspace-taskbar = {
       # Enable the workspace taskbar. Default = false
       enable = true;
