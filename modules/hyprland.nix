@@ -189,8 +189,23 @@ with lib;
         # ", mouse:274, killactive"  # in sway this is set on the titlebar only
       ];
 
+      workspace = [
+        ", gapsout:0"
+        ", bordersize:0"
+
+        # workspace definitions for smart gaps
+        "w[tv1], gapsout:0, gapsin:0"
+        "f[1], gapsout:0, gapsin:0"
+      ];
+
       # Floating window rules
       windowrulev2 = [
+        # Smart gaps / no gaps when "only"
+        "bordersize 0, floating:0, onworkspace:w[tv1]"
+        "rounding 0, floating:0, onworkspace:w[tv1]"
+        "bordersize 0, floating:0, onworkspace:f[1]"
+        "rounding 0, floating:0, onworkspace:f[1]"
+
         # Removable media notification
         "float, title:^(Removable medium is inserted)$"
 
@@ -213,6 +228,36 @@ with lib;
         # Calculator
         "float, class:^(qalculate-gtk)$"
       ];
+
+      decoration.rounding = 10;
+
+      decoration.shadow = {
+        enabled = true;
+        range = 50;
+        render_power = 4;
+        offset = "0 0";
+        scale = 1.0;
+        # scale = 0.95;
+        # ignore_window = false;
+        color = "rgba(187, 190, 195, 0.9)";
+        color_inactive = "rgba(82, 89, 102, 0.7)";
+
+      };
+
+      decoration = {
+        inactive_opacity = 0.8;
+        active_opacity = 0.9;
+
+        blur = {
+          enabled = true;
+          size = 10;
+          passes = 3;
+          new_optimizations = true;
+          ignore_opacity = true;
+          noise = 0;
+          brightness = 0.90;
+        };
+      };
     };
   };
 
