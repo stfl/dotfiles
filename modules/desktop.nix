@@ -217,8 +217,11 @@ in
       "file://${config.xdg.userDirs.documents}"
       "file://${config.xdg.userDirs.music}"
       "file://${config.xdg.userDirs.pictures}"
-      "file://${config.xdg.userDirs.videos}"
       "file://${screenshot-dir}"
+      "file://${config.xdg.userDirs.videos}"
+      "file://${config.xdg.configHome}"
+      "file://${config.xdg.configHome}/dotfiles"
+      "file://${config.home.homeDirectory}/work"
       "file://${config.home.homeDirectory}/Documents/Finanzielles/Buchhaltung/2025 Buchh. 2025"
       "file://${config.home.homeDirectory}/Documents/Finanzielles/Einreichung%20Versicherung/2025 Vers. 2025"
     ];

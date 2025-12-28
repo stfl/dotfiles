@@ -17,6 +17,7 @@
     rsync
     cachix
     fh # flakehub client
+    gh
     parted
     pv
     dust # du alternative

@@ -163,15 +163,15 @@ with lib;
     onChange = ''${getExe pkgs.rsync} -rL --chown "stefan:users" --del ~/.ssh/config.d.ln/ ~/.ssh/config.d/'';
   };
 
-  home.activation.createSshConfigExtraDir = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    run mkdir -p ${config.home.homeDirectory}/.ssh/config-extra.d/
-  '';
-
   # workaround to have a full copy of the config
   home.file.".ssh/config" = {
     target = ".ssh/config.ln";
     onChange = ''cat ~/.ssh/config.ln > ~/.ssh/config && chmod 600 ~/.ssh/config'';
   };
+
+  home.activation.createSshConfigExtraDir = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    run mkdir -p ${config.home.homeDirectory}/.ssh/config-extra.d/
+  '';
 
   programs.tmux = {
     enable = true;
