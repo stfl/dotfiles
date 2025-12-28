@@ -95,6 +95,16 @@ with lib;
           "$mod SHIFT, K, movewindow, u"
           "$mod SHIFT, L, movewindow, r"
 
+          # Move window to monitor left/right
+          "$mod SHIFT, Left, movewindow, mon:l"
+          "$mod SHIFT, Right, movewindow, mon:r"
+
+          # Move workspace to monitor left/right
+          # "$mod SHIFT CTRL, H, movecurrentworkspacetomonitor, l"
+          # "$mod SHIFT CTRL, L, movecurrentworkspacetomonitor, r"
+          "$mod SHIFT CTRL, Left, movecurrentworkspacetomonitor, l"
+          "$mod SHIFT CTRL, Right, movecurrentworkspacetomonitor, r"
+
           "$mod, TAB, cyclenext"
 
           # Application launcher
