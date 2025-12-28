@@ -1,4 +1,8 @@
 default: switch
+reload:
+    sudo nixos-rebuild switch --flake '.#' --show-trace \
+      --option substitute false
+
 switch:
     sudo nixos-rebuild switch --flake '.#' --show-trace
 
