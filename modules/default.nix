@@ -1,5 +1,6 @@
 {
   pkgs,
+  config,
   determinate,
   emacs-overlay,
   USER,
@@ -13,11 +14,11 @@
   ];
 
   nix = {
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 90d";
-    };
+    # gc = {
+    #   automatic = true;
+    #   dates = "weekly";
+    #   options = "--delete-older-than 90d --keep 5";
+    # };
     settings = {
       auto-optimise-store = true;
       download-buffer-size = 268435456; # 256 MiB
@@ -52,17 +53,22 @@
   };
 
   # https://fzakaria.com/2025/02/26/nix-pragmatism-nix-ld-and-envfs
-  programs = {
-    nix-ld = {
-      enable = true;
-      # put whatever libraries you think you might need
-      # nix-ld includes a strong sane-default as well
-      # in addition to these
-      libraries = with pkgs; [
-        # stdenv.cc.cc.lib
-        # zlib
-      ];
-    };
+  programs.nix-ld = {
+    enable = true;
+    # put whatever libraries you think you might need
+    # nix-ld includes a strong sane-default as well
+    # in addition to these
+    libraries = with pkgs; [
+      # stdenv.cc.cc.lib
+      # zlib
+    ];
+  };
+
+  programs.nh = {
+    enable = true;
+    clean.enable = true;
+    clean.extraArgs = "--keep-since 90d --keep 5";
+    flake = "${config.home-manager.users.${USER}.xdg.configHome}/dotfiles"; # sets NH_OS_FLAKE variable for you
   };
 
   services = {

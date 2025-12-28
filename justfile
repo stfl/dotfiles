@@ -1,20 +1,12 @@
 default: switch
 reload:
-    sudo nixos-rebuild switch --flake '.#' --show-trace \
-      --option substitute false
+    sudo nh os switch --offline
 
 switch:
-    sudo nixos-rebuild switch --flake '.#' --show-trace
+    sudo nh os switch
 
 build:
-    nixos-rebuild build --flake '.#' --show-trace
+    sudo nh os build
 
-diff:
-    nvd diff /nix/var/nix/profiles/system result
-
-build-update: flake build
-
-flake:
-    nix flake update
-
-update: build-update && diff
+update:
+    sudo nh os test --update --diff always
