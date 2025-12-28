@@ -80,6 +80,11 @@
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
+  # Configure sudo to remember password for 2 hours (120 minutes)
+  security.sudo.extraConfig = ''
+    Defaults timestamp_timeout=120
+  '';
+
   networking.firewall.enable = true;
   # networking.firewall.allowedTCPPorts = [];
   # networking.firewall.allowedUDPPorts = [];
