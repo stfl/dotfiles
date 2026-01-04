@@ -5,7 +5,7 @@
 }:
 {
   # Disable wireless support via wpa_supplicant. (not compatible with NetworkManager)
-  networking.wireless.enable = false;
+  networking.wireless.enable = lib.mkDefault false;
 
   networking.networkmanager.enable = true;
 
