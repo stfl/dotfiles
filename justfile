@@ -1,12 +1,13 @@
 default: switch
+
 reload:
-    sudo nh os switch --offline
+    nh os switch . --offline
 
 switch:
-    sudo nh os switch
+    nh os switch .
 
 build:
-    sudo nh os build
+    nh os build .
 
 update:
-    sudo nh os test --update --diff always
+    nh os test . --update --diff always
