@@ -190,13 +190,12 @@ with lib;
 
       # Mouse bindings
       bindm = [
-        "$mod, mouse:272, movewindow"
-        "$mod, mouse:273, resizewindow"
+        "$mod, mouse:272, movewindow" # Move window with Alt + left mouse button
+        "$mod, mouse:273, resizewindow" # Resize window with Alt + right mouse button
       ];
 
-      # Kill with middle mouse button
       bindn = [
-        # ", mouse:274, killactive"  # in sway this is set on the titlebar only
+        "$mod, mouse:274, killactive" # Kill with Alt + middle mouse button
       ];
 
       workspace = [
