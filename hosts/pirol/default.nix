@@ -50,9 +50,11 @@
 
   system.stateVersion = "24.11"; # Did you read the comment?
 
-  home-manager.users.${USER} = {
-    home.stateVersion = "24.11";
-    imports = [ ./home.nix ];
+  home-manager = {
+    useUserPackages = true;
+    useGlobalPkgs = true;
+    backupFileExtension = "backup";
+    users.${USER}.imports = [ ./home.nix ];
   };
 
   # Set your time zone.

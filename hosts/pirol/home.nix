@@ -14,10 +14,13 @@ let
 in
 {
   imports = [
+    ../../modules/home/shell.nix
     ../../modules/home/emacs.nix
     ../../modules/home/pass.nix
     ../../modules/home/dj.nix
   ];
+
+  home.stateVersion = "24.11";
 
   home.packages = with pkgs; [
     nvtopPackages.intel

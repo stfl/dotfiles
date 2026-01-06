@@ -1,13 +1,9 @@
 {
   pkgs,
-  USER,
   ...
 }:
 {
-  home-manager.users.${USER} = {
-    imports = [ ./home/shell.nix ];
-  };
-
+  # System-level shell packages and configuration
   environment.systemPackages = with pkgs; [
     wget
     dig

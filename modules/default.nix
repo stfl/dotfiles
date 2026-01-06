@@ -1,6 +1,5 @@
 {
   pkgs,
-  config,
   determinate,
   emacs-overlay,
   USER,
@@ -14,11 +13,11 @@
   ];
 
   nix = {
-    # gc = {
-    #   automatic = true;
-    #   dates = "weekly";
-    #   options = "--delete-older-than 90d --keep 5";
-    # };
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 90d --keep 5";
+    };
     settings = {
       auto-optimise-store = true;
       download-buffer-size = 268435456; # 256 MiB
@@ -62,13 +61,6 @@
       # stdenv.cc.cc.lib
       # zlib
     ];
-  };
-
-  programs.nh = {
-    enable = true;
-    clean.enable = true;
-    clean.extraArgs = "--keep-since 90d --keep 5";
-    flake = "${config.home-manager.users.${USER}.xdg.configHome}/dotfiles"; # sets NH_OS_FLAKE variable for you
   };
 
   services = {

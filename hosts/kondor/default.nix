@@ -118,10 +118,7 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.05"; # Did you read the comment?
 
-  home-manager.users.${USER} = {
-    home.stateVersion = "24.05";
-    imports = [ ./home.nix ];
-  };
+  home-manager.users.${USER}.imports = [ ./home.nix ];
 
   services.syncthing = {
     enable = true;

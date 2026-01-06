@@ -14,9 +14,12 @@ let
 in
 {
   imports = [
+    ../../modules/home/shell.nix
     ../../modules/home/emacs.nix
     ../../modules/home/pass.nix
   ];
+
+  home.stateVersion = "24.05";
 
   home.packages = with pkgs; [
     nvtopPackages.amd

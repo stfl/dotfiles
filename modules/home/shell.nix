@@ -26,6 +26,16 @@ with lib;
     # various system monitor
   ];
 
+  programs.nh = {
+    enable = true;
+    osFlake = "${config.xdg.configHome}/dotfiles";
+    clean = {
+      enable = true;
+      dates = "weekly";
+      extraArgs = "--keep-since 90d --keep 5";
+    };
+  };
+
   programs.fd = {
     enable = true;
     # extraOptions = "--no-ignore-vcs";
