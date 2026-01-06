@@ -15,6 +15,7 @@
     ../../modules/hardware/ledger.nix
 
     home-manager.nixosModules.default
+    ../../modules/home-manager.nix
 
     ../../modules
     ../../modules/steam.nix
