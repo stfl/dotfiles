@@ -1,0 +1,64 @@
+#+title: syncthing-pve - NixOS LXC Container on Proxmox
+
+* Overview
+
+=syncthing-pve= is a minimal NixOS LXC container running on Proxmox host ~pve.stfl.home~.
+
+**Purpose**: Centralized always-on Syncthing file synchronization service
+
+**Services**:
+- Syncthing (GUI on 0.0.0.0:8384)
+- OpenSSH
+
+**Container Type**: Proxmox Unprivileged LXC
+
+**Deployment**: Remote deployment from dotfiles repository using ~nixos-rebuild --target-host~
+* Initial LXC Container Setup
+
+follow these instructions with some additions in this document
+https://nixos.wiki/wiki/Proxmox_Linux_Container
+
+** Download NixOS LXC Template (on Proxmox host)
+
+When downloading the template, you can also directly specify the ~sha265 hash~
+which you can find int the hydra output.
+
+** Create LXC Container
+
+via GUI using the downloaded template
+
+- configure ssh key access
+- requires these features:
+  - nesting :: systemd spawns tasks with cgroups
+
+** configure pfSense with static DHCP lease
+** Start Container and Initial Access
+
+Start the container:
+
+#+begin_src bash
+pct start 102
+#+end_src
+
+Access via Proxmox console:
+
+#+begin_src bash
+pct enter 102
+#+end_src
+
+Or via SSH (if network is configured):
+
+#+begin_src bash
+ssh root@sync.stfl.home
+#+end_src
+
+* Deploy NixOS Configuration
+
+From the dotfiles repository root, intially deploy the configuration:
+
+#+begin_src bash
+nixos-rebuild \
+    --target-host root@sync.stfl.home \
+    switch \
+    --flake ".#syncthing-pve"
+#+end_src

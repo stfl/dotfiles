@@ -86,6 +86,16 @@
             # })
           ];
         };
+
+        syncthing-pve = lib.nixosSystem {
+          inherit system;
+          specialArgs = inputs // {
+            inherit USER;
+          };
+          modules = [
+            ./hosts/syncthing-pve
+          ];
+        };
       };
 
       iso = nixosConfigurations.iso.config.system.build.isoImage;
