@@ -30,6 +30,7 @@ via GUI using the downloaded template
 - configure ssh key access
 - requires these features:
   - nesting :: systemd spawns tasks with cgroups
+  - keyctl ::
 
 ** configure pfSense with static DHCP lease
 ** Start Container and Initial Access
