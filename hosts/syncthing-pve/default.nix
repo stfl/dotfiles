@@ -13,12 +13,6 @@
 
   system.stateVersion = "25.11";
 
-  # Tailscale for networking
-  services.tailscale = {
-    enable = true;
-    openFirewall = true;
-  };
-
   # allow Syncthing GUI port through the firewall
   networking.firewall.allowedTCPPorts = [ 8384 ];
 
