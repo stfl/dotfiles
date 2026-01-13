@@ -20,6 +20,7 @@
       inputs.home-manager.follows = "home-manager";
       inputs.systems.follows = "systems";
     };
+    nixarr.url = "github:rasmus-kirk/nixarr";
   };
 
   outputs =
@@ -30,6 +31,7 @@
       emacs-overlay,
       fenix,
       agenix,
+      nixarr,
       nixos-hardware,
       ...
     }@inputs:
@@ -39,9 +41,11 @@
       USER = "stefan";
     in
     rec {
+      iso = nixosConfigurations.iso.config.system.build.isoImage;
+
       # defaultPackage.x86_64-linux = home-manager.defaultPackage.x86_64-linux;
-      packages.x86_64-linux.default = fenix.packages.x86_64-linux.default.toolchain;
-      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-tree;
+      packages.${system}.default = fenix.packages.${system}.default.toolchain;
+      formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt-tree;
       homeConfigurations = { };
 
       nixosConfigurations = {
@@ -71,33 +75,24 @@
           };
           modules = [
             ./hosts/pirol
-            # ({pkgs, ...}: {
-            #   nixpkgs.overlays = [fenix.overlays.default];
-            #   environment.systemPackages = with pkgs; [
-            #     (pkgs.fenix.complete.withComponents [
-            #       "cargo"
-            #       "clippy"
-            #       "rust-src"
-            #       "rustc"
-            #       "rustfmt"
-            #     ])
-            #     rust-analyzer-nightly
-            #   ];
-            # })
           ];
         };
 
         syncthing-pve = lib.nixosSystem {
           inherit system;
-          specialArgs = inputs // {
-            inherit USER;
-          };
           modules = [
             ./hosts/syncthing-pve
           ];
         };
-      };
 
-      iso = nixosConfigurations.iso.config.system.build.isoImage;
+        servarr-pve = lib.nixosSystem {
+          inherit system;
+          specialArgs = inputs;
+          modules = [
+            nixarr.nixosModules.default
+            ./hosts/servarr-pve
+          ];
+        };
+      };
     };
 }

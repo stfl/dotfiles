@@ -8,7 +8,6 @@
   proxmoxLXC = {
     manageNetwork = false;
     privileged = lib.mkDefault false;
-    # privileged = true;
   };
 
   services.fstrim.enable = false; # Let Proxmox host handle fstrim

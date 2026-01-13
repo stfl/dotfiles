@@ -217,14 +217,15 @@ nixos-rebuild switch --flake .#hostname
 
 Modify [[file:secrets/secrets.nix]] and add the new secret file.
 
-** Edit a secret
+** Create and edit a secret
 
 #+begin_src bash
 cd secrets
 agenix -e <name-of-secret>.age
 #+end_src
 
-Emacs will open. Close with =SPC b k= to terminate the buffer and return to the shell.
+Emacs will open and you can insert the content to modify or create a new file.
+Close with =SPC b k= to terminate the buffer and return to the shell.
 
 ** Add a new host
 
