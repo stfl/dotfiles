@@ -92,7 +92,7 @@ in
 
       programs.ssh.matchBlocks = {
         "drb-dev digirail-home2 drb-home2" = {
-          hostname = "192.168.0.141";
+          hostname = "192.168.1.90";
           user = "root";
           identityFile = [ "~/.ssh/id_ed25519_oebb" ];
           checkHostIP = false;
