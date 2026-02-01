@@ -13,46 +13,12 @@ let
   });
 in
 {
-  imports = [
-    ../wireguard.nix
-    ../agenix.nix
-  ];
-
   environment.systemPackages = with pkgs; [
     keepassxc
     # citrix_workspace # FIXME depends on qtwebengine which is flagged as insecure
 
     cargo-bitbake
   ];
-
-  # networking.firewall.checkReversePath = "loose";
-  # networking.firewall.checkReversePath = false;
-
-  # networking.wg-quick.interfaces.digirail0 = {name, ...}: {
-  #   autostart = false;
-  #   privateKeyFile = config.age.secrets.wg-digirail-private.path;
-  #   address = ["192.168.63.2/32"];
-  #   dns = ["192.168.63.1"];
-
-  #   # enable split DNS via systemd-resolved
-  #   # postUp = ''
-  #   #   # ${pkgs.systemd}/bin/resolvectl domain ${name} \~digiattack.net
-  #   # '';
-
-  #   peers = [
-  #     {
-  #       publicKey = "fD02JAuwSfjKIotk0kVBrVXVUETRwUL0aPpp4iGlPj0=";
-  #       allowedIPs = [
-  #         "192.168.63.1/32"
-  #         "192.168.63.2/32"
-  #         "0.0.0.0/0"
-  #         # "::/0"
-  #       ];
-  #       endpoint = "80.121.253.230:51820";
-  #       # persistentKeepalive = 25;
-  #     }
-  #   ];
-  # };
 
   home-manager.users.${USER} =
     { config, ... }:
