@@ -12,6 +12,5 @@ in
   "wg-hei-private.age".publicKeys =        [ key pirol kondor ];
   "wg-hei-preshared.age".publicKeys =      [ key pirol kondor ];
   "3datax-ssh-config.age".publicKeys =     [ key ];
-  "wg-digirail-private.age".publicKeys =   [ key pirol kondor ];
   "wg-airvpn-norway-conf.age".publicKeys = [ key servarr ];
 }
