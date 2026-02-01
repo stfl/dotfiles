@@ -50,6 +50,8 @@
     rustdesk-flutter
     act
     copyparty
+
+    eddie
   ];
 
   # KDE CD/DVD burner and ripper
