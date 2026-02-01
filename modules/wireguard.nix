@@ -1,15 +1,14 @@
-{ pkgs, ... }:
 {
-  boot.kernelModules = [ "wireguard" ];
+  config,
+  lib,
+  ...
+}:
+{
+  boot.kernelModules = ["wireguard"];
 
-  environment.systemPackages = with pkgs; [
-    wireguard-tools
-  ];
-
-  networking.wireguard = {
-    enable = true;
-  };
+  # networking.firewall.checkReversePath = lib.mkDefault "loose";
+  networking.firewall.checkReversePath = lib.mkDefault false;
 
   # we need systemd-resolved enabled to configure split DNS
-  services.resolved.enable = true;
+  services.resolved.enable = lib.mkDefault true;
 }

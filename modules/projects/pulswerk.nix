@@ -23,61 +23,94 @@
 
   # NOTE Access gebaut morphdock staging via http://gebaut.pulswerk.local:8881/anmelden.htm
 
-  age.secrets.wg-pulswerk-private.file = ../../secrets/wg-pulswerk-private.age;
-  age.secrets.wg-pulswerk-preshared.file = ../../secrets/wg-pulswerk-preshared.age;
 
-  networking.wg-quick.interfaces.pulswerk0 =
-    { name, ... }:
-    {
-      address = [ "192.168.25.3/32" ];
-      privateKeyFile = config.age.secrets.wg-pulswerk-private.path;
+  age.secrets.wg-pulswerk-private = {
+    file = ../../secrets/wg-pulswerk-private.age;
+    owner = "systemd-network";
+  };
+  age.secrets.wg-pulswerk-preshared = {
+    file = ../../secrets/wg-pulswerk-preshared.age;
+    owner = "systemd-network";
+  };
 
-      # enable split DNS via systemd-resolved
-      postUp = ''
-        ${pkgs.systemd}/bin/resolvectl dns ${name} 192.168.22.13
-        ${pkgs.systemd}/bin/resolvectl domain ${name} \~pulswerk.local
-      '';
+  age.secrets.wg-hei-private = {
+    file = ../../secrets/wg-hei-private.age;
+    owner = "systemd-network";
+  };
+  age.secrets.wg-hei-preshared = {
+    file = ../../secrets/wg-hei-preshared.age;
+    owner = "systemd-network";
+  };
 
-      peers = [
+  systemd.network = {
+    enable = true;
+    netdevs."90-pulswerk" = {
+      netdevConfig = {
+        Kind = "wireguard";
+        Name = "pulswerk0";
+        MTUBytes = "1300";
+      };
+      wireguardConfig = {
+        PrivateKeyFile = config.age.secrets.wg-pulswerk-private.path;
+        ListenPort = 9918;
+      };
+      wireguardPeers = [
         {
-          publicKey = "Z9Xx5qgdfswnFjbpKutlBnQ8SZVur8Q8nrrsc9HTlTw=";
-          presharedKeyFile = config.age.secrets.wg-pulswerk-preshared.path;
-          allowedIPs = [
+          PublicKey = "Z9Xx5qgdfswnFjbpKutlBnQ8SZVur8Q8nrrsc9HTlTw=";
+          PresharedKeyFile = config.age.secrets.wg-pulswerk-preshared.path;
+          AllowedIPs = [
             "192.168.25.3/32"
             "192.168.22.0/24"
-            # "0.0.0.0/0"
-            # "::/0"
           ];
-          endpoint = "wien.pulswerk.at:51820";
-          persistentKeepalive = 25;
+          Endpoint = "wien.pulswerk.at:51820";
+          PersistentKeepalive = 25;
         }
       ];
     };
+    networks."90-pulswerk" = {
+      matchConfig.Name = "pulswerk0";
+      address = [ "192.168.25.3/32" ];
+      routes = [{ Destination = "192.168.22.0/24"; }];
+      DHCP = "no";
+      dns = ["192.168.22.13"];
+      domains = ["~pulswerk.local"];
+      networkConfig.IPv6AcceptRA = false;
+      linkConfig.RequiredForOnline = "no";
+    };
 
-  age.secrets.wg-hei-private.file = ../../secrets/wg-hei-private.age;
-  age.secrets.wg-hei-preshared.file = ../../secrets/wg-hei-preshared.age;
-
-  networking.wg-quick.interfaces.hei0 =
-    { name, ... }:
-    {
-      address = [ "192.168.41.11/32" ];
-      privateKeyFile = config.age.secrets.wg-hei-private.path;
-
-      postUp = ''
-        ${pkgs.systemd}/bin/resolvectl dns ${name} 192.168.40.3
-        ${pkgs.systemd}/bin/resolvectl domain ${name} \~hei.local
-      '';
-
-      peers = [
+    # Hei wireguard configuration
+    netdevs."90-hei" = {
+      netdevConfig = {
+        Kind = "wireguard";
+        Name = "hei0";
+        MTUBytes = "1300";
+      };
+      wireguardConfig = {
+        PrivateKeyFile = config.age.secrets.wg-hei-private.path;
+        ListenPort = 9919;
+      };
+      wireguardPeers = [
         {
-          publicKey = "RDmsyH09C/ElDj4vILZdnR2NfKxJI24KhhA3WUnkkEU=";
-          presharedKeyFile = config.age.secrets.wg-hei-preshared.path;
-          allowedIPs = [
+          PublicKey = "RDmsyH09C/ElDj4vILZdnR2NfKxJI24KhhA3WUnkkEU=";
+          PresharedKeyFile = config.age.secrets.wg-hei-preshared.path;
+          AllowedIPs = [
             "192.168.41.11/32"
             "192.168.40.0/24"
           ];
-          endpoint = "remote.hei.at:51820";
+          Endpoint = "remote.hei.at:51820";
+          PersistentKeepalive = 25;
         }
       ];
     };
+    networks."90-hei" = {
+      matchConfig.Name = "hei0";
+      address = [ "192.168.41.11/32" ];
+      routes = [{ Destination = "192.168.40.0/24"; }];
+      DHCP = "no";
+      dns = ["192.168.40.3"];
+      domains = ["~hei.local"];
+      networkConfig.IPv6AcceptRA = false;
+      linkConfig.RequiredForOnline = "no";
+    };
+  };
 }
