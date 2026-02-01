@@ -103,7 +103,7 @@
   # networking.nameservers = ["100.100.100.100" "8.8.8.8" "1.1.1.1"];
 
   services.tailscale = {
-    enable = true;
+    enable = false;
     openFirewall = true;
     # If you want to use tailscale with a specific user, set the user here.
     # user = "${USER}";
