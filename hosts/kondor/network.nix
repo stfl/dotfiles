@@ -28,7 +28,7 @@
     networks = {
       "10-eth" = {
         matchConfig.Name = "enp10s0";
-        networkConfig.DHCP = "yes";
+        DHCP = "yes";
         networkConfig.IPv6AcceptRA = true;
         linkConfig.RequiredForOnline = "routable";
       };
