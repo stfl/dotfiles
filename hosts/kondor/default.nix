@@ -24,8 +24,8 @@
     ../../modules/desktop.nix
     ../../modules/hyprland.nix
     ../../modules/wireshark.nix
-    ../../modules/networkmanager.nix
     # ../../modules/cursor.nix
+    ./network.nix
 
     # Development
     ../../modules/dev
