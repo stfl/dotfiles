@@ -225,7 +225,7 @@ agenix -e <name-of-secret>.age
 #+end_src
 
 Emacs will open and you can insert the content to modify or create a new file.
-Close with =SPC b k= to terminate the buffer and return to the shell.
+=Save the file= and close with =SPC b k= to terminate the buffer and return to the shell.
 
 ** Add a new host
 
@@ -310,3 +310,16 @@ determinate-nixd login
 #+begin_src bash
 hyprctl monitors all
 #+end_src
+
+* Configure Google Drive token for clone
+
+https://rclone.org/drive/
+
+- in [[modules/home/rclone-shares.nix]] configure ~config.client_id~ and ~secrets.client_secret~. (without ~secrets.token~)
+- rebuild the system
+- /possibly/ remove the token value from ~~/.config/rclone/rclone.conf~
+- run ~rclone config~ and reconfigure the drive endpoint.
+- after authenticating the client, copy the **token** value from ~~/.config/rclone/rclone.conf~
+  into the ~secrets/rclone-drive-token.age~ via [[*Secrets Management with agenix]].
+  This token value contians the refresh_token that allows the client to stay online
+- rebuild the system with ~secrets.token~ set to the agenix secret in [[modules/home/rclone-shares.nix]]

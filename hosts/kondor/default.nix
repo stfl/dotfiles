@@ -30,6 +30,8 @@
     # Development
     ../../modules/dev
 
+    ../../modules/rclone-shares.nix
+
     # Customers and Projects
     ../../modules/projects/pulswerk.nix
     ../../modules/projects/oebb.nix

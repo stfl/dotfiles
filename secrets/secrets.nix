@@ -13,4 +13,6 @@ in
   "wg-hei-preshared.age".publicKeys =      [ key pirol kondor ];
   "3datax-ssh-config.age".publicKeys =     [ key ];
   "wg-airvpn-norway-conf.age".publicKeys = [ key servarr ];
+  "rclone-drive-client-secret.age".publicKeys = [ key pirol kondor ];
+  "rclone-drive-token.age".publicKeys = [ key pirol kondor ];
 }
