@@ -528,6 +528,7 @@ with lib;
       ignore-globs = [
         ".git"
       ];
+      sorting.dir-grouping = "first";
     };
   };
 
