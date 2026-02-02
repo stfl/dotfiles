@@ -115,6 +115,11 @@ sudo nixos-rebuild switch --flake ".#"
 
 ** Remote deployment
 
+#+begin_src bash :noeval
+# just deploy <hostnam> <target>
+just deploy syncthing-pve root@sync.stfl.home
+#+end_src
+
 Deploy to a remote host:
 
 #+begin_src bash :noeval
@@ -127,8 +132,8 @@ nixos-rebuild \
 
 * NixOS Installation
 
-The easiest solution is to do a remote setup - have the nixos config on an
-existing machine and connect to the new system via ssh.
+An easy solution is to do a remote setup - have the nixos config on an existing
+machine and connect to the new system via ssh.
 
 On the installation target, change the password so that ssh will work:
 
@@ -136,20 +141,8 @@ On the installation target, change the password so that ssh will work:
 passwd
 #+end_src
 
-** Partitioning
-
-Partitioning with an ESP and a single large partition with ext4:
-
-#+begin_export bash :noeval
-parted /dev/sda -- mklabel gpt
-parted /dev/sda -- mkpart ESP fat32 1MiB 512MiB
-parted /dev/sda -- mkpart primary linux-swap 512MiB 8.5GiB
-parted /dev/sda -- mkpart primary 8.5GiB 100%
-parted /dev/sda -- set 1 boot on
-mkfs.fat -F32 -n BOOT /dev/sda1
-mkswap -L swap /dev/sda2
-mkfs.ext4 -L nixos /dev/sda3
-#+end_export
+Do partitioning according to the host specific instructions
+=TODO= use disko
 
 ** Setup
 
@@ -248,11 +241,15 @@ nix build .#iso
 Write to USB:
 
 #+begin_src bash
-sudo dd if=results/iso/*.iso of=/dev/sda bs=4M status=progress && sync
+sudo dd if=results/iso/*.iso \
+        of=/dev/sda \
+        bs=1M \
+        conv=sparse,fsync \
+        status=progress
 #+end_src
 
 * Application Setup
-** Citrix Workspace
+** TODO Citrix Workspace
 
 Download the corresponding version from https://www.citrix.com/downloads/workspace-app/
 
@@ -263,38 +260,6 @@ nix-prefetch-url file://${PWD}/packages/citrix/linuxx64-24.8.0.98.tar.gz
 #+end_src
 
 Afterwards citrix_workspace can be installed.
-
-** Stremio + Torrentio
-:PROPERTIES:
-:ID:       55ae4a58-0b99-4595-98c7-0c3a047018ea
-:END:
-
-https://torrentio.strem.fun/providers=yts,eztv,rarbg,1337x,thepiratebay,kickasstorrents,torrentgalaxy,magnetdl,horriblesubs,nyaasi,tokyotosho,anidex%7Clanguage=german%7Cqualityfilter=threed,480p,scr,cam,unknown%7Climit=10/configure
-
-** Steam
-
-https://wiki.nixos.org/wiki/Steam
-
-Steam is configured via ~modules/steam.nix~.
-
-Starting steam within gamescope:
-
-#+begin_src bash
-export AMD_VULKAN_ICD="RADV"
-gamescope --adaptive-sync --hdr-enabled --rt --steam -- \
-    steam -pipewire-dmabuf -tenfoot
-#+end_src
-
-* Display Configuration
-** Kanshi
-
-Get current output information:
-
-#+begin_src sh :results silent verbatim
-swaymsg -t get_outputs
-#+end_src
-
-Display profiles are configured per-host in the home-manager configuration.
 
 * FlakeHub
 
