@@ -18,12 +18,6 @@
     settings.PermitRootLogin = "yes";
   };
 
-  # Cache DNS lookups to improve performance
-  services.resolved = {
-    extraConfig = ''
-      Cache=true
-      CacheFromLocalhost=true
-    '';
-  };
-
+  # systemd-resolved caches DNS lookups by default
+  services.resolved.enable = true;
 }
