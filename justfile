@@ -1,13 +1,16 @@
 default: switch
 
-reload:
-    nh os switch -- --offline
+reload *args:
+    nh os switch --offline {{args}}
 
-switch:
-    nh os switch -- --show-trace
+switch *args:
+    nh os switch {{args}}
 
-build:
-    nh os build -- --show-trace
+build *args:
+    nh os build {{args}}
 
-update:
-    nh os test -- --update --diff always
+update *args:
+    nh os build --update --diff always {{args}}
+
+deploy hostname target *args:
+    nh os switch --hostname {{hostname}} --target-host {{target}} {{args}}
