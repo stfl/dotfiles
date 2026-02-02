@@ -80,6 +80,7 @@
 
         syncthing-pve = lib.nixosSystem {
           inherit system;
+          specialArgs = inputs;
           modules = [
             ./hosts/syncthing-pve
           ];
