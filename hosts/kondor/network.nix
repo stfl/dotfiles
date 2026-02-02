@@ -8,7 +8,7 @@
   networking.useNetworkd = true;
 
   # NOTE optionally increase systemd loglevel for systemd-networkd
-  systemd.services."systemd-networkd".environment.SYSTEMD_LOG_LEVEL = "debug";
+  # systemd.services."systemd-networkd".environment.SYSTEMD_LOG_LEVEL = "debug";
 
   services.connman = {
     enable = true;
