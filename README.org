@@ -311,7 +311,16 @@ determinate-nixd login
 hyprctl monitors all
 #+end_src
 
-* Configure Google Drive token for clone
+* Configure rclone
+
+rclone has many different endpoints it can set up.
+
+I believe, the easiest to set up an endpoint is to run the ~rclone config~ wizard
+and copy the resulting confing including secrets from
+~~/.config/rclone/rclone.conf~ into the nixos module and agenix secrets
+respectivly
+
+** Update Google Drive token
 
 https://rclone.org/drive/
 
