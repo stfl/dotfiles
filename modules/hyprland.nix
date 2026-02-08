@@ -207,35 +207,34 @@ with lib;
         "f[1], gapsout:0, gapsin:0"
       ];
 
-      # Floating window rules
-      windowrulev2 = [
+      windowrule = [
         # Smart gaps / no gaps when "only"
-        "bordersize 0, floating:0, onworkspace:w[tv1]"
-        "rounding 0, floating:0, onworkspace:w[tv1]"
-        "bordersize 0, floating:0, onworkspace:f[1]"
-        "rounding 0, floating:0, onworkspace:f[1]"
+        "match:workspace w[tv1], border_size 0, float off"
+        "match:workspace w[tv1], rounding 0, float off"
+        "match:workspace f[1], border_size 0, float off"
+        "match:workspace f[1], rounding 0, float off"
 
         # Removable media notification
-        "float, title:^(Removable medium is inserted)$"
+        "match:title ^(Removable medium is inserted)$, float on"
 
         # Steam windows (all float except main Steam window)
-        "float, class:^(steam)$"
-        "tile, class:^(steam)$, title:^(Steam)$"  # Main Steam window should be tiled
+        "match:class ^(steam)$, float on"
+        "match:title title:^(Steam)$, tile on"  # Main Steam window should be tiled
 
         # Volume control
-        "float, class:^(Pavucontrol)$"
-        "float, title:^(Volume Control)$"
+        "match:class ^(Pavucontrol)$,    float on"
+        "match:title ^(Volume Control)$, float on"
 
         # VM and remote desktop viewers
-        "float, title:^(VM .+)$"  # Virtual machine windows
-        "float, title:(noVNC)"
-        "float, title:(Proxmox Console)"
+        "match:title ^(VM .+)$,         float on"  # Virtual machine windows
+        "match:title (noVNC),           float on"
+        "match:title (Proxmox Console), float on"
 
         # Bluetooth settings
-        "float, title:^(Bluetooth Devices)$"
+        "match:title ^(Bluetooth Devices)$, float on"
 
         # Calculator
-        "float, class:^(qalculate-gtk)$"
+        "match:class ^(qalculate-gtk)$, float on"
       ];
 
       decoration.rounding = 10;
