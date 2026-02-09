@@ -37,10 +37,12 @@
 
   services.resolved = {
     enable = lib.mkDefault true;
-    fallbackDns = [
-      "1.1.1.1"
-      "8.8.8.8"
-      "2001:4860:4860::8844"
-    ];
+    settings = {
+      Resolve.FallbackDNS = [
+        "1.1.1.1"
+        "8.8.8.8"
+        "2001:4860:4860::8844"
+      ];
+    };
   };
 }
