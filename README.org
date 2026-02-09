@@ -251,15 +251,15 @@ sudo dd if=results/iso/*.iso \
 * Application Setup
 ** TODO Citrix Workspace
 
-Download the corresponding version from https://www.citrix.com/downloads/workspace-app/
-
-Add the file to the nix store:
+identify supported citrix versions
 
 #+begin_src bash
-nix-prefetch-url file://${PWD}/packages/citrix/linuxx64-24.8.0.98.tar.gz
+nix search nixpkgs citrix_workspace --no-pretty
 #+end_src
 
-Afterwards citrix_workspace can be installed.
+Download the Linux Desktop version as tar.gz from https://www.citrix.com/downloads/workspace-app/
+
+update the version in [[file:modules/citrix.nix]]
 
 * FlakeHub
 

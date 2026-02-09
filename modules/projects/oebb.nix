@@ -7,12 +7,13 @@
 }:
 let
   github-host = "digirail.github.com";
-
-  citrix_workspace = pkgs.citrix_workspace_24_08_0.overrideAttrs (_: {
-    src = ../../packages/citrix/linuxx64-24.8.0.98.tar.gz; # Adjust path as needed
-  });
 in
 {
+  imports = [
+    ../citrix.nix
+  ];
+
+
   environment.systemPackages = with pkgs; [
     keepassxc
     # citrix_workspace # FIXME depends on qtwebengine which is flagged as insecure

@@ -37,11 +37,7 @@
   };
 
   nixpkgs = {
-    config = {
-      allowUnfree = true;
-      permittedInsecurePackages = [
-      ];
-    };
+    config.allowUnfree = true;
     overlays = [
       emacs-overlay.overlays.default
     ];
