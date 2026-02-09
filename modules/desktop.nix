@@ -114,7 +114,7 @@ in
       enable = true;
       createDirectories = true;
       extraConfig = {
-        XDG_SCREENSHOTS_DIR = screenshot-dir;
+        SCREENSHOTS = screenshot-dir;
       };
     };
   };
