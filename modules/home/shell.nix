@@ -76,7 +76,12 @@ with lib;
     ignores = [
       "*~"
       "*.swp"
-      "my-patches"
+      ".idea"
+      ".vscode"
+      "__pycache__"
+      "node_modules"
+      ".aider*"
+      ".direnv*"
     ];
     settings = {
       user.name = "Stefan Lendl";
@@ -525,16 +530,20 @@ with lib;
     enable = true;
     settings = {
       date = "relative";
+      sorting.dir-grouping = "first";
       ignore-globs = [
         ".git"
+        ".direnv"
+        "node_modules"
+        "__pycache__"
       ];
-      sorting.dir-grouping = "first";
     };
   };
 
   programs.zoxide = {
     enable = true;
     enableZshIntegration = true;
+    enableFishIntegration = true;
   };
 
   programs.bat = {
