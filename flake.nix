@@ -21,6 +21,11 @@
       inputs.systems.follows = "systems";
     };
     nixarr.url = "github:rasmus-kirk/nixarr";
+    hyprland.url = "github:hyprwm/Hyprland";
+    hyprland-plugins = {
+      url = "github:hyprwm/hyprland-plugins";
+      inputs.hyprland.follows = "hyprland";
+    };
   };
 
   outputs =
@@ -33,6 +38,8 @@
       agenix,
       nixarr,
       nixos-hardware,
+      hyprland,
+      hyprland-plugins,
       ...
     }@inputs:
     let

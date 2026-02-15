@@ -1,4 +1,10 @@
-{ config, lib, pkgs, USER, ... }:
+{
+  lib,
+  pkgs,
+  USER,
+  hyprland,
+  ...
+}:
 with lib;
 
 {
@@ -6,7 +12,13 @@ with lib;
     qalculate-gtk
   ];
 
-  programs.hyprland.enable = true;
+  programs.hyprland = {
+    enable = true;
+
+    # packages from hyprland flake
+    package = hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    portalPackage = hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+  };
 
   home-manager.users.${USER} =
 { config, lib, pkgs, ... }:
