@@ -1,9 +1,11 @@
-{ lib, modulesPath, ... }:
-
 {
-  imports = [ (modulesPath + "/virtualisation/proxmox-lxc.nix") ];
+  lib,
+  modulesPath,
+  ...
+}: {
+  imports = [(modulesPath + "/virtualisation/proxmox-lxc.nix")];
 
-  nix.settings = { sandbox = false; };
+  nix.settings = {sandbox = false;};
 
   proxmoxLXC = {
     manageNetwork = false;

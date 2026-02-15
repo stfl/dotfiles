@@ -3,13 +3,12 @@
   pkgs,
   USER,
   ...
-}:
-{
+}: {
   virtualisation.docker.enable = true;
 
-  environment.systemPackages = with pkgs; [ docker-compose ];
+  environment.systemPackages = with pkgs; [docker-compose];
 
-  users.users.${USER}.extraGroups = [ "docker" ];
+  users.users.${USER}.extraGroups = ["docker"];
 
   assertions = [
     {

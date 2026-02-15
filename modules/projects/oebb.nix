@@ -4,15 +4,12 @@
   pkgs,
   USER,
   ...
-}:
-let
+}: let
   github-host = "digirail.github.com";
-in
-{
+in {
   imports = [
     ../citrix.nix
   ];
-
 
   environment.systemPackages = with pkgs; [
     keepassxc
@@ -21,56 +18,54 @@ in
     cargo-bitbake
   ];
 
-  home-manager.users.${USER} =
-    { config, ... }:
-    {
-      programs.git.settings.alias = {
-        # digirail alias to apply config for individual commands:
-        # `git digirail -- clone git@github.com`
-        #  -> automatically rewrites to a git clone git@digirail.github.com
-        digirail = "!sh -c 'git -c url.git@${github-host}:.insteadOf=git@github.com: -c url.git@${github-host}:.pushInsteadOf=git@github.com: \"$@\"'";
-      };
+  home-manager.users.${USER} = {config, ...}: {
+    programs.git.settings.alias = {
+      # digirail alias to apply config for individual commands:
+      # `git digirail -- clone git@github.com`
+      #  -> automatically rewrites to a git clone git@digirail.github.com
+      digirail = "!sh -c 'git -c url.git@${github-host}:.insteadOf=git@github.com: -c url.git@${github-host}:.pushInsteadOf=git@github.com: \"$@\"'";
+    };
 
-      programs.git.includes = [
-        {
-          condition = "gitdir:${config.home.homeDirectory}/work/oebb/";
-          contents = {
-            user.email = "stefan-digirailbox@stfl.dev";
-            url."git@${github-host}:" = {
-              insteadOf = "git@github.com:";
-              pushInsteadOf = "git@github.com:";
-            };
-            github.user = "stefan-digirailbox";
+    programs.git.includes = [
+      {
+        condition = "gitdir:${config.home.homeDirectory}/work/oebb/";
+        contents = {
+          user.email = "stefan-digirailbox@stfl.dev";
+          url."git@${github-host}:" = {
+            insteadOf = "git@github.com:";
+            pushInsteadOf = "git@github.com:";
           };
-        }
-      ];
-
-      programs.ssh.matchBlocks."${github-host}" = {
-        hostname = "github.com";
-        user = "git";
-        identityFile = [ "~/.ssh/id_ed25519_oebb" ];
-        identitiesOnly = true;
-      };
-
-      programs.ssh.matchBlocks = {
-        "drb-dev digirail-home2 drb-home2" = {
-          hostname = "192.168.1.90";
-          user = "root";
-          identityFile = [ "~/.ssh/id_ed25519_oebb" ];
-          checkHostIP = false;
-          port = 13048;
-          extraOptions = {
-            StrictHostKeyChecking = "no";
-            UserKnownHostsFile = "/dev/null";
-          };
-          setEnv = {
-            TERM = "xterm";
-          };
+          github.user = "stefan-digirailbox";
         };
-        "b2btest.oebb.at" = {
-          user = "DigiRailBox";
-          identityFile = [ "~/.ssh/id_ed25519_sterling" ];
+      }
+    ];
+
+    programs.ssh.matchBlocks."${github-host}" = {
+      hostname = "github.com";
+      user = "git";
+      identityFile = ["~/.ssh/id_ed25519_oebb"];
+      identitiesOnly = true;
+    };
+
+    programs.ssh.matchBlocks = {
+      "drb-dev digirail-home2 drb-home2" = {
+        hostname = "192.168.1.90";
+        user = "root";
+        identityFile = ["~/.ssh/id_ed25519_oebb"];
+        checkHostIP = false;
+        port = 13048;
+        extraOptions = {
+          StrictHostKeyChecking = "no";
+          UserKnownHostsFile = "/dev/null";
         };
+        setEnv = {
+          TERM = "xterm";
+        };
+      };
+      "b2btest.oebb.at" = {
+        user = "DigiRailBox";
+        identityFile = ["~/.ssh/id_ed25519_sterling"];
       };
     };
+  };
 }

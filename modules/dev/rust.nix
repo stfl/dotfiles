@@ -4,9 +4,8 @@
     fenix,
     USER,
     ...
-  }:
-  {
-    nixpkgs.overlays = [ fenix.overlays.default ];
+  }: {
+    nixpkgs.overlays = [fenix.overlays.default];
     environment.systemPackages = with pkgs; [
       (pkgs.fenix.complete.withComponents [
         "cargo"

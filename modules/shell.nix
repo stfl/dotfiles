@@ -1,8 +1,4 @@
-{
-  pkgs,
-  ...
-}:
-{
+{pkgs, ...}: {
   # System-level shell packages and configuration
   environment.systemPackages = with pkgs; [
     wget

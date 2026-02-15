@@ -2,8 +2,7 @@
   config,
   USER,
   ...
-}:
-{
+}: {
   imports = [
     ../agenix.nix
   ];
@@ -16,21 +15,19 @@
     symlink = false;
   };
 
-  home-manager.users.${USER} =
-    {
-      pkgs,
-      config,
-      ...
-    }:
-    {
-      programs.git.includes = [
-        {
-          condition = "gitdir:${config.home.homeDirectory}/work/3datax/";
-          contents = {
-            init.defaultBranch = "master";
-            user.email = "stefan.lendl@3datax.com";
-          };
-        }
-      ];
-    };
+  home-manager.users.${USER} = {
+    pkgs,
+    config,
+    ...
+  }: {
+    programs.git.includes = [
+      {
+        condition = "gitdir:${config.home.homeDirectory}/work/3datax/";
+        contents = {
+          init.defaultBranch = "master";
+          user.email = "stefan.lendl@3datax.com";
+        };
+      }
+    ];
+  };
 }

@@ -2,14 +2,13 @@
   lib,
   USER,
   ...
-}:
-{
+}: {
   # Disable wireless support via wpa_supplicant. (not compatible with NetworkManager)
   networking.wireless.enable = lib.mkForce false;
 
   networking.networkmanager.enable = true;
 
-  users.users.${USER}.extraGroups = [ "networkmanager" ];
+  users.users.${USER}.extraGroups = ["networkmanager"];
 
   home-manager.users.${USER} = {
     services.network-manager-applet.enable = true;

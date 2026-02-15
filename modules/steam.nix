@@ -2,8 +2,7 @@
   pkgs,
   USER,
   ...
-}:
-{
+}: {
   programs = {
     gamescope = {
       enable = true;
@@ -60,7 +59,7 @@
     };
   };
 
-  users.users.${USER}.extraGroups = [ "gamemode" ];
+  users.users.${USER}.extraGroups = ["gamemode"];
 
   home-manager.users.${USER} = {
     programs.mangohud.enable = true;

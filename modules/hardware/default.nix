@@ -3,8 +3,7 @@
   lib,
   pkgs,
   ...
-}:
-{
+}: {
   environment.systemPackages = with pkgs; [
     dmidecode
     lm_sensors

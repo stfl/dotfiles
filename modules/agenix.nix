@@ -2,8 +2,7 @@
   agenix,
   pkgs,
   ...
-}:
-{
+}: {
   imports = [
     agenix.nixosModules.default
   ];

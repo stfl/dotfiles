@@ -3,8 +3,7 @@
   modulesPath,
   nixos-hardware,
   ...
-}:
-{
+}: {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
     nixos-hardware.nixosModules.common-hidpi
@@ -16,13 +15,12 @@
     ../../modules/hardware/zfs.nix
 
     (
-      { pkgs, ... }:
-      {
+      {pkgs, ...}: {
         # LACT - Linux AMDGPU Controller
         # This application allows you to overclock, undervolt, set fans curves of AMD GPUs on a Linux system.
-        environment.systemPackages = with pkgs; [ lact ];
-        systemd.packages = with pkgs; [ lact ];
-        systemd.services.lactd.wantedBy = [ "multi-user.target" ];
+        environment.systemPackages = with pkgs; [lact];
+        systemd.packages = with pkgs; [lact];
+        systemd.services.lactd.wantedBy = ["multi-user.target"];
       }
     )
 
@@ -98,13 +96,13 @@
       "sd_mod"
       "sr_mod"
     ];
-    initrd.kernelModules = [ ];
+    initrd.kernelModules = [];
 
     kernelModules = [
       "btintel" # Bluetooth driver for Intel AX200 802.11ax
     ];
 
-    kernelParams = [ "zfs.zfs_arc_max=17179869184" ]; # 16GiB ARC
+    kernelParams = ["zfs.zfs_arc_max=17179869184"]; # 16GiB ARC
 
     loader = {
       systemd-boot = {
@@ -122,7 +120,7 @@
   hardware.logitech.wireless.enable = true;
   hardware.enableAllFirmware = true;
 
-  hardware.graphics.extraPackages = with pkgs; [ libva-vdpau-driver ];
+  hardware.graphics.extraPackages = with pkgs; [libva-vdpau-driver];
   hardware.amdgpu.opencl.enable = true;
 
   # disable XHC0 wakeup to prevent accidental wakeups from suspend from USB devices

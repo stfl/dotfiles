@@ -1,12 +1,15 @@
-{pkgs, USER, ...}:
 {
+  pkgs,
+  USER,
+  ...
+}: {
   imports = [
     ./nix.nix
     ./shell.nix
     ./autosuspend.nix
   ];
 
-  nix.settings.trusted-users = [ USER ];
+  nix.settings.trusted-users = [USER];
 
   # https://fzakaria.com/2025/02/26/nix-pragmatism-nix-ld-and-envfs
   programs.nix-ld = {

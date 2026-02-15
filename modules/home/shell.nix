@@ -4,8 +4,7 @@
   config,
   ...
 }:
-with lib;
-{
+with lib; {
   home.sessionVariables = {
     PAGER = "less -FR --mouse";
   };
@@ -150,7 +149,7 @@ with lib;
       };
       "github.com" = {
         user = "git";
-        identityFile = [ "${config.home.homeDirectory}/.ssh/id_ed25519_stfl" ];
+        identityFile = ["${config.home.homeDirectory}/.ssh/id_ed25519_stfl"];
         identitiesOnly = true;
       };
     };
@@ -167,7 +166,7 @@ with lib;
     onChange = ''cat ~/.ssh/config.ln > ~/.ssh/config && chmod 600 ~/.ssh/config'';
   };
 
-  home.activation.createSshConfigExtraDir = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+  home.activation.createSshConfigExtraDir = lib.hm.dag.entryAfter ["writeBoundary"] ''
     run mkdir -p ${config.home.homeDirectory}/.ssh/config-extra.d/
   '';
 
@@ -255,7 +254,7 @@ with lib;
     autosuggestion = {
       enable = true;
       highlight = "fg=#78888a";
-      strategy = [ "history" ];
+      strategy = ["history"];
     };
     defaultKeymap = "viins";
     dotDir = "${config.xdg.configHome}/zsh";
@@ -514,10 +513,10 @@ with lib;
     enableBashIntegration = true;
     enableZshIntegration = true;
     changeDirWidgetCommand = "fd --type d"; # ALT-C
-    changeDirWidgetOptions = [ "--preview 'tree -C {} | head -200'" ];
+    changeDirWidgetOptions = ["--preview 'tree -C {} | head -200'"];
     defaultCommand = "fd --type f";
     fileWidgetCommand = "fd --type f"; # CTRL-T
-    fileWidgetOptions = [ "--preview 'head {}'" ];
+    fileWidgetOptions = ["--preview 'head {}'"];
     tmux.enableShellIntegration = false;
   };
 

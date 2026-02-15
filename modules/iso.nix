@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   # SSH configuration
   services.openssh = {
     enable = true;
@@ -8,7 +7,7 @@
       PasswordAuthentication = true;
     };
   };
-  systemd.services.sshd.wantedBy = pkgs.lib.mkForce [ "multi-user.target" ];
+  systemd.services.sshd.wantedBy = pkgs.lib.mkForce ["multi-user.target"];
   # networking.firewall.allowedTCPPorts = [];
 
   # users.users.root.initialPassword = "nixos";

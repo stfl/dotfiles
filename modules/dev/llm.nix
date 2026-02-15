@@ -4,9 +4,7 @@
   pkgs,
   USER,
   ...
-}:
-
-{
+}: {
   home-manager.users.${USER} = {
     programs.claude-code = {
       enable = true;

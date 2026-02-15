@@ -8,8 +8,7 @@
   modulesPath,
   nixos-hardware,
   ...
-}:
-{
+}: {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
     nixos-hardware.nixosModules.lenovo-thinkpad-t490
@@ -30,7 +29,7 @@
   };
 
   # SWAP is already in the LUKS encrypted partition
-  swapDevices = [ { device = "/dev/disk/by-label/SWAP"; } ];
+  swapDevices = [{device = "/dev/disk/by-label/SWAP";}];
 
   boot = {
     initrd = {
@@ -48,11 +47,11 @@
       luks.devices."encrypted".device = "/dev/disk/by-label/LUKS";
     };
 
-    kernelModules = [ "kvm-intel" ];
-    extraModulePackages = [ ];
+    kernelModules = ["kvm-intel"];
+    extraModulePackages = [];
 
     # Disable Intel GPU mitigations
-    kernelParams = [ "i915.mitigations=off" ];
+    kernelParams = ["i915.mitigations=off"];
 
     resumeDevice = "/dev/disk/by-label/SWAP";
 

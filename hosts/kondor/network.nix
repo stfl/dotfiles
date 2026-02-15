@@ -3,8 +3,7 @@
   lib,
   pkgs,
   ...
-}:
-{
+}: {
   networking.useNetworkd = true;
 
   # NOTE optionally increase systemd loglevel for systemd-networkd
@@ -19,7 +18,7 @@
   };
 
   environment.systemPackages = with pkgs; [
-    cmst  # connman GUI and system tray
+    cmst # connman GUI and system tray
   ];
 
   systemd.network = {

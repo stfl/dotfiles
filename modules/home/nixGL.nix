@@ -5,8 +5,8 @@
 }:
 # Wrap a single package
 pkg:
-if config.nixGLPrefix == "" then
-  pkg
+if config.nixGLPrefix == ""
+then pkg
 else
   # Wrap the package's binaries with nixGL, while preserving the rest of
   # the outputs and derivation attributes.
@@ -23,7 +23,7 @@ else
             set -x
             cp -rs --no-preserve=mode "${pkg.${outputName}}" "''$${outputName}"
             set +x
-          '') (old.outputs or [ "out" ])
+          '') (old.outputs or ["out"])
         )
       }
 

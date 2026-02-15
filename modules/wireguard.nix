@@ -2,8 +2,7 @@
   config,
   lib,
   ...
-}:
-{
+}: {
   boot.kernelModules = ["wireguard"];
 
   # networking.firewall.checkReversePath = lib.mkDefault "loose";

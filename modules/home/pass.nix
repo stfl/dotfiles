@@ -3,8 +3,7 @@
   lib,
   pkgs,
   ...
-}:
-let
+}: let
   pass-pkg = pkgs.pass-wayland.withExtensions (ext: [
     ext.pass-otp
   ]);
@@ -33,8 +32,7 @@ let
       fi
     '';
   };
-in
-rec {
+in rec {
   home.packages = with pkgs; [
     wofi-pass
     sequoia-sq

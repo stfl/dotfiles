@@ -3,8 +3,7 @@
   home-manager,
   USER,
   ...
-}:
-{
+}: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -123,7 +122,7 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.05"; # Did you read the comment?
 
-  home-manager.users.${USER}.imports = [ ./home.nix ];
+  home-manager.users.${USER}.imports = [./home.nix];
 
   services.syncthing = {
     enable = true;

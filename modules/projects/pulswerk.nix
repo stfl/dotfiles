@@ -3,8 +3,7 @@
   pkgs,
   USER,
   ...
-}:
-{
+}: {
   imports = [
     ../wireguard.nix
     ../agenix.nix
@@ -22,7 +21,6 @@
   #     dokku.pulswerk.local
 
   # NOTE Access gebaut morphdock staging via http://gebaut.pulswerk.local:8881/anmelden.htm
-
 
   age.secrets.wg-pulswerk-private = {
     file = ../../secrets/wg-pulswerk-private.age;
@@ -69,8 +67,8 @@
     };
     networks."90-pulswerk" = {
       matchConfig.Name = "pulswerk0";
-      address = [ "192.168.25.3/32" ];
-      routes = [{ Destination = "192.168.22.0/24"; }];
+      address = ["192.168.25.3/32"];
+      routes = [{Destination = "192.168.22.0/24";}];
       DHCP = "no";
       dns = ["192.168.22.13"];
       domains = ["~pulswerk.local"];
@@ -104,8 +102,8 @@
     };
     networks."90-hei" = {
       matchConfig.Name = "hei0";
-      address = [ "192.168.41.11/32" ];
-      routes = [{ Destination = "192.168.40.0/24"; }];
+      address = ["192.168.41.11/32"];
+      routes = [{Destination = "192.168.40.0/24";}];
       DHCP = "no";
       dns = ["192.168.40.3"];
       domains = ["~hei.local"];

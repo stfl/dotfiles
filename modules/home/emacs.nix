@@ -4,11 +4,9 @@
   pkgs,
   ...
 }:
-with lib;
-let
+with lib; let
   emacs-pkg = pkgs.emacs-pgtk;
-in
-{
+in {
   home.sessionVariables = {
     EDITOR = "${emacs-pkg}/bin/emacsclient";
   };
@@ -49,8 +47,8 @@ in
   programs.emacs = {
     enable = true;
     package = emacs-pkg;
-    extraPackages =
-      epkgs: with epkgs; [
+    extraPackages = epkgs:
+      with epkgs; [
         treesit-grammars.with-all-grammars
         vterm
         pdf-tools
@@ -85,7 +83,7 @@ in
         interval = 600; # 10min
         path = "${config.home.homeDirectory}/.org";
         uri = "git@github.com:stfl/org.git";
-        extraPackages = with pkgs; [ git-lfs ];
+        extraPackages = with pkgs; [git-lfs];
       };
       doomemacs = {
         interval = 600;
@@ -96,10 +94,10 @@ in
   };
 
   systemd.user.services.git-sync-org = {
-    Unit.Requires = [ "ssh-agent.service" ];
-    Install.WantedBy = mkForce [ config.wayland.systemd.target ];
+    Unit.Requires = ["ssh-agent.service"];
+    Install.WantedBy = mkForce [config.wayland.systemd.target];
     Service = {
-      Environment = [ "SSH_AUTH_SOCK=/run/user/1000/ssh-agent" ];
+      Environment = ["SSH_AUTH_SOCK=/run/user/1000/ssh-agent"];
       WorkingDirectory = "${config.home.homeDirectory}/.org";
       ExecStartPre = "${pkgs.git-sync}/bin/git-sync -n -s";
       Restart = mkForce "on-failure";
@@ -107,8 +105,8 @@ in
   };
 
   systemd.user.services.git-sync-org-resume = {
-    Unit.After = [ "suspend.target" ];
-    Install.WantedBy = [ "suspend.target" ];
+    Unit.After = ["suspend.target"];
+    Install.WantedBy = ["suspend.target"];
     Service = {
       Type = "simple";
       ExecStart = "${pkgs.systemd}/bin/systemctl --user --no-block restart git-sync-org.service";
@@ -116,10 +114,10 @@ in
   };
 
   systemd.user.services.git-sync-doomemacs = {
-    Unit.Requires = [ "ssh-agent.service" ];
-    Install.WantedBy = mkForce [ config.wayland.systemd.target ];
+    Unit.Requires = ["ssh-agent.service"];
+    Install.WantedBy = mkForce [config.wayland.systemd.target];
     Service = {
-      Environment = [ "SSH_AUTH_SOCK=/run/user/1000/ssh-agent" ];
+      Environment = ["SSH_AUTH_SOCK=/run/user/1000/ssh-agent"];
       WorkingDirectory = "${config.xdg.configHome}/doom";
       ExecStartPre = "${pkgs.git-sync}/bin/git-sync -n -s";
       Restart = mkForce "on-failure";
@@ -127,8 +125,8 @@ in
   };
 
   systemd.user.services.git-sync-doomemacs-resume = {
-    Unit.After = [ "suspend.target" ];
-    Install.WantedBy = [ "suspend.target" ];
+    Unit.After = ["suspend.target"];
+    Install.WantedBy = ["suspend.target"];
     Service = {
       Type = "simple";
       ExecStart = "${pkgs.systemd}/bin/systemctl --user --no-block restart git-sync-doomemacs.service";

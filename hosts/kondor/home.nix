@@ -1,18 +1,15 @@
 {
-  config,
   lib,
   pkgs,
   ...
 }:
-with lib;
-let
+with lib; let
   # main_out = "HannStar Display Corp HC284UFB";
   main_out = "Samsung Electronic Complany Odyssey G91F";
   # beamer = "Sanyo Electric Co.,Ltd. SANYO Z3000";
   beamer = "Sanyo Electric Co.Ltd. SANYO Z3000";
   receiver = "Yamaha Corporation RX-V4A";
-in
-{
+in {
   imports = [
     ../../modules/home/shell.nix
     ../../modules/home/emacs.nix

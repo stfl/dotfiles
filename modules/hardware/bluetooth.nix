@@ -2,8 +2,7 @@
   lib,
   USER,
   ...
-}:
-{
+}: {
   hardware.bluetooth = {
     enable = lib.mkDefault true;
     # hsphfpd.enable = lib.mkDefault true;  # NOTE conficts with wireplumber

@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   imports = [
     ../../modules/nix.nix
     ../../modules/hardware/pvect.nix
@@ -14,7 +13,7 @@
   system.stateVersion = "25.11";
 
   # allow Syncthing GUI port through the firewall
-  networking.firewall.allowedTCPPorts = [ 8384 ];
+  networking.firewall.allowedTCPPorts = [8384];
 
   # Syncthing service
   services.syncthing = {
@@ -48,7 +47,7 @@
       folders = {
         "~/Documents" = {
           id = "ckwep-imxta";
-          devices = [ "pixel10" "kondor" "oneplus7t" "pirol" ];
+          devices = ["pixel10" "kondor" "oneplus7t" "pirol"];
           versioning = {
             type = "trashcan";
             params.cleanoutDays = "90";
@@ -57,7 +56,7 @@
 
         "~/Music" = {
           id = "aahjv-7rmpa";
-          devices = [ "kondor" "pirol" ];
+          devices = ["kondor" "pirol"];
           versioning = {
             type = "trashcan";
             params.cleanoutDays = "90";
@@ -66,7 +65,7 @@
 
         "~/.mixxx" = {
           id = "xcelj-ssdit";
-          devices = [ "kondor" "pirol" ];
+          devices = ["kondor" "pirol"];
           versioning = {
             type = "trashcan";
             params.cleanoutDays = "90";
@@ -75,7 +74,7 @@
 
         "~/Recordings" = {
           id = "8zdv2-vwwhz";
-          devices = [ "kondor" "oneplus7t" ];
+          devices = ["kondor" "oneplus7t"];
           versioning = {
             type = "trashcan";
             params.cleanoutDays = "90";
@@ -84,7 +83,7 @@
 
         "~/Books" = {
           id = "l2sv1-o797j";
-          devices = [ "pixel10" "kondor" "oneplus7t" ];
+          devices = ["pixel10" "kondor" "oneplus7t"];
           versioning = {
             type = "trashcan";
             params.cleanoutDays = "90";

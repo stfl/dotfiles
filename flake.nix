@@ -28,79 +28,80 @@
     };
   };
 
-  outputs =
-    {
-      nixpkgs,
-      home-manager,
-      determinate,
-      emacs-overlay,
-      fenix,
-      agenix,
-      nixarr,
-      nixos-hardware,
-      hyprland,
-      hyprland-plugins,
-      ...
-    }@inputs:
-    let
-      lib = nixpkgs.lib;
-      system = "x86_64-linux";
-      USER = "stefan";
-    in
-    rec {
-      iso = nixosConfigurations.iso.config.system.build.isoImage;
+  outputs = {
+    nixpkgs,
+    home-manager,
+    determinate,
+    emacs-overlay,
+    fenix,
+    agenix,
+    nixarr,
+    nixos-hardware,
+    hyprland,
+    hyprland-plugins,
+    ...
+  } @ inputs: let
+    lib = nixpkgs.lib;
+    system = "x86_64-linux";
+    USER = "stefan";
+  in rec {
+    iso = nixosConfigurations.iso.config.system.build.isoImage;
 
-      # defaultPackage.x86_64-linux = home-manager.defaultPackage.x86_64-linux;
-      packages.${system}.default = fenix.packages.${system}.default.toolchain;
-      formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt-tree;
-      homeConfigurations = { };
+    # defaultPackage.x86_64-linux = home-manager.defaultPackage.x86_64-linux;
+    packages.${system}.default = fenix.packages.${system}.default.toolchain;
+    formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt-tree;
+    homeConfigurations = {};
 
-      nixosConfigurations = {
-        iso = lib.nixosSystem {
-          inherit system;
-          specialArgs = inputs;
-          modules = [
-            "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
-            ./modules/iso.nix
-          ];
-        };
+    nixosConfigurations = {
+      iso = lib.nixosSystem {
+        inherit system;
+        specialArgs = inputs;
+        modules = [
+          "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
+          ./modules/iso.nix
+        ];
+      };
 
-        kondor = lib.nixosSystem {
-          inherit system;
-          specialArgs = inputs // {
+      kondor = lib.nixosSystem {
+        inherit system;
+        specialArgs =
+          inputs
+          // {
             inherit USER;
           };
-          modules = [
-            ./hosts/kondor
-          ];
-        };
+        modules = [
+          ./hosts/kondor
+        ];
+      };
 
-        pirol = lib.nixosSystem {
-          inherit system;
-          specialArgs = inputs // {
+      pirol = lib.nixosSystem {
+        inherit system;
+        specialArgs =
+          inputs
+          // {
             inherit USER;
           };
-          modules = [
-            ./hosts/pirol
-          ];
-        };
+        modules = [
+          ./hosts/pirol
+        ];
+      };
 
-        syncthing-pve = lib.nixosSystem {
-          inherit system;
-          specialArgs = inputs;
-          modules = [
-            ./hosts/syncthing-pve
-          ];
-        };
+      syncthing-pve = lib.nixosSystem {
+        inherit system;
+        specialArgs = inputs;
+        modules = [
+          ./hosts/syncthing-pve
+        ];
+      };
 
-        servarr-pve = lib.nixosSystem {
-          inherit system;
-          specialArgs = inputs;
-          modules = [
-            nixarr.nixosModules.default
-            ./hosts/servarr-pve
-          ];
-        };
+      servarr-pve = lib.nixosSystem {
+        inherit system;
+        specialArgs = inputs;
+        modules = [
+          nixarr.nixosModules.default
+          ./hosts/servarr-pve
+        ];
       };
     };
+  };
 }
