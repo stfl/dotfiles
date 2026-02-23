@@ -1,0 +1,45 @@
+#+title: base OS for *claw, n8n and auxiliary
+#+PROPERTY: header-args:bash :noeval
+
+* Generate an inital VM disk
+
+#+begin_src bash
+nixos-rebuild build-image --image-variant proxmox --flake '.#claw-pve'
+#+end_src
+
+#+begin_quote
+Done. The disk image can be found in /nix/store/sz99pg8rwkr1dp0vyx63cf7j6gyxa03z-proxmox-claw/vzdump-qemu-claw.vma.zst
+#+end_quote
+
+#+begin_src bash
+scp result/vzdump-qemu*.vma.zst root@kauz.stfl.home:/var/lib/vz/dump
+#+end_src
+
+checking if the file is detected as a backup on the proxmox host
+
+#+begin_quote
+root@kauz:~# pvesm list local
+Volid                                                                 Format  Type            Size VMID
+...
+local:backup/vzdump-qemu-claw.vma.zst                                 vma.zst backup     573215689
+#+end_quote
+
+Restore the built image to a new Proxmox VM
+
+#+begin_src bash
+qmrestore local:backup/vzdump-qemu-claw.vma.zst 110
+#+end_src
+
+* Configure static DHCP entry via pfSense
+
+configure static DHCP via pfSense which registers the DNS entry as well
+
+* Update
+
+#+begin_src bash
+nixos-rebuild \
+    --target-host claw.stfl.home \
+    --sudo \
+    switch \
+    --flake ".#claw-pve"
+#+end_src

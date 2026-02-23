@@ -50,7 +50,6 @@
 
     rustdesk-flutter
     act
-    copyparty
 
     eddie
   ];

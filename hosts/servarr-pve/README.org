@@ -1,0 +1,13 @@
+#+title: servarr stack as a PVE container
+
+- [X] setup CT (privileged)
+- [X] pfSense static DHCP lease
+- [ ]
+
+- [X] configure jellyfin dataset with 8k recordsize
+  https://jellyfin.org/docs/general/administration/storage#zfs
+
+#+begin_src bash
+zfs set recordsize=8k rpool/data/subvol-101-disk-0
+zfs get recordsize rpool/data/subvol-101-disk-0
+#+end_src

@@ -47,7 +47,6 @@
   in rec {
     iso = nixosConfigurations.iso.config.system.build.isoImage;
 
-    # defaultPackage.x86_64-linux = home-manager.defaultPackage.x86_64-linux;
     packages.${system}.default = fenix.packages.${system}.default.toolchain;
     formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt-tree;
     homeConfigurations = {};
@@ -64,34 +63,20 @@
 
       kondor = lib.nixosSystem {
         inherit system;
-        specialArgs =
-          inputs
-          // {
-            inherit USER;
-          };
-        modules = [
-          ./hosts/kondor
-        ];
+        specialArgs = inputs // {inherit USER;};
+        modules = [./hosts/kondor];
       };
 
       pirol = lib.nixosSystem {
         inherit system;
-        specialArgs =
-          inputs
-          // {
-            inherit USER;
-          };
-        modules = [
-          ./hosts/pirol
-        ];
+        specialArgs = inputs // {inherit USER;};
+        modules = [./hosts/pirol];
       };
 
       syncthing-pve = lib.nixosSystem {
         inherit system;
         specialArgs = inputs;
-        modules = [
-          ./hosts/syncthing-pve
-        ];
+        modules = [./hosts/syncthing-pve];
       };
 
       servarr-pve = lib.nixosSystem {
@@ -101,6 +86,12 @@
           nixarr.nixosModules.default
           ./hosts/servarr-pve
         ];
+      };
+
+      claw-pve = lib.nixosSystem {
+        inherit system;
+        specialArgs = inputs // {inherit USER;};
+        modules = [./hosts/claw-pve];
       };
     };
   };
