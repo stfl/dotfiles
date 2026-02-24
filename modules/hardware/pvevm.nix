@@ -37,9 +37,12 @@
 
   # Essential Packages
   environment.systemPackages = with pkgs; [
+    cloud-utils # for growpart, ...
+    parted
+
     vim # for emergencies
     git # for pulling Nix flakes
-    cloud-utils # for growpart, ...
+    bottom
   ];
 
   # Adding a User and SSH Key

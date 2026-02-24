@@ -30,6 +30,14 @@ Restore the built image to a new Proxmox VM
 qmrestore local:backup/vzdump-qemu-claw.vma.zst 110
 #+end_src
 
+* Add a separate VM disk for data
+
+#+begin_src bash
+sudo parted /dev/sda mklabel gpt
+sudo parted /dev/sda mkpart primary ext4 0% 100%
+sudo mkfs.ext4 -L data /dev/sda1
+#+end_src
+
 * Configure static DHCP entry via pfSense
 
 configure static DHCP via pfSense which registers the DNS entry as well
