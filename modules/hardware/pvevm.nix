@@ -21,6 +21,8 @@
     };
   };
 
+  boot.growPartition = true;
+
   fileSystems."/" = {
     device = "/dev/disk/by-label/nixos";
     autoResize = true;
@@ -37,6 +39,7 @@
   environment.systemPackages = with pkgs; [
     vim # for emergencies
     git # for pulling Nix flakes
+    cloud-utils # for growpart, ...
   ];
 
   # Adding a User and SSH Key

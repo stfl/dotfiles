@@ -1,6 +1,7 @@
 {
   determinate,
   emacs-overlay,
+  llm-agents,
   ...
 }: {
   imports = [
@@ -46,6 +47,7 @@
     config.allowUnfree = true;
     overlays = [
       emacs-overlay.overlays.default
+      llm-agents.overlays.default
     ];
   };
 }
