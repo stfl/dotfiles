@@ -35,7 +35,7 @@ nvd diff /nix/var/nix/profiles/system result
 
 ### Format Nix files
 ```bash
-nix fmt                        # Uses nixfmt-tree (defined in flake.nix)
+alejandra .                    # ALWAYS use alejandra, NEVER use nixfmt
 ```
 
 ### Validate configuration changes
@@ -55,7 +55,7 @@ sudo dd if=results/iso/*.iso of=/dev/sda bs=4M status=progress && sync
 ```bash
 nixos-rebuild \
     --target-host user@hostname \
-    --use-remote-sudo \
+    --sudo \
     switch \
     --flake ".#hostname"
 ```

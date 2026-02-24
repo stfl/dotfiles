@@ -27,6 +27,10 @@
       inputs.hyprland.follows = "hyprland";
     };
     llm-agents.url = "github:numtide/llm-agents.nix";
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -41,6 +45,7 @@
     hyprland,
     hyprland-plugins,
     llm-agents,
+    disko,
     ...
   } @ inputs: let
     lib = nixpkgs.lib;
@@ -93,6 +98,12 @@
         inherit system;
         specialArgs = inputs // {inherit USER;};
         modules = [./hosts/claw-pve];
+      };
+
+      opencloud-pve = lib.nixosSystem {
+        inherit system;
+        specialArgs = inputs // {inherit USER;};
+        modules = [./hosts/opencloud-pve];
       };
     };
   };
