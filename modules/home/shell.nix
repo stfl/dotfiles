@@ -163,7 +163,7 @@ with lib; {
   # workaround to have a full copy of the config
   home.file.".ssh/config" = {
     target = ".ssh/config.ln";
-    onChange = ''cat ~/.ssh/config.ln > ~/.ssh/config && chmod 600 ~/.ssh/config'';
+    onChange = "cat ~/.ssh/config.ln > ~/.ssh/config && chmod 600 ~/.ssh/config";
   };
 
   home.activation.createSshConfigExtraDir = lib.hm.dag.entryAfter ["writeBoundary"] ''
