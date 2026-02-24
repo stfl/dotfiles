@@ -26,6 +26,7 @@
       url = "github:hyprwm/hyprland-plugins";
       inputs.hyprland.follows = "hyprland";
     };
+    llm-agents.url = "github:numtide/llm-agents.nix";
   };
 
   outputs = {
@@ -39,6 +40,7 @@
     nixos-hardware,
     hyprland,
     hyprland-plugins,
+    llm-agents,
     ...
   } @ inputs: let
     lib = nixpkgs.lib;
