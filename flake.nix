@@ -50,7 +50,6 @@
     iso = nixosConfigurations.iso.config.system.build.isoImage;
 
     packages.${system}.default = fenix.packages.${system}.default.toolchain;
-    formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt-tree;
     homeConfigurations = {};
 
     nixosConfigurations = {
