@@ -29,11 +29,6 @@
   # QEMU guest
   services.qemuGuest.enable = true;
 
-  systemd.tmpfiles.rules = [
-    "d /data/opencloud 0750 opencloud opencloud -"
-    "d /data/cool 0750 cool cool -"
-  ];
-
   # User
   security.sudo.wheelNeedsPassword = false;
   services.openssh = {
@@ -58,7 +53,7 @@
   ];
 
   # Firewall
-  networking.firewall.allowedTCPPorts = [80 443];
+  networking.firewall.allowedTCPPorts = [443];
 
   # ── Self-signed TLS ──────────────────────────────────────────────────
   systemd.services.nginx-self-signed-cert = {
@@ -117,6 +112,9 @@
     enable = true;
     url = "https://opencloud.${config.networking.domain}";
     stateDir = "/data/opencloud";
+    environment = {
+      PROXY_TLS = "false";
+    };
     settings = {
       COLLABORATION_APP_WOPIAPP_PROXY_URL = "https://office.${config.networking.domain}";
     };
@@ -126,9 +124,13 @@
   services.collabora-online = {
     enable = true;
     settings = {
-      ssl = {
-        enable = false; # TLS terminated at nginx
-      };
+      ssl.enable = false; # TLS terminated at nginx
     };
   };
+
+  # ── Persistent Data Directories ────────────────────────────────────
+  systemd.tmpfiles.rules = [
+    "d /data/opencloud 0750 opencloud opencloud -"
+    "d /data/cool 0750 cool cool -"
+  ];
 }
