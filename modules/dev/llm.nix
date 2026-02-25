@@ -7,11 +7,12 @@
 }: {
   home-manager.users.${USER} = {
     programs.claude-code = {
+      package = pkgs.llm-agents.claude-code;
       enable = true;
     };
     home.packages = with pkgs; [
-      claude-code-router
-      copilot-language-server
+      llm-agents.copilot-language-server
+      llm-agents.gemini-cli
       nodejs
     ];
 
