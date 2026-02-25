@@ -93,6 +93,34 @@
         proxyPass = "http://127.0.0.1:9200";
         proxyWebsockets = true;
       };
+      locations."/caldav/" = {
+        proxyPass = "http://127.0.0.1:5232";
+        extraConfig = ''
+          proxy_set_header X-Remote-User $remote_user;
+          proxy_set_header X-Script-Name /caldav;
+        '';
+      };
+      locations."/.well-known/caldav" = {
+        proxyPass = "http://127.0.0.1:5232";
+        extraConfig = ''
+          proxy_set_header X-Remote-User $remote_user;
+          proxy_set_header X-Script-Name /caldav;
+        '';
+      };
+      locations."/carddav/" = {
+        proxyPass = "http://127.0.0.1:5232";
+        extraConfig = ''
+          proxy_set_header X-Remote-User $remote_user;
+          proxy_set_header X-Script-Name /carddav;
+        '';
+      };
+      locations."/.well-known/carddav/" = {
+        proxyPass = "http://127.0.0.1:5232";
+        extraConfig = ''
+          proxy_set_header X-Remote-User $remote_user;
+          proxy_set_header X-Script-Name /carddav;
+        '';
+      };
     };
 
     # Collabora Online
@@ -114,6 +142,8 @@
     stateDir = "/data/opencloud";
     environment = {
       PROXY_TLS = "false";
+      COLLABORA_DOMAIN = "office.${config.networking.domain}";
+      WOPISERVER_DOMAIN = "wopiserver.${config.networking.domain}";
     };
     settings = {
       COLLABORATION_APP_WOPIAPP_PROXY_URL = "https://office.${config.networking.domain}";
@@ -128,9 +158,21 @@
     };
   };
 
+  # ── Radicale (CalDAV/CardDAV) ──────────────────────────────────────
+  services.radicale = {
+    enable = true;
+    settings = {
+      server.hosts = ["127.0.0.1:5232"];
+      auth.type = "http_x_remote_user";
+      storage.filesystem_folder = "/data/radicale/collections";
+    };
+  };
+
   # ── Persistent Data Directories ────────────────────────────────────
   systemd.tmpfiles.rules = [
     "d /data/opencloud 0750 opencloud opencloud -"
     "d /data/cool 0750 cool cool -"
+    "d /data/radicale 0750 radicale radicale -"
+    "d /data/radicale/collections 0750 radicale radicale -"
   ];
 }
