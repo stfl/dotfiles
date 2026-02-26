@@ -249,7 +249,7 @@ sudo dd if=results/iso/*.iso \
 #+end_src
 
 * Application Setup
-** TODO Citrix Workspace
+** Citrix Workspace
 
 identify supported citrix versions
 

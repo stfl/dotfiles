@@ -66,7 +66,7 @@ nixos-rebuild \
 - **flake.nix**: Main entry point defining inputs and outputs
 - **hosts/**: Per-machine configurations
   - Each host has: `default.nix`, `hardware-configuration.nix`, `home.nix`
-  - Current hosts: `kondor` (desktop), `pirol`, `iso` (installation media)
+  - Current hosts: `kondor` (desktop), `pirol`, `claw-pve` (server VM), `iso` (installation media)
 - **modules/**: Reusable NixOS and home-manager modules
   - System modules: desktop environments, services, hardware configurations
   - **modules/home/**: Home-manager specific modules (shell, emacs, email, etc.)
@@ -120,6 +120,44 @@ agenix -e <name-of-secret>.age
 ```bash
 agenix --rekey -i ~/.ssh/id_ed25519_stfl
 ```
+
+## Host: claw-pve
+
+Headless server VM running on Proxmox. FQDN: `claw.stfl.home`.
+
+### Storage layout
+- `/` — system root (ephemeral, rebuilt from NixOS config)
+- `/data` — all persistent application data (ext4, separate VM disk labeled `data`)
+
+Application state is bind-mounted from `/data` into the locations services expect (e.g. `/data/n8n` → `/var/lib/private/n8n`, `/data/podman/volumes` → `/var/lib/containers/storage/volumes`).
+
+### Services
+- **n8n**: Workflow automation, reverse-proxied via nginx at `https://n8n.stfl.home`
+- **Monica**: Personal CRM, reverse-proxied via nginx at `https://monica.stfl.home`, data in `/data/monica`, MariaDB in `/data/mariadb`
+- **ZeroClaw**: AI agent daemon (Telegram, WhatsApp Web channels), state in `/data/zeroclaw/.zeroclaw/`. Config is created via `zeroclaw onboard --interactive` on the host (not managed by Nix). Anthropic API key injected via `ANTHROPIC_API_KEY` env var from agenix secret.
+- **Podman**: Container runtime, volume storage on `/data/podman/volumes`
+- **nginx**: Reverse proxy with self-signed TLS for `*.stfl.home`
+
+### Management commands
+```bash
+# Build without deploying (validate changes)
+nixos-rebuild build --flake '.#claw-pve' --show-trace
+
+# Deploy to claw
+nixos-rebuild --target-host claw.stfl.home --sudo switch --flake ".#claw-pve"
+
+# Check service status on claw
+ssh claw.stfl.home sudo systemctl status zeroclaw
+ssh claw.stfl.home sudo systemctl status n8n
+ssh claw.stfl.home sudo journalctl -u zeroclaw -f
+```
+
+### Adding services to claw-pve
+The NixOS config in `hosts/claw-pve/default.nix` should declare everything that can be automated: packages, systemd services, users/groups, tmpfiles rules for `/data` directories, agenix secrets, nginx virtual hosts, and bind mounts. When a service requires manual steps on the host after deployment (interactive onboarding, pairing, initial credentials, etc.), always add those steps to `hosts/claw-pve/README.org` with the exact commands to run on the host.
+
+### Configuration files
+- `hosts/claw-pve/default.nix` — main system config (services, users, mounts, systemd units)
+- `hosts/claw-pve/README.org` — setup notes and manual post-deployment steps (Proxmox image creation, disk setup, zeroclaw onboarding)
 
 ## Special Considerations
 

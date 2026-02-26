@@ -124,7 +124,36 @@
     };
   };
 
-  environment.systemPackages = with pkgs; [
-    llm-agents.zeroclaw
-  ];
+  users.users.zeroclaw = {
+    isSystemUser = true;
+    group = "zeroclaw";
+    home = "/data/zeroclaw";
+    createHome = true;
+  };
+  users.groups.zeroclaw = {};
+
+  security.wrappers.zeroclaw = {
+    source = "${pkgs.llm-agents.zeroclaw}/bin/zeroclaw";
+    owner = "zeroclaw";
+    group = "zeroclaw";
+    setuid = true;
+  };
+
+  systemd.services.zeroclaw = {
+    description = "ZeroClaw AI Agent Daemon";
+    after = ["network-online.target"];
+    wants = ["network-online.target"];
+    wantedBy = ["multi-user.target"];
+
+    serviceConfig = {
+      Type = "simple";
+      User = "zeroclaw";
+      Group = "zeroclaw";
+      WorkingDirectory = "/data/zeroclaw";
+      StateDirectory = "zeroclaw";
+      Restart = "on-failure";
+      RestartSec = 10;
+      ExecStart = "${pkgs.lib.getExe pkgs.llm-agents.zeroclaw} daemon";
+    };
+  };
 }

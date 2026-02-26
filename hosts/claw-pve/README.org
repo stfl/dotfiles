@@ -42,6 +42,52 @@ sudo mkfs.ext4 -L data /dev/sda1
 
 configure static DHCP via pfSense which registers the DNS entry as well
 
+* ZeroClaw Setup
+
+After deploying the NixOS configuration, ZeroClaw needs to be onboarded interactively on the host.
+
+** 1. Populate the Anthropic API key secret
+
+#+begin_src bash
+cd secrets
+agenix -e zeroclaw-anthropic-api-key.age
+#+end_src
+
+** 2. Deploy
+
+#+begin_src bash
+nixos-rebuild \
+    --target-host claw.stfl.home \
+    --sudo \
+    switch \
+    --flake ".#claw-pve"
+#+end_src
+
+** 3. Run onboarding on the host
+
+SSH into claw and run onboarding. The =zeroclaw= command automatically runs as the zeroclaw user via a wrapper. This creates the config at =/data/zeroclaw/.zeroclaw/config.toml= and sets up channels (Telegram, WhatsApp Web, etc.).
+
+#+begin_src bash
+ssh claw.stfl.home
+zeroclaw onboard --interactive
+#+end_src
+
+** 4. Pair WhatsApp Web
+
+After onboarding, pair WhatsApp Web via the QR code flow:
+
+#+begin_src bash
+zeroclaw channel pair whatsapp
+#+end_src
+
+** 5. Start the daemon
+
+#+begin_src bash
+sudo systemctl start zeroclaw
+sudo systemctl status zeroclaw
+journalctl -u zeroclaw -f
+#+end_src
+
 * Update
 
 #+begin_src bash
