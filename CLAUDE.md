@@ -136,7 +136,7 @@ Application state is bind-mounted from `/data` into the locations services expec
 - **Monica**: Personal CRM, reverse-proxied via nginx at `https://monica.stfl.dev`, data in `/data/monica`, MariaDB in `/data/mariadb`
 - **ZeroClaw**: AI agent daemon (Telegram, WhatsApp Web channels), state in `/data/zeroclaw/.zeroclaw/`. Config is created via `zeroclaw onboard --interactive` on the host (not managed by Nix). Anthropic API key injected via `ANTHROPIC_API_KEY` env var from agenix secret.
 - **Podman**: Container runtime, volume storage on `/data/podman/volumes`
-- **nginx**: Reverse proxy with self-signed TLS for `*.stfl.dev`
+- **nginx**: Reverse proxy with Let's Encrypt TLS (ACME DNS-01 via Cloudflare) for `*.stfl.dev`
 
 ### Management commands
 ```bash
