@@ -27,6 +27,7 @@
       inputs.hyprland.follows = "hyprland";
     };
     llm-agents.url = "github:numtide/llm-agents.nix";
+    mcp-nixos.url = "https://flakehub.com/f/utensils/mcp-nixos/*";
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -45,6 +46,7 @@
     hyprland,
     hyprland-plugins,
     llm-agents,
+    mcp-nixos,
     disko,
     ...
   } @ inputs: let

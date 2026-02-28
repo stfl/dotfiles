@@ -2,6 +2,7 @@
   determinate,
   emacs-overlay,
   llm-agents,
+  mcp-nixos,
   ...
 }: {
   imports = [
@@ -48,6 +49,7 @@
     overlays = [
       emacs-overlay.overlays.default
       llm-agents.overlays.default
+      mcp-nixos.overlays.default
     ];
   };
 }
