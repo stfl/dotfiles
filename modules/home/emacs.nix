@@ -34,6 +34,9 @@ in {
 
     bitbake-language-server
 
+    # doom's fallback font for glyphs
+    symbola
+
     # some emacs dependecies like magit need python
     python3
 
