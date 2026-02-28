@@ -117,7 +117,7 @@ sudo nixos-rebuild switch --flake ".#"
 
 #+begin_src bash :noeval
 # just deploy <hostnam> <target>
-just deploy syncthing-pve root@sync.stfl.home
+just deploy syncthing-pve root@sync.stfl.dev
 #+end_src
 
 Deploy to a remote host:

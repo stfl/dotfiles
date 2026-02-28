@@ -123,7 +123,7 @@ agenix --rekey -i ~/.ssh/id_ed25519_stfl
 
 ## Host: claw-pve
 
-Headless server VM running on Proxmox. FQDN: `claw.stfl.home`.
+Headless server VM running on Proxmox. FQDN: `claw.stfl.dev`.
 
 ### Storage layout
 - `/` — system root (ephemeral, rebuilt from NixOS config)
@@ -132,11 +132,11 @@ Headless server VM running on Proxmox. FQDN: `claw.stfl.home`.
 Application state is bind-mounted from `/data` into the locations services expect (e.g. `/data/n8n` → `/var/lib/private/n8n`, `/data/podman/volumes` → `/var/lib/containers/storage/volumes`).
 
 ### Services
-- **n8n**: Workflow automation, reverse-proxied via nginx at `https://n8n.stfl.home`
-- **Monica**: Personal CRM, reverse-proxied via nginx at `https://monica.stfl.home`, data in `/data/monica`, MariaDB in `/data/mariadb`
+- **n8n**: Workflow automation, reverse-proxied via nginx at `https://n8n.stfl.dev`
+- **Monica**: Personal CRM, reverse-proxied via nginx at `https://monica.stfl.dev`, data in `/data/monica`, MariaDB in `/data/mariadb`
 - **ZeroClaw**: AI agent daemon (Telegram, WhatsApp Web channels), state in `/data/zeroclaw/.zeroclaw/`. Config is created via `zeroclaw onboard --interactive` on the host (not managed by Nix). Anthropic API key injected via `ANTHROPIC_API_KEY` env var from agenix secret.
 - **Podman**: Container runtime, volume storage on `/data/podman/volumes`
-- **nginx**: Reverse proxy with self-signed TLS for `*.stfl.home`
+- **nginx**: Reverse proxy with self-signed TLS for `*.stfl.dev`
 
 ### Management commands
 ```bash
@@ -144,12 +144,12 @@ Application state is bind-mounted from `/data` into the locations services expec
 nixos-rebuild build --flake '.#claw-pve' --show-trace
 
 # Deploy to claw
-nixos-rebuild --target-host claw.stfl.home --sudo switch --flake ".#claw-pve"
+nixos-rebuild --target-host claw.stfl.dev --sudo switch --flake ".#claw-pve"
 
 # Check service status on claw
-ssh claw.stfl.home sudo systemctl status zeroclaw
-ssh claw.stfl.home sudo systemctl status n8n
-ssh claw.stfl.home sudo journalctl -u zeroclaw -f
+ssh claw.stfl.dev sudo systemctl status zeroclaw
+ssh claw.stfl.dev sudo systemctl status n8n
+ssh claw.stfl.dev sudo journalctl -u zeroclaw -f
 ```
 
 ### Adding services to claw-pve

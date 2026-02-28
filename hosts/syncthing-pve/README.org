@@ -2,7 +2,7 @@
 
 * Overview
 
-=syncthing-pve= is a minimal NixOS LXC container running on Proxmox host ~pve.stfl.home~.
+=syncthing-pve= is a minimal NixOS LXC container running on Proxmox host ~pve.stfl.dev~.
 
 **Purpose**: Centralized always-on Syncthing file synchronization service
 
@@ -50,7 +50,7 @@ pct enter 102
 Or via SSH (if network is configured):
 
 #+begin_src bash
-ssh root@sync.stfl.home
+ssh root@sync.stfl.dev
 #+end_src
 
 * Deploy NixOS Configuration
@@ -59,7 +59,7 @@ From the dotfiles repository root, intially deploy the configuration:
 
 #+begin_src bash
 nixos-rebuild \
-    --target-host root@sync.stfl.home \
+    --target-host root@sync.stfl.dev \
     switch \
     --flake ".#syncthing-pve"
 #+end_src
