@@ -26,7 +26,7 @@
 
   system.stateVersion = "26.05";
   networking.hostName = "claw";
-  networking.domain = "stfl.home";
+  networking.domain = "stfl.dev";
 
   fileSystems."/data" = {
     device = "/dev/disk/by-label/data";
@@ -45,7 +45,7 @@
   };
 
   systemd.tmpfiles.rules = [
-    "d /data/n8n 0750 root root -"
+    "d /data/n8n 0755 root root -"
     "d /data/podman/volumes 0755 root root -"
 
     "d /data/monica 0750 monica monica -"
@@ -93,6 +93,27 @@
       chmod 640 /etc/ssl/nginx/key.pem
       chgrp nginx /etc/ssl/nginx/key.pem
     '';
+  };
+
+  age.secrets.cloudflared-tunnel-credentials = {
+    file = ../../secrets/cloudflared-tunnel-credentials.age;
+  };
+
+  age.secrets.cloudflared-tunnel-cert = {
+    file = ../../secrets/cloudflared-tunnel-cert.age;
+  };
+
+  services.cloudflared = {
+    enable = true;
+    certificateFile = config.age.secrets.cloudflared-tunnel-cert.path;
+    tunnels."b601c4a2-8fa7-490e-adf8-d3590537b35e" = {
+      credentialsFile = config.age.secrets.cloudflared-tunnel-credentials.path;
+      default = "http_status:404";
+      ingress = {
+        "n8n.stfl.dev" = "http://localhost:5678";
+        "monica.stfl.dev" = "http://localhost:80";
+      };
+    };
   };
 
   age.secrets.monica-app-key = {

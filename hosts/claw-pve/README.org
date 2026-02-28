@@ -12,7 +12,7 @@ Done. The disk image can be found in /nix/store/sz99pg8rwkr1dp0vyx63cf7j6gyxa03z
 #+end_quote
 
 #+begin_src bash
-scp result/vzdump-qemu*.vma.zst root@kauz.stfl.home:/var/lib/vz/dump
+scp result/vzdump-qemu*.vma.zst root@kauz.stfl.dev:/var/lib/vz/dump
 #+end_src
 
 checking if the file is detected as a backup on the proxmox host
@@ -57,7 +57,7 @@ agenix -e zeroclaw-anthropic-api-key.age
 
 #+begin_src bash
 nixos-rebuild \
-    --target-host claw.stfl.home \
+    --target-host claw.stfl.dev \
     --sudo \
     switch \
     --flake ".#claw-pve"
@@ -68,7 +68,7 @@ nixos-rebuild \
 SSH into claw and run onboarding. The =zeroclaw= command automatically runs as the zeroclaw user via a wrapper. This creates the config at =/data/zeroclaw/.zeroclaw/config.toml= and sets up channels (Telegram, WhatsApp Web, etc.).
 
 #+begin_src bash
-ssh claw.stfl.home
+ssh claw.stfl.dev
 zeroclaw onboard --interactive
 #+end_src
 
@@ -88,12 +88,19 @@ sudo systemctl status zeroclaw
 journalctl -u zeroclaw -f
 #+end_src
 
-* Update
+* Cloudflare Tunnel Setup
+
+Follow the [[https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/get-started/create-local-tunnel/][Cloudflare local tunnel setup guide]] to create a tunnel and obtain the credentials JSON.
+
+- Tunnel credentials JSON → encrypt into =secrets/cloudflared-tunnel-credentials.age= via =cd secrets && agenix -e cloudflared-tunnel-credentials.age=
+- Tunnel ID → set in =services.cloudflared.tunnels.<ID>= in =hosts/claw-pve/default.nix=
+- DNS CNAMEs → route each ingress hostname to the tunnel via =cloudflared tunnel route dns=
+
+* Deploy
 
 #+begin_src bash
 nixos-rebuild \
-    --target-host claw.stfl.home \
-    --sudo \
-    switch \
+    --target-host claw.stfl.dev \
+    --sudo switch \
     --flake ".#claw-pve"
 #+end_src

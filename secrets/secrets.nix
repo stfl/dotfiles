@@ -16,4 +16,6 @@ in {
   "rclone-drive-client-secret.age".publicKeys = [key pirol kondor];
   "rclone-drive-token.age".publicKeys = [key pirol kondor];
   "monica-app-key.age".publicKeys = [key claw];
+  "cloudflared-tunnel-credentials.age".publicKeys = [key claw];
+  "cloudflared-tunnel-cert.age".publicKeys = [key claw];
 }
