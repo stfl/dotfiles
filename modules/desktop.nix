@@ -34,6 +34,8 @@ with lib; {
     brightnessctl
     libpulseaudio # pulsectl
     pavucontrol
+
+    spotify
   ];
 
   # Xfce D-Bus thumbnailer service
