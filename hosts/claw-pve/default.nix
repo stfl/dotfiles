@@ -65,8 +65,7 @@
 
     virtualHosts."n8n.${config.networking.domain}" = {
       forceSSL = true;
-      sslCertificate = "/etc/ssl/nginx/cert.pem";
-      sslCertificateKey = "/etc/ssl/nginx/key.pem";
+      useACMEHost = config.networking.domain;
       locations."/" = {
         proxyPass = "http://localhost:5678";
         proxyWebsockets = true;
@@ -74,34 +73,21 @@
     };
   };
 
-  # Generate self-signed TLS certificate for nginx
-  systemd.services.nginx-self-signed-cert = {
-    description = "Generate self-signed TLS certificate for nginx";
-    wantedBy = ["nginx.service"];
-    before = ["nginx.service"];
-    unitConfig.ConditionPathExists = "!/etc/ssl/nginx/cert.pem";
-    serviceConfig.Type = "oneshot";
-    path = [pkgs.openssl];
-    script = ''
-      mkdir -p /etc/ssl/nginx
-      openssl req -x509 -newkey ec -pkeyopt ec_paramgen_curve:secp384r1 \
-        -days 3650 -nodes \
-        -keyout /etc/ssl/nginx/key.pem \
-        -out /etc/ssl/nginx/cert.pem \
-        -subj '/CN=*.${config.networking.domain}' \
-        -addext 'subjectAltName=DNS:*.${config.networking.domain},DNS:${config.networking.domain}'
-      chmod 640 /etc/ssl/nginx/key.pem
-      chgrp nginx /etc/ssl/nginx/key.pem
-    '';
+  security.acme = {
+    acceptTerms = true;
+    defaults.email = "s@stfl.dev";
+    certs.${config.networking.domain} = {
+      domain = "*.${config.networking.domain}";
+      extraDomainNames = [config.networking.domain];
+      dnsProvider = "cloudflare";
+      environmentFile = config.age.secrets.cloudflare-dns-api-token.path;
+      group = "nginx";
+    };
   };
 
-  age.secrets.cloudflared-tunnel-credentials = {
-    file = ../../secrets/cloudflared-tunnel-credentials.age;
-  };
-
-  age.secrets.cloudflared-tunnel-cert = {
-    file = ../../secrets/cloudflared-tunnel-cert.age;
-  };
+  age.secrets.cloudflared-tunnel-credentials.file = ../../secrets/cloudflared-tunnel-credentials.age;
+  age.secrets.cloudflared-tunnel-cert.file = ../../secrets/cloudflared-tunnel-cert.age;
+  age.secrets.cloudflare-dns-api-token.file = ../../secrets/cloudflare-dns-api-token.age;
 
   services.cloudflared = {
     enable = true;
@@ -131,8 +117,7 @@
     dataDir = "/data/monica";
     nginx = {
       forceSSL = true;
-      sslCertificate = "/etc/ssl/nginx/cert.pem";
-      sslCertificateKey = "/etc/ssl/nginx/key.pem";
+      useACMEHost = config.networking.domain;
     };
   };
 

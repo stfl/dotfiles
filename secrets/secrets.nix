@@ -18,4 +18,5 @@ in {
   "monica-app-key.age".publicKeys = [key claw];
   "cloudflared-tunnel-credentials.age".publicKeys = [key claw];
   "cloudflared-tunnel-cert.age".publicKeys = [key claw];
+  "cloudflare-dns-api-token.age".publicKeys = [key claw];
 }
