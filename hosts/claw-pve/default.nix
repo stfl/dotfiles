@@ -141,6 +141,9 @@
     (pkgs.writeShellScriptBin "zeroclaw" ''
       exec sudo -u zeroclaw ${pkgs.lib.getExe pkgs.llm-agents.zeroclaw} "$@"
     '')
+    (pkgs.writeShellScriptBin "cli-proxy-api" ''
+      exec sudo -u zeroclaw ${pkgs.lib.getExe pkgs.llm-agents.cli-proxy-api} "$@"
+    '')
   ];
 
   systemd.services.zeroclaw = {
@@ -148,6 +151,7 @@
     after = ["network-online.target"];
     wants = ["network-online.target"];
     wantedBy = ["multi-user.target"];
+    restartTriggers = [pkgs.llm-agents.zeroclaw];
 
     serviceConfig = {
       Type = "simple";
@@ -161,7 +165,25 @@
     };
   };
 
-services.nginx.virtualHosts."${config.networking.fqdn}" = {
+  systemd.services.cli-proxy-api = {
+    description = "CLI Proxy API - OpenAI compatible proxy";
+    after = ["network-online.target"];
+    wants = ["network-online.target"];
+    wantedBy = ["multi-user.target"];
+    restartTriggers = [pkgs.llm-agents.cli-proxy-api];
+
+    serviceConfig = {
+      Type = "simple";
+      User = "zeroclaw";
+      Group = "zeroclaw";
+      WorkingDirectory = "/data/zeroclaw/.cli-proxy-api";
+      Restart = "on-failure";
+      RestartSec = 10;
+      ExecStart = "${pkgs.lib.getExe pkgs.llm-agents.cli-proxy-api}";
+    };
+  };
+
+  services.nginx.virtualHosts."${config.networking.fqdn}" = {
     forceSSL = true;
     useACMEHost = config.networking.domain;
     locations."/" = {
