@@ -113,12 +113,21 @@ agenix -e <name-of-secret>.age
 1. Add entry to `secrets/secrets.nix` with authorized host public keys
 2. Create the secret file using agenix
 
+### Rekey a secret
+When a secret's `publicKeys` change in `secrets.nix`, rekey ONLY the affected file:
+```bash
+cd secrets
+agenix --rekey -i ~/.ssh/id_ed25519_stfl <name-of-secret>.age
+```
+NEVER rekey all secrets at once — always specify the individual file(s).
+
 ### Add a new host to secrets
 1. Get the host SSH public key from `/etc/ssh/ssh_host_ed25519_key.pub`
 2. Add the key to `secrets/secrets.nix`
-3. Rekey all secrets with a private key that has access:
+3. Rekey the affected secrets (only the ones that reference the new host key):
 ```bash
-agenix --rekey -i ~/.ssh/id_ed25519_stfl
+cd secrets
+agenix --rekey -i ~/.ssh/id_ed25519_stfl <affected-secret>.age
 ```
 
 ## Host: claw-pve
