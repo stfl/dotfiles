@@ -96,6 +96,7 @@
       ingress = {
         "n8n.stfl.dev" = "http://localhost:5678";
         "monica.stfl.dev" = "http://localhost:80";
+        "claw.stfl.dev" = "http://localhost:42617";
       };
     };
   };
@@ -136,12 +137,11 @@
   };
   users.groups.zeroclaw = {};
 
-  security.wrappers.zeroclaw = {
-    source = "${pkgs.llm-agents.zeroclaw}/bin/zeroclaw";
-    owner = "zeroclaw";
-    group = "zeroclaw";
-    setuid = true;
-  };
+  environment.systemPackages = [
+    (pkgs.writeShellScriptBin "zeroclaw" ''
+      exec sudo -u zeroclaw ${pkgs.lib.getExe pkgs.llm-agents.zeroclaw} "$@"
+    '')
+  ];
 
   systemd.services.zeroclaw = {
     description = "ZeroClaw AI Agent Daemon";
@@ -158,6 +158,15 @@
       Restart = "on-failure";
       RestartSec = 10;
       ExecStart = "${pkgs.lib.getExe pkgs.llm-agents.zeroclaw} daemon";
+    };
+  };
+
+services.nginx.virtualHosts."${config.networking.fqdn}" = {
+    forceSSL = true;
+    useACMEHost = config.networking.domain;
+    locations."/" = {
+      proxyPass = "http://127.0.0.1:42617";
+      proxyWebsockets = true;
     };
   };
 }

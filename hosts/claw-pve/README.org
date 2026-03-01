@@ -53,16 +53,6 @@ cd secrets
 agenix -e zeroclaw-anthropic-api-key.age
 #+end_src
 
-** 2. Deploy
-
-#+begin_src bash
-nixos-rebuild \
-    --target-host claw.stfl.dev \
-    --sudo \
-    switch \
-    --flake ".#claw-pve"
-#+end_src
-
 ** 3. Run onboarding on the host
 
 SSH into claw and run onboarding. The =zeroclaw= command automatically runs as the zeroclaw user via a wrapper. This creates the config at =/data/zeroclaw/.zeroclaw/config.toml= and sets up channels (Telegram, WhatsApp Web, etc.).
