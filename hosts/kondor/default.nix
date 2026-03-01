@@ -30,6 +30,7 @@
     ../../modules/dev
 
     ../../modules/rclone-shares.nix
+    ../../modules/cloudflared.nix
 
     # Customers and Projects
     ../../modules/projects/pulswerk.nix

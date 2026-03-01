@@ -90,11 +90,53 @@ journalctl -u zeroclaw -f
 
 * Cloudflare Tunnel Setup
 
-Follow the [[https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/get-started/create-local-tunnel/][Cloudflare local tunnel setup guide]] to create a tunnel and obtain the credentials JSON.
+Follow the [[https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/get-started/create-local-tunnel/][Cloudflare local tunnel setup guide]].
 
-- Tunnel credentials JSON → encrypt into =secrets/cloudflared-tunnel-credentials.age= via =cd secrets && agenix -e cloudflared-tunnel-credentials.age=
-- Tunnel ID → set in =services.cloudflared.tunnels.<ID>= in =hosts/claw-pve/default.nix=
-- DNS CNAMEs → route each ingress hostname to the tunnel via =cloudflared tunnel route dns=
+The tunnel is managed from a host with =modules/cloudflared.nix= (e.g. kondor),
+which provides the =cloudflared= CLI and the origin certificate (=cert.pem=). The
+target host (claw-pve) only needs the tunnel credentials to run the tunnel.
+
+** 2. Create a tunnel
+
+On the management host.
+
+#+begin_src bash
+cloudflared tunnel create <NAME>
+#+end_src
+
+This outputs a tunnel UUID and a credentials JSON file (=~/.cloudflared/<UUID>.json=).
+
+- Encrypt the credentials JSON into =secrets/cloudflared-tunnel-credentials.age=:
+
+#+begin_src bash
+cd secrets && agenix -e cloudflared-tunnel-credentials.age
+#+end_src
+
+- Set the tunnel UUID in =services.cloudflared.tunnels.<UUID>= in =hosts/claw-pve/default.nix=
+
+** 3. Route DNS
+
+For each ingress hostname, create a CNAME pointing to the tunnel:
+
+#+begin_src bash
+cloudflared tunnel route dns <NAME> n8n.stfl.dev
+cloudflared tunnel route dns <NAME> monica.stfl.dev
+#+end_src
+
+** 4. Deploy to target
+
+#+begin_src bash
+nixos-rebuild --target-host claw.stfl.dev --sudo switch --flake ".#claw-pve"
+#+end_src
+
+** Management
+
+List and inspect tunnels from the management host:
+
+#+begin_src bash
+cloudflared tunnel list
+cloudflared tunnel info <NAME-or-UUID>
+#+end_src
 
 * Deploy
 

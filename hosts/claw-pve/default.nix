@@ -86,12 +86,10 @@
   };
 
   age.secrets.cloudflared-tunnel-credentials.file = ../../secrets/cloudflared-tunnel-credentials.age;
-  age.secrets.cloudflared-tunnel-cert.file = ../../secrets/cloudflared-tunnel-cert.age;
   age.secrets.cloudflare-dns-api-token.file = ../../secrets/cloudflare-dns-api-token.age;
 
   services.cloudflared = {
     enable = true;
-    certificateFile = config.age.secrets.cloudflared-tunnel-cert.path;
     tunnels."b601c4a2-8fa7-490e-adf8-d3590537b35e" = {
       credentialsFile = config.age.secrets.cloudflared-tunnel-credentials.path;
       default = "http_status:404";
