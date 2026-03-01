@@ -12,8 +12,8 @@ Create VM manually in Proxmox with:
 ** Configure DNS
 
 Configure static DHCP + DNS entries via pfSense:
-- opencloud.stfl.home
-- office.stfl.home
+- opencloud.stfl.dev
+- office.stfl.dev
 
 ** Partition with disko + install with nixos-anywhere
 
@@ -23,7 +23,7 @@ From the deployment machine (not the VM):
 nix run github:nix-community/nixos-anywhere -- \
     --flake '.#opencloud-pve' \
     --phases kexec,disko \
-    root@opencloud.stfl.home
+    root@opencloud.stfl.dev
 #+end_src
 
 This partitions both disks via disko:
@@ -36,20 +36,20 @@ Then install NixOS:
 nix run github:nix-community/nixos-anywhere -- \
     --flake '.#opencloud-pve' \
     --phases install \
-    root@opencloud.stfl.home
+    root@opencloud.stfl.dev
 #+end_src
 
 ** Boot into installed system
 
 1. Detach ISO from VM in Proxmox web UI
 2. Reboot VM
-3. Remove stale SSH host key: =ssh-keygen -R opencloud.stfl.home=
+3. Remove stale SSH host key: =ssh-keygen -R opencloud.stfl.dev=
 
 * Update
 
 #+begin_src bash
 nixos-rebuild \
-    --target-host opencloud.stfl.home \
+    --target-host opencloud.stfl.dev \
     --sudo \
     switch \
     --flake ".#opencloud-pve"
@@ -58,6 +58,6 @@ nixos-rebuild \
 * Verify services
 
 #+begin_src bash
-curl -k https://opencloud.stfl.home
-curl -k https://office.stfl.home
+curl -k https://opencloud.stfl.dev
+curl -k https://office.stfl.dev
 #+end_src

@@ -19,7 +19,7 @@
 
   system.stateVersion = "26.05";
   networking.hostName = "opencloud";
-  networking.domain = "stfl.home";
+  networking.domain = "stfl.dev";
   networking.useDHCP = lib.mkDefault true;
 
   # Boot (BIOS/SeaBIOS — GRUB device auto-set by disko via EF02 partition)
