@@ -139,7 +139,7 @@
 
   environment.systemPackages = [
     (pkgs.writeShellScriptBin "zeroclaw" ''
-      exec sudo -u zeroclaw ${pkgs.lib.getExe pkgs.llm-agents.zeroclaw} "$@"
+      exec sudo -E -u zeroclaw ${pkgs.lib.getExe pkgs.llm-agents.zeroclaw} --config-dir ${config.users.users.zeroclaw.home}/.zeroclaw "$@"
     '')
     (pkgs.writeShellScriptBin "cli-proxy-api" ''
       exec sudo -u zeroclaw ${pkgs.lib.getExe pkgs.llm-agents.cli-proxy-api} "$@"
