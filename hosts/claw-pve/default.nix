@@ -135,6 +135,7 @@
     group = "zeroclaw";
     home = "/data/zeroclaw";
     createHome = true;
+    shell = pkgs.bash;
   };
   users.groups.zeroclaw = {};
 
@@ -153,6 +154,29 @@
     wants = ["network-online.target"];
     wantedBy = ["multi-user.target"];
     restartTriggers = [pkgs.llm-agents.zeroclaw];
+
+    path = with pkgs; [
+      bash
+      coreutils
+      findutils
+      gnugrep
+      gnused
+      gawk
+      git
+      curl
+      wget
+      jq
+      ripgrep
+      nodejs
+      diffutils
+      gnutar
+      gzip
+      procps
+      less
+      file
+      tree
+      which
+    ];
 
     serviceConfig = {
       Type = "simple";
