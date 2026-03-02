@@ -87,6 +87,7 @@
 
   age.secrets.cloudflared-tunnel-credentials.file = ../../secrets/cloudflared-tunnel-credentials.age;
   age.secrets.cloudflare-dns-api-token.file = ../../secrets/cloudflare-dns-api-token.age;
+  age.secrets.openrouter-api-key.file = ../../secrets/openrouter-api-key.age;
 
   services.cloudflared = {
     enable = true;
@@ -161,6 +162,8 @@
       StateDirectory = "zeroclaw";
       Restart = "on-failure";
       RestartSec = 10;
+      LoadCredential = ["openrouter-api-key:${config.age.secrets.openrouter-api-key.path}"];
+      Environment = ["OPENROUTER_API_KEY=%d/openrouter-api-key"];
       ExecStart = "${pkgs.lib.getExe pkgs.llm-agents.zeroclaw} daemon";
     };
   };
