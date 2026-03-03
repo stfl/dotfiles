@@ -113,17 +113,16 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1772531973,
-        "narHash": "sha256-5fEtoJesHZ4G2RfTRrCU5pwlAQfL9TY07S3ZEKp4DCM=",
-        "ref": "refs/heads/main",
-        "rev": "c1efdabbae21928c7e532ed863b939ac24ee1466",
-        "revCount": 8,
-        "type": "git",
-        "url": "file:///home/stefan/work/copilot-api-flake"
+        "lastModified": 1772555737,
+        "narHash": "sha256-9TWdUh+RhzanSwpMdF7p/KltTVQ8f0MOGfKzH8S5JHw=",
+        "rev": "d09c3706a985c35767e481a5ed66d46b164a2873",
+        "revCount": 17,
+        "type": "tarball",
+        "url": "https://api.flakehub.com/f/pinned/stfl/copilot-api/0.1.17%2Brev-d09c3706a985c35767e481a5ed66d46b164a2873/019cb496-2ec7-704e-af0a-3df0a587b553/source.tar.gz"
       },
       "original": {
-        "type": "git",
-        "url": "file:///home/stefan/work/copilot-api-flake"
+        "type": "tarball",
+        "url": "https://flakehub.com/f/stfl/copilot-api/0.1"
       }
     },
     "determinate": {

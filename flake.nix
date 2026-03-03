@@ -32,7 +32,8 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    copilot-api.url = "git+file:///home/stefan/work/copilot-api-flake";
+    # copilot-api.url = "git+file:///home/stefan/work/copilot-api-flake";
+    copilot-api.url = "https://flakehub.com/f/stfl/copilot-api/0.1";
   };
 
   outputs = {
