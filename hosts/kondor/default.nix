@@ -28,6 +28,9 @@
 
     # Development
     ../../modules/dev
+    ../../modules/dev/llm.nix
+    ../../modules/dev/claude-code.nix
+    ../../modules/dev/copilot-api.nix
 
     ../../modules/rclone-shares.nix
     ../../modules/cloudflared.nix

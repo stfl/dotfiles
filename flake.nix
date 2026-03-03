@@ -32,6 +32,7 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    copilot-api.url = "git+file:///home/stefan/work/copilot-api-flake";
   };
 
   outputs = {
@@ -48,6 +49,7 @@
     llm-agents,
     mcp-nixos,
     disko,
+    copilot-api,
     ...
   } @ inputs: let
     lib = nixpkgs.lib;

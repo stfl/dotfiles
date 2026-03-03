@@ -20,4 +20,5 @@ in {
   "cloudflared-tunnel-cert.age".publicKeys = [key kondor];
   "cloudflare-dns-api-token.age".publicKeys = [key claw];
   "openrouter-api-key.age".publicKeys = [key claw];
+  "github-copilot-token.age".publicKeys = [key kondor pirol];
 }
