@@ -58,6 +58,8 @@
     act
 
     eddie
+
+    zed-editor-fhs
   ];
 
   # KDE CD/DVD burner and ripper
