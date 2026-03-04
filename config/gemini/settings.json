@@ -1,14 +1,67 @@
 {
+  "$schema": "https://raw.githubusercontent.com/google-gemini/gemini-cli/main/schemas/settings.schema.json",
   "security": {
     "auth": {
       "selectedType": "oauth-personal"
-    }
+    },
+    "environmentVariableRedaction": {
+      "enabled": true
+    },
+    "enableConseca": true
+  },
+  "privacy": {
+    "usageStatisticsEnabled": false
+  },
+  "ide": {
+    "enabled": true
   },
   "general": {
+    "vimMode": true,
+    "previewFeatures": true,
     "sessionRetention": {
       "enabled": true,
       "maxAge": "30d",
       "warningAcknowledged": true
+    },
+    "checkpointing": {
+      "enabled": true
+    },
+    "enableNotifications": true,
+    "plan": {
+      "directory": "~/.gemini/plan"
     }
+  },
+  "ui": {
+    "errorVerbosity": "full",
+    "showModelInfoInChat": true,
+    "autoThemeSwitching": true,
+    "inlineThinkingMode": "off",
+    "footer": {
+      "hideContextPercentage": false
+    },
+    "showMemoryUsage": true,
+    "showCitations": true,
+    "useBackgroundColor": true,
+    "loadingPhrases": "tips",
+    "hideWindowTitle": true
+  },
+  "context": {
+    "fileFiltering": {
+      "respectGitIgnore": true,
+      "respectGeminiIgnore": true
+    }
+  },
+  "tools": {
+    "shell": {
+      "showColor": true
+    },
+    "useRipgrep": true
+  },
+  "experimental": {
+    "modelSteering": true,
+    "plan": true
+  },
+  "advanced": {
+    "autoConfigureMemory": true
   }
 }

@@ -6,7 +6,6 @@
   programs.gemini-cli = {
     enable = true;
     package = pkgs.llm-agents.gemini-cli;
-    defaultModel = "gemini-3-flash";
   };
 
   home.file = let
