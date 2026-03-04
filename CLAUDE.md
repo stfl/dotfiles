@@ -168,6 +168,27 @@ The NixOS config in `hosts/claw-pve/default.nix` should declare everything that 
 - `hosts/claw-pve/default.nix` — main system config (services, users, mounts, systemd units)
 - `hosts/claw-pve/README.org` — setup notes and manual post-deployment steps (Proxmox image creation, disk setup, zeroclaw onboarding)
 
+## Claude Code Configuration
+
+The `config/claude/` directory is the git-tracked source for all Claude Code user configuration.
+`modules/home/claude-code.nix` symlinks these into `~/.claude/` so Claude Code can read and write
+them while changes remain version-controlled.
+
+### Symlinked directories
+
+| Repository path | Symlink target | Contents |
+|---|---|---|
+| `config/claude/settings.json` | `~/.claude/settings.json` | Claude Code settings (Claude Code writes changes back here) |
+| `config/claude/agents/` | `~/.claude/agents/` | Sub-agent definitions, one `.md` file per agent |
+| `config/claude/rules/` | `~/.claude/rules/` | Custom rules for Claude Code |
+| `config/claude/commands/` | `~/.claude/commands/` | Custom slash commands |
+| `config/agents/skills/` | `~/.claude/skills/` | Skill definitions |
+
+### Adding a new sub-agent
+
+Create a `.md` file in `config/claude/agents/`. The file is picked up immediately — no rebuild
+needed (the directory is symlinked, not copied).
+
 ## Special Considerations
 
 ### Hardware Support

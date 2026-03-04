@@ -74,6 +74,16 @@ ln /home/slendl/.config/dotfiles/config/bash/.bashrc.root /root/.bashrc -sf
 #+end_src
 
 * Development Tools
+** Claude Code
+
+Claude Code user configuration is git-tracked under ~config/claude/~.
+~modules/home/claude-code.nix~ symlinks it into ~~/.claude/~ so settings and
+agents are version-controlled and writable.
+
+Sub-agent definitions live in ~config/claude/agents/~ (one ~.md~ file per
+agent). Adding a new file there takes effect immediately — no NixOS rebuild
+needed.
+
 ** password-store
 
 Trust your password-store GPG key:
