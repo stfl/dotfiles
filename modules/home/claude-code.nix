@@ -16,11 +16,14 @@
     hooks = {};
   };
 
-  home.file = with config.lib.file; {
-    ".claude/settings.json".source = mkOutOfStoreSymlink ../../config/claude/settings.json;
-    ".claude/agents".source = mkOutOfStoreSymlink ../../config/claude/agents;
-    ".claude/rules".source = mkOutOfStoreSymlink ../../config/claude/rules;
-    ".claude/commands".source = mkOutOfStoreSymlink ../../config/claude/commands;
-    ".claude/skills".source = mkOutOfStoreSymlink ../../config/agents/skills;
-  };
+  home.file = let
+    dot = "${config.home.homeDirectory}/.config/dotfiles/config";
+  in
+    with config.lib.file; {
+      ".claude/settings.json".source = mkOutOfStoreSymlink "${dot}/claude/settings.json";
+      ".claude/agents".source = mkOutOfStoreSymlink "${dot}/claude/agents";
+      ".claude/rules".source = mkOutOfStoreSymlink "${dot}/claude/rules";
+      ".claude/commands".source = mkOutOfStoreSymlink "${dot}/claude/commands";
+      ".claude/skills".source = mkOutOfStoreSymlink "${dot}/agents/skills";
+    };
 }
