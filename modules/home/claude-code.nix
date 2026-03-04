@@ -1,6 +1,7 @@
 {
   lib,
   pkgs,
+  config,
   ...
 }: {
   programs.claude-code = {
@@ -13,38 +14,13 @@
       };
     };
     hooks = {};
-    skillsDir = ../../config/agent-skills;
-    settings = {
-      includeCoAuthoredBy = false;
-      model = "sonnet";
-      alwaysThinkingEnabled = true;
-      permissions = {
-        allow = [
-          "Bash(git diff:*)"
-          "Edit"
-        ];
-        ask = [
-          "Bash(git push:*)"
-        ];
-        defaultMode = "acceptEdits";
-        deny = [
-          "Read(.env)"
-        ];
-        disableBypassPermissionsMode = "disable";
-      };
-      statusLine = {
-        command = "input=$(cat); echo \"[$(echo \"$input\" | ${lib.getExe pkgs.jq} -r '.model.display_name')] 📁 $(basename \"$(echo \"$input\" | ${lib.getExe pkgs.jq} -r '.workspace.current_dir')\")\"";
-        padding = 0;
-        type = "command";
-      };
-      theme = "dark";
-      enabledPlugins = {
-        "rust-analyzer-lsp@claude-plugins-official" = true;
-      };
-      hooks = {
-        UserPromptSubmit = [];
-        Stop = [];
-      };
-    };
+  };
+
+  home.file = with config.lib.file; {
+    ".claude/settings.json".source = mkOutOfStoreSymlink ../../config/claude/settings.json;
+    ".claude/agents".source = mkOutOfStoreSymlink ../../config/claude/agents;
+    ".claude/rules".source = mkOutOfStoreSymlink ../../config/claude/rules;
+    ".claude/commands".source = mkOutOfStoreSymlink ../../config/claude/commands;
+    ".claude/skills".source = mkOutOfStoreSymlink ../../config/agents/skills;
   };
 }

@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "alwaysThinkingEnabled": true,
+  "enabledPlugins": {
+    "rust-analyzer-lsp@claude-plugins-official": true,
+    "document-skills@anthropic-agent-skills": true
+  },
+  "hooks": {
+    "Stop": [],
+    "UserPromptSubmit": []
+  },
+  "includeCoAuthoredBy": false,
+  "model": "sonnet",
+  "permissions": {
+    "allow": [
+      "Bash(git diff:*)",
+      "Edit"
+    ],
+    "ask": [
+      "Bash(git push:*)"
+    ],
+    "defaultMode": "acceptEdits",
+    "deny": [
+      "Read(.env)"
+    ],
+    "disableBypassPermissionsMode": "disable"
+  },
+  "statusLine": {
+    "command": "input=$(cat); echo \"[$(echo \"$input\" | jq -r '.model.display_name')] 📁 $(basename \"$(echo \"$input\" | jq -r '.workspace.current_dir')\")\"",
+    "padding": 0,
+    "type": "command"
+  },
+  "theme": "dark"
+}
