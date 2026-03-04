@@ -13,9 +13,10 @@
       };
     };
     hooks = {};
+    skillsDir = ../../config/agent-skills;
     settings = {
       includeCoAuthoredBy = false;
-      model = "opus";
+      model = "sonnet";
       alwaysThinkingEnabled = true;
       permissions = {
         allow = [
