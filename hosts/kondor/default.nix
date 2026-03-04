@@ -31,6 +31,7 @@
 
     ../../modules/agents
     ../../modules/agents/claude-code.nix
+    ../../modules/agents/gemini-cli.nix
     ../../modules/agents/copilot-api.nix
 
     ../../modules/rclone-shares.nix
