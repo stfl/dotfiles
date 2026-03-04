@@ -4,6 +4,10 @@
   config,
   ...
 }: {
+  home.packages = with pkgs; [
+    mcp-nixos
+  ];
+
   programs.claude-code = {
     package = lib.mkDefault pkgs.llm-agents.claude-code;
     enable = true;
