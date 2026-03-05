@@ -5,6 +5,7 @@
 }: {
   environment.systemPackages = with pkgs; [
     llm-agents.copilot-language-server
+    llm-agents.coderabbit-cli
     nodejs
   ];
 

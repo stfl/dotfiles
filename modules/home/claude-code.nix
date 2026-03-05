@@ -6,6 +6,7 @@
 }: {
   home.packages = with pkgs; [
     mcp-nixos
+    llm-agents.claude-code-acp
   ];
 
   programs.claude-code = {
