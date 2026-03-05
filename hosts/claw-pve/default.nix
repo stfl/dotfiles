@@ -8,6 +8,8 @@
     ../../modules/hardware/pvevm.nix
     ../../modules/agenix.nix
 
+    ../../modules/agents/copilot-api.nix
+
     ../../modules/podman.nix
   ];
 
@@ -97,7 +99,7 @@
       ingress = {
         "n8n.stfl.dev" = "http://localhost:5678";
         "monica.stfl.dev" = "http://localhost:80";
-        "claw.stfl.dev" = "http://localhost:42617";
+        # "claw.stfl.dev" = "http://localhost:42617";
       };
     };
   };
@@ -141,7 +143,7 @@
 
   environment.systemPackages = [
     (pkgs.writeShellScriptBin "zeroclaw" ''
-      exec sudo -E -u zeroclaw ${pkgs.lib.getExe pkgs.llm-agents.zeroclaw} --config-dir ${config.users.users.zeroclaw.home}/.zeroclaw "$@"
+      exec sudo -EHu zeroclaw ${pkgs.lib.getExe pkgs.llm-agents.zeroclaw} --config-dir ${config.users.users.zeroclaw.home}/.zeroclaw "$@"
     '')
     (pkgs.writeShellScriptBin "cli-proxy-api" ''
       exec sudo -u zeroclaw ${pkgs.lib.getExe pkgs.llm-agents.cli-proxy-api} "$@"
