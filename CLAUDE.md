@@ -53,7 +53,9 @@ sudo dd if=results/iso/*.iso of=/dev/sda bs=4M status=progress && sync
 
 ### Remote deployment
 ```bash
-nixos-rebuild \
+# NIX_SSHOPTS is required: nixos-rebuild-ng strips SSH_AUTH_SOCK from the
+# subprocess environment, so the agent is unavailable. Pass the key explicitly.
+NIX_SSHOPTS="-i ~/.ssh/id_ed25519_stfl" nixos-rebuild \
     --target-host user@hostname \
     --sudo \
     switch \
@@ -153,7 +155,7 @@ Application state is bind-mounted from `/data` into the locations services expec
 nixos-rebuild build --flake '.#claw-pve' --show-trace
 
 # Deploy to claw
-nixos-rebuild --target-host claw.stfl.dev --sudo switch --flake ".#claw-pve"
+just deploy claw-pve stefan@claw.stfl.dev
 
 # Check service status on claw
 ssh claw.stfl.dev sudo systemctl status zeroclaw

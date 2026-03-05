@@ -13,4 +13,12 @@ update *args:
     nh os build --update --diff always {{args}}
 
 deploy hostname target *args:
-    nh os switch --hostname {{hostname}} --target-host {{target}} {{args}}
+    NIX_SSHOPTS="-i ~/.ssh/id_ed25519_stfl" \
+    nixos-rebuild \
+      --target-host {{target}} \
+      --sudo switch \
+      --flake ".#{{hostname}}"
+    # nh os switch \
+    #   --hostname {{hostname}} \
+    #   --target-host  \
+      # -- {{args}}
