@@ -3,8 +3,7 @@
   "alwaysThinkingEnabled": true,
   "enabledPlugins": {
     "rust-analyzer-lsp@claude-plugins-official": true,
-    "document-skills@anthropic-agent-skills": true,
-    "example-skills@anthropic-agent-skills": true
+    "document-skills@anthropic-agent-skills": true
   },
   "hooks": {
     "Stop": [],
@@ -15,16 +14,17 @@
   "permissions": {
     "allow": [
       "Bash(git diff:*)",
-      "Edit"
+      "Edit",
+      "Bash(pass ls:*)"
     ],
     "ask": [
       "Bash(git push:*)"
     ],
     "defaultMode": "acceptEdits",
     "deny": [
-      "Read(.env)"
-    ],
-    "disableBypassPermissionsMode": "disable"
+        "Read(.env)",
+        "Bash(pass show:*)"
+    ]
   },
   "statusLine": {
     "command": "input=$(cat); echo \"[$(echo \"$input\" | jq -r '.model.display_name')] 📁 $(basename \"$(echo \"$input\" | jq -r '.workspace.current_dir')\")\"",
